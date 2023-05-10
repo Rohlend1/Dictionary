@@ -1,6 +1,7 @@
 package com.example.dictionary.entities;
 
-import com.example.dictionary.repositories.DictionaryRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,12 +10,13 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonIgnore
     private int id;
     @Column(name = "username")
     private String username;
 
-    @OneToOne
-    @JoinColumn(name = "dictionary",referencedColumnName = "id")
+    @OneToOne(mappedBy = "owner")
+    @JsonManagedReference
     private Dictionary dictionary;
 
     public Person(int id, String username, Dictionary dictionary) {
@@ -49,5 +51,13 @@ public class Person {
 
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

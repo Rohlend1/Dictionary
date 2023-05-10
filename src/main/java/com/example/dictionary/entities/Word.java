@@ -1,7 +1,7 @@
 package com.example.dictionary.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "Word")
@@ -14,19 +14,17 @@ public class Word {
     private String value;
     @Column(name = "translate")
     private String translate;
-    @Column(name = "transcription")
-    private String transcription;
     @ManyToOne
-    @JoinColumn(name = "dictionary",referencedColumnName = "id")
+    @JoinColumn(name = "dictionary_id",referencedColumnName = "id")
+    @JsonIgnore
     private Dictionary dictionary;
 
     public Word() {
     }
 
-    public Word(String value, String translate, String transcription, Dictionary dictionary) {
+    public Word(String value, String translate, Dictionary dictionary) {
         this.value = value;
         this.translate = translate;
-        this.transcription = transcription;
         this.dictionary = dictionary;
     }
 
@@ -54,14 +52,6 @@ public class Word {
         this.translate = translate;
     }
 
-    public String getTranscription() {
-        return transcription;
-    }
-
-    public void setTranscription(String transcription) {
-        this.transcription = transcription;
-    }
-
     public Dictionary getDictionary() {
         return dictionary;
     }
@@ -69,4 +59,5 @@ public class Word {
     public void setDictionary(Dictionary dictionary) {
         this.dictionary = dictionary;
     }
+
 }
