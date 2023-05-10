@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WordRepository extends JpaRepository<Word,Integer> {
+
+    Word findByValueEquals(String value);
+    Word findByTranslateEquals(String translate);
 }

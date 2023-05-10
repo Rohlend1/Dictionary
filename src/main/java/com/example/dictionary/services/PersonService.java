@@ -1,5 +1,6 @@
 package com.example.dictionary.services;
 
+import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.PersonRepository;
@@ -24,7 +25,16 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public Person getPersonById(int personId){
+        return personRepository.findById(personId).orElse(null);
+    }
+
     public List<Word> getAllWordsByPerson(int personId){
-        return null;
+        Dictionary dictionary = getPersonById(personId).getDictionary();
+        return dictionary.getWords();
+    }
+
+    public Dictionary getDictionaryByPersonId(int personId){
+        return getPersonById(personId).getDictionary();
     }
 }

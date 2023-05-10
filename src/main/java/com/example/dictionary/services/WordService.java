@@ -19,5 +19,10 @@ public class WordService {
     public List<Word> getAllWords(){
         return wordRepository.findAll();
     }
-
+    public Word findWordByValue(String value){
+        return wordRepository.findByValueEquals(value);
+    }
+    public Word findWordByTranslate(String translate){
+        return wordRepository.findByTranslateEquals(translate);
+    }
 }
