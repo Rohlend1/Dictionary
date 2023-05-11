@@ -1,5 +1,6 @@
 package com.example.dictionary.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -8,6 +9,7 @@ import jakarta.persistence.*;
 public class Word {
     @Id
     @Column(name = "id")
+    @JsonIgnore
     private int id;
 
     @Column(name = "value")
@@ -16,7 +18,7 @@ public class Word {
     private String translate;
     @ManyToOne
     @JoinColumn(name = "dictionary_id",referencedColumnName = "id")
-    @JsonIgnore
+    @JsonBackReference
     private Dictionary dictionary;
 
     public Word() {

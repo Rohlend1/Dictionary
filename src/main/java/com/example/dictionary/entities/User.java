@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Person")
-public class Person {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,13 +19,13 @@ public class Person {
     @JsonManagedReference
     private Dictionary dictionary;
 
-    public Person(int id, String username, Dictionary dictionary) {
+    public User(int id, String username, Dictionary dictionary) {
         this.id = id;
         this.username = username;
         this.dictionary = dictionary;
     }
 
-    public Person() {
+    public User() {
     }
 
 
@@ -55,7 +55,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 '}';
