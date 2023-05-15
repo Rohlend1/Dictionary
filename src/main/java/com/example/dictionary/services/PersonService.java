@@ -1,9 +1,9 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.entities.Dictionary;
-import com.example.dictionary.entities.User;
+import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
-import com.example.dictionary.repositories.UserRepository;
+import com.example.dictionary.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,22 +11,22 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class UserService {
+public class PersonService {
 
     private final DictionaryService dictionaryService;
-    private final UserRepository userRepository;
+    private final PersonRepository personRepository;
 
-    public UserService(DictionaryService dictionaryService, UserRepository userRepository) {
+    public PersonService(DictionaryService dictionaryService, PersonRepository personRepository) {
         this.dictionaryService = dictionaryService;
-        this.userRepository = userRepository;
+        this.personRepository = personRepository;
     }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public List<Person> getAllUsers(){
+        return personRepository.findAll();
     }
 
-    public User getUserById(int userId){
-        return userRepository.findById(userId).orElse(null);
+    public Person getUserById(int userId){
+        return personRepository.findById(userId).orElse(null);
     }
 
     public List<Word> getAllWordsByUser(int userId){
@@ -39,18 +39,18 @@ public class UserService {
     }
 
     @Transactional(readOnly = false)
-    public void saveUser(User user){
-        userRepository.save(user);
+    public void saveUser(Person person){
+        personRepository.save(person);
     }
 
     @Transactional(readOnly = false)
-    public void removeUser(User user){
-        userRepository.delete(user);
+    public void removeUser(Person person){
+        personRepository.delete(person);
     }
 
     @Transactional(readOnly = false)
     public void renameUser(String newUsername,int userId){
-        User user = getUserById(userId);
-        user.setUsername(newUsername);
+        Person person = getUserById(userId);
+        person.setUsername(newUsername);
     }
 }

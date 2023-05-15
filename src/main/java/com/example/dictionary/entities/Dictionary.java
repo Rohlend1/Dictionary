@@ -26,12 +26,12 @@ public class Dictionary {
     @OneToOne
     @JoinColumn(name = "owner_id",referencedColumnName = "id")
     @JsonBackReference
-    private User owner;
+    private Person owner;
 
     public Dictionary() {
     }
 
-    public Dictionary(String name, List<Word> words, User owner) {
+    public Dictionary(String name, List<Word> words, Person owner) {
         this.name = name;
         this.words = words;
         this.owner = owner;
@@ -61,11 +61,11 @@ public class Dictionary {
         this.words = words;
     }
 
-    public User getOwner() {
+    public Person getOwner() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Person owner) {
         this.owner = owner;
     }
 

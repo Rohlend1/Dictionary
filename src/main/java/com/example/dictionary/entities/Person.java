@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Person")
-public class User {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,13 +19,16 @@ public class User {
     @JsonManagedReference
     private Dictionary dictionary;
 
-    public User(int id, String username, Dictionary dictionary) {
-        this.id = id;
+    @Column(name = "password")
+    private String password;
+
+    public Person(String username, Dictionary dictionary, String password) {
         this.username = username;
         this.dictionary = dictionary;
+        this.password = password;
     }
 
-    public User() {
+    public Person() {
     }
 
 
@@ -59,5 +62,13 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -1,11 +1,10 @@
 package com.example.dictionary.controllers;
 
 
-import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.services.DictionaryService;
-import com.example.dictionary.services.UserService;
+import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,16 +15,13 @@ public class HomeController {
 
     private final DictionaryService dictionaryService;
     private final WordService wordService;
-    private final UserService userService;
+    private final PersonService personService;
 
-    public HomeController(DictionaryService dictionaryService, WordService wordService, UserService userService) {
+    @Autowired
+    public HomeController(DictionaryService dictionaryService, WordService wordService, PersonService personService) {
         this.dictionaryService = dictionaryService;
         this.wordService = wordService;
-        this.userService = userService;
+        this.personService = personService;
     }
 
-    @GetMapping()
-    public Dictionary getHomePage(){
-        return dictionaryService.getDictionaryById(1);
-    }
 }
