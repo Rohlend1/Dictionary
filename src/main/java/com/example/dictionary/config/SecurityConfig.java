@@ -8,7 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -26,7 +26,7 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder getPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -40,14 +40,15 @@ public class SecurityConfig {
             .disable()
             .authenticationManager(authenticationManager)
             .authorizeHttpRequests()
-            .requestMatchers("/auth/login","/errors").permitAll()
-            .anyRequest().authenticated()
+            .requestMatchers("/admin").hasRole("ADMIN")
+            .requestMatchers("/auth/login","/auth/registration","/errors").permitAll()
+            .anyRequest().hasAnyRole("ADMIN","USER")
             .and()
             .formLogin()
             .loginPage("/auth/login")
             .loginProcessingUrl("/process_login")
-            .defaultSuccessUrl("/home",true)
-            .failureUrl("/auth/login")
+            .defaultSuccessUrl("/hello",true)
+            .failureUrl("/auth/login?error")
             .and()
             .logout()
             .logoutUrl("/logout")

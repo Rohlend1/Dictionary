@@ -3,6 +3,8 @@ package com.example.dictionary.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Person")
@@ -13,19 +15,26 @@ public class Person {
     @JsonIgnore
     private int id;
     @Column(name = "username")
+    @NotEmpty
+    @Size(min = 1,max = 40,message = "Your username is too long or too small")
     private String username;
 
-    @OneToOne(mappedBy = "owner")
     @JsonManagedReference
+    @OneToOne(mappedBy = "owner")
     private Dictionary dictionary;
 
+    @NotEmpty
     @Column(name = "password")
     private String password;
 
-    public Person(String username, Dictionary dictionary, String password) {
+    @Column(name = "role")
+    private String role;
+
+    public Person(String username, Dictionary dictionary, String password, String role) {
         this.username = username;
         this.dictionary = dictionary;
         this.password = password;
+        this.role = role;
     }
 
     public Person() {
@@ -70,5 +79,12 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
     }
 }

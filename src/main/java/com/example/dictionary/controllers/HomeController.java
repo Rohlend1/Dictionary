@@ -5,6 +5,7 @@ import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,14 @@ public class HomeController {
         this.dictionaryService = dictionaryService;
         this.wordService = wordService;
         this.personService = personService;
+    }
+    @GetMapping("/hello")
+    public String helloPage(){
+        return "Hello!";
+    }
+    @GetMapping("/admin")
+    public String adminPage(){
+        return "admin!";
     }
 
 }

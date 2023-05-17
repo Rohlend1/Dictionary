@@ -4,6 +4,8 @@ import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +18,13 @@ public class PersonService {
     private final DictionaryService dictionaryService;
     private final PersonRepository personRepository;
 
-    public PersonService(DictionaryService dictionaryService, PersonRepository personRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public PersonService(DictionaryService dictionaryService, PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.dictionaryService = dictionaryService;
         this.personRepository = personRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Person> getAllUsers(){
@@ -38,17 +44,19 @@ public class PersonService {
         return getUserById(personId).getDictionary();
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void saveUser(Person person){
+        person.setPassword(passwordEncoder.encode(person.getPassword()));
+        person.setRole("ROLE_USER");
         personRepository.save(person);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void removeUser(Person person){
         personRepository.delete(person);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void renameUser(String newUsername,int userId){
         Person person = getUserById(userId);
         person.setUsername(newUsername);

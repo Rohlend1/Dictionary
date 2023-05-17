@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -12,20 +13,21 @@ import java.util.List;
 public class Dictionary {
 
     @Id
-    @Column(name = "id")
     @JsonIgnore
+    @Column(name = "id")
     private int id;
 
+    @NotEmpty
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "dictionary",fetch = FetchType.LAZY)
     @JsonManagedReference
+    @OneToMany(mappedBy = "dictionary",fetch = FetchType.LAZY)
     private List<Word> words;
 
     @OneToOne
-    @JoinColumn(name = "owner_id",referencedColumnName = "id")
     @JsonBackReference
+    @JoinColumn(name = "owner_id",referencedColumnName = "id")
     private Person owner;
 
     public Dictionary() {
