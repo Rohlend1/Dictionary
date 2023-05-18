@@ -1,13 +1,14 @@
 package com.example.dictionary.controllers;
 
 
+import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
@@ -25,12 +26,18 @@ public class HomeController {
         this.personService = personService;
     }
     @GetMapping("/hello")
-    public String helloPage(){
-        return "Hello!";
+    public Dictionary helloPage(){
+        return personService.getDictionaryByUserId(8);
     }
-    @GetMapping("/admin")
-    public String adminPage(){
-        return "admin!";
+
+    // TODO
+    public String mostPopularWords(){
+        return null;
+    }
+
+    public Dictionary showAllDictionariesByUser(@RequestBody Map<String,Object> jsonData){
+        int id = (int) jsonData.get("id");
+        return personService.getDictionaryByUserId(id);
     }
 
 }

@@ -61,4 +61,8 @@ public class PersonService {
         Person person = getUserById(userId);
         person.setUsername(newUsername);
     }
+    @Transactional
+    public void deleteUser(int id){
+        personRepository.delete(getUserById(id));
+    }
 }
