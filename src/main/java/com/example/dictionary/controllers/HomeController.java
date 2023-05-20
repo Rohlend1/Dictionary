@@ -25,7 +25,7 @@ public class HomeController {
         this.wordService = wordService;
         this.personService = personService;
     }
-    @GetMapping("/hello")
+    @GetMapping("/home")
     public Dictionary helloPage(){
         return personService.getDictionaryByUserId(8);
     }
