@@ -15,3 +15,4 @@ create table Word(
     dictionary_id int references Dictionary(id)
 );
 alter table Person add column dictionary_id int references Dictionary(id) unique;
+alter table dictionary drop constraint dictionary_owner_id_fkey, add constraint dictionary_owner_id_fkey foreign key (owner_id) references person(id) on delete cascade;
