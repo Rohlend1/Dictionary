@@ -1,4 +1,4 @@
-package com.example.dictionary.util;
+package com.example.dictionary.util.validators;
 
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.services.PersonService;

@@ -8,9 +8,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -18,10 +20,12 @@ public class SecurityConfig {
 
 
     private final PersonDetailsService personDetailsService;
+    private final JWTFilter jwtFilter;
 
     @Autowired
-    public SecurityConfig(PersonDetailsService personDetailsService) {
+    public SecurityConfig(PersonDetailsService personDetailsService, JWTFilter jwtFilter) {
         this.personDetailsService = personDetailsService;
+        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -30,10 +34,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
-        auth.userDetailsService(personDetailsService);
-        AuthenticationManager authenticationManager = auth.build();
+        return auth.userDetailsService(personDetailsService).and().build();
+    }
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        AuthenticationManager authenticationManager = authenticationManager(http);
 
         http
             .csrf()
@@ -52,7 +60,12 @@ public class SecurityConfig {
             .and()
             .logout()
             .logoutUrl("/logout")
-            .logoutSuccessUrl("/auth/login");
+            .logoutSuccessUrl("/auth/login")
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

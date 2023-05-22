@@ -1,47 +1,90 @@
 package com.example.dictionary.controllers;
 
 
+import com.example.dictionary.dto.AuthenticationDTO;
+import com.example.dictionary.dto.PersonDTO;
 import com.example.dictionary.entities.Person;
+import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.PersonService;
-import com.example.dictionary.util.PersonValidator;
+import com.example.dictionary.util.ErrorResponse;
+import com.example.dictionary.util.PersonNotCreatedException;
+import com.example.dictionary.util.validators.PersonValidator;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+import java.util.Map;
+
+@RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
 
     private final PersonService personService;
     private final PersonValidator personValidator;
+    private final JwtUtil jwtUtil;
+    private final ModelMapper modelMapper;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationController(PersonService personService, PersonValidator personValidator) {
+    public AuthenticationController(PersonService personService, PersonValidator personValidator, JwtUtil jwtUtil, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
         this.personService = personService;
         this.personValidator = personValidator;
+        this.jwtUtil = jwtUtil;
+        this.modelMapper = modelMapper;
+        this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping("/login")
-    public String loginPage(){
-        return "auth/login";
-    }
-
-    @GetMapping("/registration")
-    public String registerPage(@ModelAttribute("person") Person person){
-        return "auth/registration";
-    }
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
-        personValidator.validate(person,bindingResult);
+    public ResponseEntity<Map<String,String>> registration(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
+
+        Person person = convertToPerson(personDTO);
+
         if(bindingResult.hasErrors()){
-            return "auth/registration";
+            StringBuilder errorMsg = new StringBuilder();
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for(FieldError error : errors){
+                errorMsg.append(error.getDefaultMessage());
+            }
+            throw new PersonNotCreatedException(errorMsg.toString());
         }
         personService.saveUser(person);
-        return "redirect:auth/login";
+        String token = jwtUtil.generateToken(person.getUsername());
+        return new ResponseEntity<>(Map.of("jwt-token",token),HttpStatus.OK);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String,String>> login(@RequestBody @Valid AuthenticationDTO authenticationDTO,BindingResult bindingResult){
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(),authenticationDTO.getPassword());
+
+        try{
+            authenticationManager.authenticate(authenticationToken);
+        }
+        catch (BadCredentialsException e){
+            throw new PersonNotCreatedException("Incorrect credentials");
+        }
+        String token = jwtUtil.generateToken(authenticationDTO.getUsername());
+        return new ResponseEntity<>(Map.of("jwt-token",token),HttpStatus.OK);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> exceptionHandler(PersonNotCreatedException e){
+        ErrorResponse response = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    private Person convertToPerson(PersonDTO personDTO){
+        return modelMapper.map(personDTO,Person.class);
+    }
+
+
 }
