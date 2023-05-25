@@ -52,4 +52,8 @@ public class DictionaryService {
         dictionary.getWords().add(word);
         Hibernate.initialize(dictionary.getWords());
     }
+    @Transactional
+    public void save(Dictionary dictionary){
+        dictionaryRepository.save(dictionary);
+    }
 }

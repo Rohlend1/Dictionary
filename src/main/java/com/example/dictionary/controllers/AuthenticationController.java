@@ -6,6 +6,7 @@ import com.example.dictionary.dto.PersonDTO;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.PersonService;
+import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.ErrorResponse;
 import com.example.dictionary.util.PersonNotCreatedException;
 import com.example.dictionary.util.validators.PersonValidator;
@@ -31,22 +32,22 @@ public class AuthenticationController {
     private final PersonService personService;
     private final PersonValidator personValidator;
     private final JwtUtil jwtUtil;
-    private final ModelMapper modelMapper;
+    private final Converter converter;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationController(PersonService personService, PersonValidator personValidator, JwtUtil jwtUtil, ModelMapper modelMapper, AuthenticationManager authenticationManager) {
+    public AuthenticationController(PersonService personService, PersonValidator personValidator, JwtUtil jwtUtil, Converter converter, AuthenticationManager authenticationManager) {
         this.personService = personService;
         this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
-        this.modelMapper = modelMapper;
+        this.converter = converter;
         this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/registration")
     public ResponseEntity<Map<String,String>> registration(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
 
-        Person person = convertToPerson(personDTO);
+        Person person = converter.convertToPerson(personDTO);
 
         if(bindingResult.hasErrors()){
             StringBuilder errorMsg = new StringBuilder();
@@ -82,9 +83,6 @@ public class AuthenticationController {
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
 
-    private Person convertToPerson(PersonDTO personDTO){
-        return modelMapper.map(personDTO,Person.class);
-    }
 
 
 }
