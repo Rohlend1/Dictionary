@@ -47,8 +47,9 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public ResponseEntity<Map<String,String>> registration(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
 
-        Person person = converter.convertToPerson(personDTO);
-
+        if(personService.checkIfExists(personDTO.getUsername())){
+            bindingResult.reject("Username exists","Name already exists");
+        }
         if(bindingResult.hasErrors()){
             StringBuilder errorMsg = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
@@ -57,6 +58,7 @@ public class AuthenticationController {
             }
             throw new PersonNotCreatedException(errorMsg.toString());
         }
+        Person person = converter.convertToPerson(personDTO);
         personService.saveUser(person);
         String token = jwtUtil.generateToken(person.getUsername());
         return new ResponseEntity<>(Map.of("jwt-token",token),HttpStatus.OK);
@@ -82,7 +84,4 @@ public class AuthenticationController {
         ErrorResponse response = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
-
-
-
 }

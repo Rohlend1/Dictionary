@@ -65,4 +65,7 @@ public class PersonService {
     public void deleteUser(int id){
         personRepository.delete(getUserById(id));
     }
+    public boolean checkIfExists(String username){
+        return personRepository.findByUsername(username).isPresent();
+    }
 }
