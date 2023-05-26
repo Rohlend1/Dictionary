@@ -7,22 +7,10 @@ import java.util.List;
 
 public class DictionaryDTO {
 
-    private int id;
-
     @NotEmpty
     private String name;
 
     private List<Word> words;
-
-    private PersonDTO owner;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -40,11 +28,4 @@ public class DictionaryDTO {
         this.words = words;
     }
 
-    public PersonDTO getOwner() {
-        return owner;
-    }
-
-    public void setOwner(PersonDTO owner) {
-        this.owner = owner;
-    }
 }

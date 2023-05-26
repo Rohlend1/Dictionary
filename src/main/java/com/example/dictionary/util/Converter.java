@@ -3,8 +3,10 @@ package com.example.dictionary.util;
 
 import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.PersonDTO;
+import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
+import com.example.dictionary.entities.Word;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,14 @@ public class Converter {
 
     public Dictionary convertToDictionary(DictionaryDTO dictionaryDTO){
         return modelMapper.map(dictionaryDTO,Dictionary.class);
+    }
+
+    public WordDTO convertToWordDTO(Word word){
+        return modelMapper.map(word,WordDTO.class);
+    }
+
+    public Word convertToWord(WordDTO wordDTO){
+        return modelMapper.map(wordDTO,Word.class);
     }
 
 }
