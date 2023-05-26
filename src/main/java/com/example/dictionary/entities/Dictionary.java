@@ -15,6 +15,7 @@ public class Dictionary {
     @Id
     @JsonIgnore
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty

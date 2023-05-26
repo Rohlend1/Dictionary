@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public class PersonDTO {
-    private int id;
     @NotEmpty
     private String password;
     @NotEmpty

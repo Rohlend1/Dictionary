@@ -1,6 +1,7 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.entities.Dictionary;
+import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
 import org.hibernate.Hibernate;
@@ -15,10 +16,12 @@ public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
     private final WordService wordService;
+    private final PersonService personService;
 
-    public DictionaryService(DictionaryRepository dictionaryRepository, WordService wordService) {
+    public DictionaryService(DictionaryRepository dictionaryRepository, WordService wordService, PersonService personService) {
         this.dictionaryRepository = dictionaryRepository;
         this.wordService = wordService;
+        this.personService = personService;
     }
 
     public List<Dictionary> getAllDictionaries(){
@@ -53,7 +56,10 @@ public class DictionaryService {
         Hibernate.initialize(dictionary.getWords());
     }
     @Transactional
-    public void save(Dictionary dictionary){
+    public void save(Dictionary dictionary,String username){
+        Person owner = personService.findByName(username);
+        System.out.println(dictionary);
         dictionaryRepository.save(dictionary);
+        dictionary.setOwner(owner);
     }
 }

@@ -10,6 +10,7 @@ public class Word {
     @Id
     @Column(name = "id")
     @JsonIgnore
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "value")

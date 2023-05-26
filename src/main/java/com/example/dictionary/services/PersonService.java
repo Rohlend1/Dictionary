@@ -15,14 +15,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PersonService {
 
-    private final DictionaryService dictionaryService;
     private final PersonRepository personRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public PersonService(DictionaryService dictionaryService, PersonRepository personRepository, PasswordEncoder passwordEncoder) {
-        this.dictionaryService = dictionaryService;
+    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -67,5 +65,9 @@ public class PersonService {
     }
     public boolean checkIfExists(String username){
         return personRepository.findByUsername(username).isPresent();
+    }
+
+    public Person findByName(String username){
+        return personRepository.findByUsername(username).orElse(null);
     }
 }
