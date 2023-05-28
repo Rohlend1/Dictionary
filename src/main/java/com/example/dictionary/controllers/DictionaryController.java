@@ -7,7 +7,6 @@ import com.example.dictionary.entities.Word;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
-import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.DictionaryNotCreatedException;
 import com.example.dictionary.util.ErrorResponse;
@@ -29,15 +28,13 @@ public class DictionaryController {
     private final PersonService personService;
     private final Converter converter;
     private final JwtUtil jwtUtil;
-    private final WordService wordService;
 
     @Autowired
-    public DictionaryController(DictionaryService dictionaryService, PersonService personService, Converter converter, JwtUtil jwtUtil, WordService wordService) {
+    public DictionaryController(DictionaryService dictionaryService, PersonService personService, Converter converter, JwtUtil jwtUtil) {
         this.dictionaryService = dictionaryService;
         this.personService = personService;
         this.converter = converter;
         this.jwtUtil = jwtUtil;
-        this.wordService = wordService;
     }
 
     @GetMapping("/words")
@@ -88,7 +85,7 @@ public class DictionaryController {
     public ResponseEntity<HttpStatus> renameDictionary(@RequestHeader("Authorization") String jwt,
                                                        @RequestBody Map<String,String> jsonData){
         Dictionary dictionary = getDictionaryByJwt(jwt);
-        dictionaryService.renameDictionary(dictionary.getName(),jsonData.get("newName"));
+        dictionaryService.renameDictionary(dictionary,jsonData.get("newName"));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

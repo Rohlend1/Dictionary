@@ -17,12 +17,10 @@ import java.util.Map;
 public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
-    private final WordService wordService;
     private final PersonService personService;
 
-    public DictionaryService(DictionaryRepository dictionaryRepository, WordService wordService, PersonService personService) {
+    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService) {
         this.dictionaryRepository = dictionaryRepository;
-        this.wordService = wordService;
         this.personService = personService;
     }
 
@@ -42,13 +40,14 @@ public class DictionaryService {
         dictionaryRepository.delete(dictionary);
     }
     @Transactional
-    public void renameDictionary(String newName,String dictionaryId){
-        Dictionary dictionary = getDictionaryById(dictionaryId);
+    public void renameDictionary(Dictionary dictionary,String newName){
         dictionary.setName(newName);
+        dictionaryRepository.save(dictionary);
     }
     @Transactional
-    public void addNewWordToDictionary(List<Word> words,Dictionary dictionary){
-        dictionary.getWords().addAll(words);
+    public void addNewWordToDictionary(List<Word> newWords,Dictionary dictionary){
+        List<Word> remainingWords = getMismatchedWords(newWords,dictionary.getWords());
+        dictionary.getWords().addAll(remainingWords);
         dictionaryRepository.save(dictionary);
     }
     @Transactional
@@ -64,12 +63,15 @@ public class DictionaryService {
     }
     @Transactional
     public void deleteWords(Dictionary dictionary, List<Word> words){
-        Map<String,String> values = new HashMap<>();
-        for(Word word : words){
-            values.put(word.getValue(),word.getTranslate());
-        }
-        List<Word> remainingWords = dictionary.getWords().stream().filter(word -> !values.containsKey(word.getValue())).toList();
+        List<Word> remainingWords = getMismatchedWords(dictionary.getWords(),words);
         dictionary.setWords(remainingWords);
         dictionaryRepository.save(dictionary);
+    }
+    private List<Word> getMismatchedWords(List<Word> checkableWords,List<Word> filterWords){
+        Map<String,String> filterValues = new HashMap<>();
+        for(Word word : filterWords){
+            filterValues.put(word.getValue(),word.getTranslate());
+        }
+        return checkableWords.stream().filter(word -> !filterValues.containsKey(word.getValue())).toList();
     }
 }

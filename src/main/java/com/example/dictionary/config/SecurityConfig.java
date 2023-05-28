@@ -48,7 +48,6 @@ public class SecurityConfig {
             .disable()
             .authenticationManager(authenticationManager)
             .authorizeHttpRequests()
-            .requestMatchers("/prikol").permitAll()
             .requestMatchers("/admin").hasRole("ADMIN")
             .requestMatchers("/auth/login","/auth/registration","/errors").permitAll()
             .anyRequest().hasAnyRole("ADMIN","USER")
