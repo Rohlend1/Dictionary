@@ -8,6 +8,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,38 +29,40 @@ public class DictionaryService {
         return dictionaryRepository.findAll();
     }
 
-    public Dictionary getDictionaryById(int dictionaryId){
+    public Dictionary getDictionaryById(String dictionaryId){
         return dictionaryRepository.findById(dictionaryId).orElse(null);
     }
-    public List<Word> getAllWordsByDictionaryId(int dictionaryId){
+    public List<Word> getAllWordsByDictionaryId(String dictionaryId){
         Dictionary dictionary = getDictionaryById(dictionaryId);
         return dictionary.getWords();
     }
-    @Transactional(readOnly = false)
+    @Transactional
     public void addDictionary(Dictionary dictionary){
         dictionaryRepository.save(dictionary);
     }
-    @Transactional(readOnly = false)
+    @Transactional
     public void deleteDictionary(Dictionary dictionary){
         dictionaryRepository.delete(dictionary);
     }
-    @Transactional(readOnly = false)
-    public void renameDictionary(String newName,int dictionaryId){
+    @Transactional
+    public void renameDictionary(String newName,String dictionaryId){
         Dictionary dictionary = getDictionaryById(dictionaryId);
         dictionary.setName(newName);
     }
-    @Transactional(readOnly = false)
-    public void addNewWordToDictionary(String wordValue,int dictionaryId){
-        Dictionary dictionary = getDictionaryById(dictionaryId);
-        Word word = wordService.findWordByValue(wordValue);
-        dictionary.getWords().add(word);
-        Hibernate.initialize(dictionary.getWords());
+    @Transactional
+    public void addNewWordToDictionary(List<Word> words,Dictionary dictionary){
+        dictionary.getWords().addAll(words);
+        dictionaryRepository.save(dictionary);
     }
     @Transactional
     public void save(Dictionary dictionary,String username){
         Person owner = personService.findByName(username);
-        System.out.println(dictionary);
-        dictionaryRepository.save(dictionary);
         dictionary.setOwner(owner);
+        dictionary.setWords(new ArrayList<>());
+        dictionaryRepository.save(dictionary);
+    }
+    public Dictionary getDictionaryByUsername(String username){
+        Person owner = personService.findByName(username);
+        return dictionaryRepository.findDictionariesByOwner(owner);
     }
 }

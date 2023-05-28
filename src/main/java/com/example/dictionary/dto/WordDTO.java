@@ -6,7 +6,6 @@ import com.example.dictionary.entities.Dictionary;
 public class WordDTO {
     private String value;
     private String translate;
-    private Dictionary dictionary;
 
     public String getValue() {
         return value;
@@ -24,11 +23,4 @@ public class WordDTO {
         this.translate = translate;
     }
 
-    public Dictionary getDictionary() {
-        return dictionary;
-    }
-
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
 }

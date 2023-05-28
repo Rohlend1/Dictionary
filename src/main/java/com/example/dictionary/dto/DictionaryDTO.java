@@ -1,6 +1,5 @@
 package com.example.dictionary.dto;
 
-import com.example.dictionary.entities.Word;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
@@ -10,7 +9,9 @@ public class DictionaryDTO {
     @NotEmpty
     private String name;
 
-    private List<Word> words;
+    private List<WordDTO> words;
+
+    private PersonDTO owner;
 
     public String getName() {
         return name;
@@ -20,12 +21,19 @@ public class DictionaryDTO {
         this.name = name;
     }
 
-    public List<Word> getWords() {
+    public List<WordDTO> getWords() {
         return words;
     }
 
-    public void setWords(List<Word> words) {
+    public void setWords(List<WordDTO> words) {
         this.words = words;
     }
 
+    public PersonDTO getOwner() {
+        return owner;
+    }
+
+    public void setOwner(PersonDTO owner) {
+        this.owner = owner;
+    }
 }

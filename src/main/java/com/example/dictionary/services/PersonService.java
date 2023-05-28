@@ -33,14 +33,8 @@ public class PersonService {
         return personRepository.findById(userId).orElse(null);
     }
 
-    public List<Word> getAllWordsByUser(int userId){
-        Dictionary dictionary = getUserById(userId).getDictionary();
-        return dictionary.getWords();
-    }
 
-    public Dictionary getDictionaryByUserId(int personId){
-        return getUserById(personId).getDictionary();
-    }
+
 
     @Transactional
     public void saveUser(Person person){

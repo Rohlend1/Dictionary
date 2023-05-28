@@ -1,6 +1,10 @@
 package com.example.dictionary.controllers;
 
 import com.example.dictionary.dto.DictionaryDTO;
+import com.example.dictionary.dto.WordDTO;
+import com.example.dictionary.entities.Dictionary;
+import com.example.dictionary.entities.Person;
+import com.example.dictionary.entities.Word;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
@@ -14,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -54,8 +61,20 @@ public class DictionaryController {
         if(!personService.checkIfExists(username)){
             throw new RuntimeException();
         }
-        return converter.convertToDictionaryDTO(personService.findByName(username).getDictionary());
+        System.out.println(dictionaryService.getDictionaryByUsername(username).getId());
+        return converter.convertToDictionaryDTO(dictionaryService.getDictionaryByUsername(username));
     }
+
+    @PostMapping("/add_word")
+    public ResponseEntity<HttpStatus> addNewWord(@RequestHeader("Authorization") String jwt,
+                                                 @RequestBody List<WordDTO> wordsDTO){
+        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
+        List<Word> words = wordsDTO.stream().map(converter::convertToWord).toList();
+        Dictionary dictionary = dictionaryService.getDictionaryByUsername(username);
+        dictionaryService.addNewWordToDictionary(words,dictionary);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> exceptionHandler(DictionaryNotCreatedException e){

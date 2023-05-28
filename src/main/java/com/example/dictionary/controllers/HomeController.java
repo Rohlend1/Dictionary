@@ -34,7 +34,8 @@ public class HomeController {
     }
     @GetMapping("/home")
     public Dictionary helloPage(){
-        return personService.getDictionaryByUserId(9);
+        return null;
+//        return personService.getDictionaryByUserId(9);
     }
 
     @GetMapping("")
@@ -50,7 +51,8 @@ public class HomeController {
 
     public Dictionary showAllDictionariesByUser(@RequestBody Map<String,Object> jsonData){
         int id = (int) jsonData.get("id");
-        return personService.getDictionaryByUserId(id);
+        return null;
+//        return personService.getDictionaryByUserId(id);
     }
 
 }

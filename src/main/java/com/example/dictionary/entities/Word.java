@@ -1,6 +1,5 @@
 package com.example.dictionary.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -17,18 +16,13 @@ public class Word {
     private String value;
     @Column(name = "translate")
     private String translate;
-    @ManyToOne
-    @JoinColumn(name = "dictionary_id",referencedColumnName = "id")
-    @JsonBackReference
-    private Dictionary dictionary;
 
     public Word() {
     }
 
-    public Word(String value, String translate, Dictionary dictionary) {
+    public Word(String value, String translate) {
         this.value = value;
         this.translate = translate;
-        this.dictionary = dictionary;
     }
 
     public int getId() {
@@ -55,12 +49,12 @@ public class Word {
         this.translate = translate;
     }
 
-    public Dictionary getDictionary() {
-        return dictionary;
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", value='" + value + '\'' +
+                ", translate='" + translate + '\'' +
+                '}';
     }
-
-    public void setDictionary(Dictionary dictionary) {
-        this.dictionary = dictionary;
-    }
-
 }

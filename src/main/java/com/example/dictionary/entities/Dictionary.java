@@ -1,34 +1,24 @@
 package com.example.dictionary.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Entity
-@Table(name = "Dictionary")
+@Document("Dictionary")
 public class Dictionary {
 
     @Id
     @JsonIgnore
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @NotEmpty
-    @Column(name = "name")
     private String name;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "dictionary",fetch = FetchType.LAZY)
     private List<Word> words;
 
-    @OneToOne
-    @JsonBackReference
-    @JoinColumn(name = "owner_id",referencedColumnName = "id")
     private Person owner;
 
     public Dictionary() {
@@ -40,11 +30,11 @@ public class Dictionary {
         this.owner = owner;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

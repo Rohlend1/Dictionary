@@ -21,7 +21,8 @@ public class AccountController {
     }
 
     @PatchMapping("/rename")
-    public Person renameAccount(@RequestBody Map<String,Object> jsonData){
+    public Person renameAccount(@RequestBody Map<String,Object> jsonData,
+                                @RequestHeader("Authorization") String jwt){
         int id = (int) jsonData.get("id");
         String newName = (String) jsonData.get("newName");
         personService.renameUser(newName,id);
