@@ -7,6 +7,7 @@ import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.DictionaryNotCreatedException;
+import com.example.dictionary.util.ErrorResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,5 +55,11 @@ public class DictionaryController {
             throw new RuntimeException();
         }
         return converter.convertToDictionaryDTO(personService.findByName(username).getDictionary());
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<ErrorResponse> exceptionHandler(DictionaryNotCreatedException e){
+        ErrorResponse response = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
 }
