@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-
 @RestController
 @RequestMapping("/dict")
 public class DictionaryController {
@@ -41,13 +40,19 @@ public class DictionaryController {
         this.wordService = wordService;
     }
 
+    @GetMapping("/words")
+    public List<WordDTO> getWordsByDictionary(@RequestHeader("Authorization")String jwt){
+        return getDictionaryByJwt(jwt).getWords().stream().map(converter::convertToWordDTO).toList();
+    }
+
 
     @PostMapping("")
     public ResponseEntity<HttpStatus> createDictionary(@RequestBody @Valid DictionaryDTO dictionaryDTO,
                                                        BindingResult bindingResult,
                                                        @RequestHeader("Authorization") String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        if(bindingResult.hasErrors()){
+
+        if(bindingResult.hasErrors() || dictionaryService.getDictionaryByUsername(username) != null){
             throw new DictionaryNotCreatedException("Incorrect data");
         }
         dictionaryService.save(converter.convertToDictionary(dictionaryDTO),username);
@@ -60,25 +65,49 @@ public class DictionaryController {
         if(!personService.checkIfExists(username)){
             throw new RuntimeException();
         }
-        System.out.println(dictionaryService.getDictionaryByUsername(username).getId());
         return converter.convertToDictionaryDTO(dictionaryService.getDictionaryByUsername(username));
     }
 
     @PostMapping("/add_words")
     public ResponseEntity<HttpStatus> addNewWord(@RequestHeader("Authorization") String jwt,
                                                  @RequestBody Map<String,List<WordDTO>> wordsDTO){
-
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
-        Dictionary dictionary = dictionaryService.getDictionaryByUsername(username);
+        Dictionary dictionary = getDictionaryByJwt(jwt);
         dictionaryService.addNewWordToDictionary(words,dictionary);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @DeleteMapping("")
+    public ResponseEntity<HttpStatus> deleteDictionary(@RequestHeader("Authorization") String jwt){
+        Dictionary dictionary = getDictionaryByJwt(jwt);
+        dictionaryService.deleteDictionary(dictionary);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PatchMapping("")
+    public ResponseEntity<HttpStatus> renameDictionary(@RequestHeader("Authorization") String jwt,
+                                                       @RequestBody Map<String,String> jsonData){
+        Dictionary dictionary = getDictionaryByJwt(jwt);
+        dictionaryService.renameDictionary(dictionary.getName(),jsonData.get("newName"));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("delete_words")
+    public ResponseEntity<HttpStatus> deleteWordsFromDictionary(@RequestHeader("Authorization") String jwt,
+                                                                @RequestBody Map<String,List<WordDTO>> wordsDTO){
+        List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
+        dictionaryService.deleteWords(getDictionaryByJwt(jwt),words);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> exceptionHandler(DictionaryNotCreatedException e){
         ErrorResponse response = new ErrorResponse(e.getMessage());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    private Dictionary getDictionaryByJwt(String jwt){
+        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
+        return dictionaryService.getDictionaryByUsername(username);
     }
 }

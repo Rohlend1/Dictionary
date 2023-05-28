@@ -4,12 +4,13 @@ import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,10 +38,6 @@ public class DictionaryService {
         return dictionary.getWords();
     }
     @Transactional
-    public void addDictionary(Dictionary dictionary){
-        dictionaryRepository.save(dictionary);
-    }
-    @Transactional
     public void deleteDictionary(Dictionary dictionary){
         dictionaryRepository.delete(dictionary);
     }
@@ -64,5 +61,15 @@ public class DictionaryService {
     public Dictionary getDictionaryByUsername(String username){
         Person owner = personService.findByName(username);
         return dictionaryRepository.findDictionariesByOwner(owner);
+    }
+    @Transactional
+    public void deleteWords(Dictionary dictionary, List<Word> words){
+        Map<String,String> values = new HashMap<>();
+        for(Word word : words){
+            values.put(word.getValue(),word.getTranslate());
+        }
+        List<Word> remainingWords = dictionary.getWords().stream().filter(word -> !values.containsKey(word.getValue())).toList();
+        dictionary.setWords(remainingWords);
+        dictionaryRepository.save(dictionary);
     }
 }
