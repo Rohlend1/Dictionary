@@ -11,7 +11,6 @@ import com.example.dictionary.util.ErrorResponse;
 import com.example.dictionary.util.PersonNotCreatedException;
 import com.example.dictionary.util.validators.PersonValidator;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +60,7 @@ public class AuthenticationController {
         Person person = converter.convertToPerson(personDTO);
         personService.saveUser(person);
         String token = jwtUtil.generateToken(person.getUsername());
-        return new ResponseEntity<>(Map.of("jwt-token",token),HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("jwt",token),HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -76,7 +75,7 @@ public class AuthenticationController {
             throw new PersonNotCreatedException("Incorrect credentials");
         }
         String token = jwtUtil.generateToken(authenticationDTO.getUsername());
-        return new ResponseEntity<>(Map.of("jwt-token",token),HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("jwt",token),HttpStatus.OK);
     }
 
     @ExceptionHandler

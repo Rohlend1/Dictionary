@@ -1,4 +1,4 @@
-#Datasource configuration
+
 spring.datasource.driver-class-name=org.postgresql.Driver
 spring.datasource.username=
 spring.datasource.password=
@@ -10,3 +10,8 @@ spring.jpa.properties.hibernate.show_sql=true
 
 #For (patch,delete,put) methods
 spring.mvc.hiddenmethod.filter.enabled=true
+
+jwt_secret=Secret
+
+spring.data.mongodb.uri=
+spring.data.mongodb.database=

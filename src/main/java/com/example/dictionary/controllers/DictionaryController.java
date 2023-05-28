@@ -3,7 +3,6 @@ package com.example.dictionary.controllers;
 import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
-import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
@@ -65,11 +64,12 @@ public class DictionaryController {
         return converter.convertToDictionaryDTO(dictionaryService.getDictionaryByUsername(username));
     }
 
-    @PostMapping("/add_word")
+    @PostMapping("/add_words")
     public ResponseEntity<HttpStatus> addNewWord(@RequestHeader("Authorization") String jwt,
-                                                 @RequestBody List<WordDTO> wordsDTO){
+                                                 @RequestBody Map<String,List<WordDTO>> wordsDTO){
+
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        List<Word> words = wordsDTO.stream().map(converter::convertToWord).toList();
+        List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
         Dictionary dictionary = dictionaryService.getDictionaryByUsername(username);
         dictionaryService.addNewWordToDictionary(words,dictionary);
         return ResponseEntity.ok(HttpStatus.OK);
