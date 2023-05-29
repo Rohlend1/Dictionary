@@ -1,6 +1,7 @@
 package com.example.dictionary.util;
 
 
+import com.example.dictionary.dto.AuthenticationDTO;
 import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.PersonDTO;
 import com.example.dictionary.dto.WordDTO;
@@ -42,6 +43,9 @@ public class Converter {
 
     public Word convertToWord(WordDTO wordDTO){
         return modelMapper.map(wordDTO,Word.class);
+    }
+    public Person convertToPerson(AuthenticationDTO authenticationDTO){
+        return modelMapper.map(authenticationDTO,Person.class);
     }
 
 }

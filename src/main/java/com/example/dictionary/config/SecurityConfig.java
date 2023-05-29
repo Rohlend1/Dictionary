@@ -46,6 +46,8 @@ public class SecurityConfig {
         http
             .csrf()
             .disable()
+            .cors()
+            .and()
             .authenticationManager(authenticationManager)
             .authorizeHttpRequests()
             .requestMatchers("/admin").hasRole("ADMIN")

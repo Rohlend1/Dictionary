@@ -7,8 +7,9 @@ import com.example.dictionary.entities.Word;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
+import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.Converter;
-import com.example.dictionary.util.DictionaryNotCreatedException;
+import com.example.dictionary.util.errors.DictionaryNotCreatedException;
 import com.example.dictionary.util.ErrorResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +29,15 @@ public class DictionaryController {
     private final DictionaryService dictionaryService;
     private final PersonService personService;
     private final Converter converter;
+    private final WordService wordService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public DictionaryController(DictionaryService dictionaryService, PersonService personService, Converter converter, JwtUtil jwtUtil) {
+    public DictionaryController(DictionaryService dictionaryService, PersonService personService, Converter converter, WordService wordService, JwtUtil jwtUtil) {
         this.dictionaryService = dictionaryService;
         this.personService = personService;
         this.converter = converter;
+        this.wordService = wordService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -66,7 +70,7 @@ public class DictionaryController {
     }
 
     @PostMapping("/add_words")
-    public ResponseEntity<HttpStatus> addNewWord(@RequestHeader("Authorization") String jwt,
+    public ResponseEntity<HttpStatus> addNewWords(@RequestHeader("Authorization") String jwt,
                                                  @RequestBody Map<String,List<WordDTO>> wordsDTO){
         List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
         Dictionary dictionary = getDictionaryByJwt(jwt);
@@ -89,12 +93,22 @@ public class DictionaryController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("delete_words")
+    @PostMapping("/delete_words")
     public ResponseEntity<HttpStatus> deleteWordsFromDictionary(@RequestHeader("Authorization") String jwt,
                                                                 @RequestBody Map<String,List<WordDTO>> wordsDTO){
         List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
         dictionaryService.deleteWords(getDictionaryByJwt(jwt),words);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public List<WordDTO> searchWordsByDictionary(@RequestHeader("Authorization") String jwt,
+                                                              @RequestParam(value = "starts_with", required = false)String startsWith){
+        Dictionary dictionary = getDictionaryByJwt(jwt);
+        if(startsWith != null){
+            return wordService.findByValueStartsWith(startsWith, dictionary);
+        }
+        return new ArrayList<>();
     }
 
     @ExceptionHandler

@@ -1,8 +1,6 @@
 package com.example.dictionary.services;
 
-import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
-import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,11 +31,8 @@ public class PersonService {
         return personRepository.findById(userId).orElse(null);
     }
 
-
-
-
     @Transactional
-    public void saveUser(Person person){
+    public void register(Person person){
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRole("ROLE_USER");
         personRepository.save(person);

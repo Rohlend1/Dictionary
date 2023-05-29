@@ -2,13 +2,12 @@ package com.example.dictionary.controllers;
 
 
 import com.example.dictionary.dto.AuthenticationDTO;
-import com.example.dictionary.dto.PersonDTO;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.PersonService;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.ErrorResponse;
-import com.example.dictionary.util.PersonNotCreatedException;
+import com.example.dictionary.util.errors.PersonNotCreatedException;
 import com.example.dictionary.util.validators.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +43,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<Map<String,String>> registration(@RequestBody @Valid PersonDTO personDTO, BindingResult bindingResult){
+    public ResponseEntity<Map<String,String>> registration(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult){
 
-        if(personService.checkIfExists(personDTO.getUsername())){
+        if(personService.checkIfExists(authenticationDTO.getUsername())){
             bindingResult.reject("Username exists","Name already exists");
         }
         if(bindingResult.hasErrors()){
@@ -57,8 +56,8 @@ public class AuthenticationController {
             }
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-        Person person = converter.convertToPerson(personDTO);
-        personService.saveUser(person);
+        Person person = converter.convertToPerson(authenticationDTO);
+        personService.register(person);
         String token = jwtUtil.generateToken(person.getUsername());
         return new ResponseEntity<>(Map.of("jwt",token),HttpStatus.OK);
     }
