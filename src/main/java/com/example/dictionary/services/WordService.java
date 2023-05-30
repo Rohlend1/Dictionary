@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,9 +33,28 @@ public class WordService {
     public Word findWordByTranslate(String translate){
         return wordRepository.findByTranslateEquals(translate);
     }
-
-    public List<WordDTO> findByValueStartsWith(String startsWith, Dictionary dictionary){
-        List<Word> words = dictionary.getWords();
-        return words.stream().filter(w -> w.getValue().startsWith(startsWith)).map(converter::convertToWordDTO).toList();
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isBlank();
     }
+
+    private List<WordDTO> findByStartsWith(String startsWith, Dictionary dictionary, Function<Word, String> getField) {
+        if (isNullOrEmpty(startsWith)) {
+            return dictionary.getWords().stream().map(converter::convertToWordDTO).toList();
+        }
+
+        List<Word> words = dictionary.getWords();
+        return words.stream()
+                .filter(w -> getField.apply(w).startsWith(startsWith))
+                .map(converter::convertToWordDTO)
+                .toList();
+    }
+
+    public List<WordDTO> findByTranslateStartsWith(String startsWith, Dictionary dictionary) {
+        return findByStartsWith(startsWith, dictionary, Word::getTranslate);
+    }
+
+    public List<WordDTO> findByValueStartsWith(String startsWith, Dictionary dictionary) {
+        return findByStartsWith(startsWith, dictionary, Word::getValue);
+    }
+
 }

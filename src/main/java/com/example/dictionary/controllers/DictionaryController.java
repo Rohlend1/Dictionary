@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,13 +101,16 @@ public class DictionaryController {
     }
 
     @GetMapping("/search")
-    public List<WordDTO> searchWordsByDictionary(@RequestHeader("Authorization") String jwt,
-                                                              @RequestParam(value = "starts_with", required = false)String startsWith){
+    public List<WordDTO> findWordsByDictionary(@RequestHeader("Authorization") String jwt,
+                                                              @RequestParam(value = "starts_with", required = false)String startsWith,
+                                               @RequestParam(value = "byTranslate",required = false)Boolean findByTranslate){
         Dictionary dictionary = getDictionaryByJwt(jwt);
-        if(startsWith != null){
+        if(findByTranslate == null || !findByTranslate){
             return wordService.findByValueStartsWith(startsWith, dictionary);
         }
-        return new ArrayList<>();
+        else{
+            return wordService.findByTranslateStartsWith(startsWith,dictionary);
+        }
     }
 
     @ExceptionHandler
