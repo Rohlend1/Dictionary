@@ -102,14 +102,14 @@ public class DictionaryController {
 
     @GetMapping("/search")
     public List<WordDTO> findWordsByDictionary(@RequestHeader("Authorization") String jwt,
-                                                              @RequestParam(value = "starts_with", required = false)String startsWith,
-                                               @RequestParam(value = "byTranslate",required = false)Boolean findByTranslate){
+                                              @RequestParam(value = "starts_with", required = false)String startsWith,
+                                               @RequestParam(value = "by_translate",required = false)Boolean findByTranslate){
         Dictionary dictionary = getDictionaryByJwt(jwt);
         if(findByTranslate == null || !findByTranslate){
-            return wordService.findByValueStartsWith(startsWith, dictionary);
+            return wordService.findByValue(startsWith, dictionary.getWords());
         }
         else{
-            return wordService.findByTranslateStartsWith(startsWith,dictionary);
+            return wordService.findByTranslate(startsWith,dictionary.getWords());
         }
     }
 

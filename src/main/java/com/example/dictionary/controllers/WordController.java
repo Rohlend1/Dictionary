@@ -5,10 +5,7 @@ import com.example.dictionary.entities.Word;
 import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,4 +32,14 @@ public class WordController {
         return wordService.getAllWords().stream().map(converter::convertToWordDTO).toList();
     }
 
+    @GetMapping("/search")
+    public List<WordDTO> findWords(@RequestParam("starts_with") String startsWith,
+                                          @RequestParam("by_translate")Boolean byTranslate){
+        if(byTranslate == null || !byTranslate){
+            return wordService.findByValue(startsWith,wordService.getAllWords());
+        }
+        else{
+            return wordService.findByTranslate(startsWith,wordService.getAllWords());
+        }
+    }
 }

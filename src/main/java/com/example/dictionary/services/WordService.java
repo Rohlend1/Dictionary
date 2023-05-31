@@ -1,7 +1,6 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.dto.WordDTO;
-import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.WordRepository;
 import com.example.dictionary.util.Converter;
@@ -37,24 +36,22 @@ public class WordService {
         return str == null || str.isBlank();
     }
 
-    private List<WordDTO> findByStartsWith(String startsWith, Dictionary dictionary, Function<Word, String> getField) {
+    private List<WordDTO> findByStartsWith(String startsWith, List<Word> words, Function<Word, String> getField) {
         if (isNullOrEmpty(startsWith)) {
-            return dictionary.getWords().stream().map(converter::convertToWordDTO).toList();
+            return words.stream().map(converter::convertToWordDTO).toList();
         }
-
-        List<Word> words = dictionary.getWords();
         return words.stream()
                 .filter(w -> getField.apply(w).startsWith(startsWith))
                 .map(converter::convertToWordDTO)
                 .toList();
     }
 
-    public List<WordDTO> findByTranslateStartsWith(String startsWith, Dictionary dictionary) {
-        return findByStartsWith(startsWith, dictionary, Word::getTranslate);
+    public List<WordDTO> findByTranslate(String startsWith, List<Word> words) {
+        return findByStartsWith(startsWith, words, Word::getTranslate);
     }
 
-    public List<WordDTO> findByValueStartsWith(String startsWith, Dictionary dictionary) {
-        return findByStartsWith(startsWith, dictionary, Word::getValue);
+    public List<WordDTO> findByValue(String startsWith, List<Word> words) {
+        return findByStartsWith(startsWith, words, Word::getValue);
     }
 
 }
