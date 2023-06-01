@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "Person")
 public class Person {
@@ -25,6 +27,9 @@ public class Person {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     public Person(String username, String password, String role) {
         this.username = username;
         this.password = password;
@@ -33,8 +38,6 @@ public class Person {
 
     public Person() {
     }
-
-
     public void setId(int id) {
         this.id = id;
     }
@@ -72,5 +75,13 @@ public class Person {
     }
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

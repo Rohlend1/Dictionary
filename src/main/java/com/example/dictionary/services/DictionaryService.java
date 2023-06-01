@@ -4,6 +4,7 @@ import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
+import com.example.dictionary.util.Converter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +19,12 @@ public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
     private final PersonService personService;
+    private final Converter converter;
 
-    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService) {
+    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService, Converter converter) {
         this.dictionaryRepository = dictionaryRepository;
         this.personService = personService;
+        this.converter = converter;
     }
 
     public List<Dictionary> getAllDictionaries(){
@@ -53,13 +56,12 @@ public class DictionaryService {
     @Transactional
     public void save(Dictionary dictionary,String username){
         Person owner = personService.findByName(username);
-        dictionary.setOwner(owner);
+        dictionary.setOwner(converter.convertToPersonDTO(owner));
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }
     public Dictionary getDictionaryByUsername(String username){
-        Person owner = personService.findByName(username);
-        return dictionaryRepository.findDictionariesByOwner(owner);
+        return dictionaryRepository.findDictionariesByOwner(converter.convertToPersonDTO(personService.findByName(username)));
     }
     @Transactional
     public void deleteWords(Dictionary dictionary, List<Word> words){

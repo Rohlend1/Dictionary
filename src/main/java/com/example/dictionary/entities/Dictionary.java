@@ -1,5 +1,6 @@
 package com.example.dictionary.entities;
 
+import com.example.dictionary.dto.PersonDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -19,12 +20,12 @@ public class Dictionary {
 
     private List<Word> words;
 
-    private Person owner;
+    private PersonDTO owner;
 
     public Dictionary() {
     }
 
-    public Dictionary(String name, List<Word> words, Person owner) {
+    public Dictionary(String name, List<Word> words, PersonDTO owner) {
         this.name = name;
         this.words = words;
         this.owner = owner;
@@ -54,11 +55,11 @@ public class Dictionary {
         this.words = words;
     }
 
-    public Person getOwner() {
+    public PersonDTO getOwner() {
         return owner;
     }
 
-    public void setOwner(Person owner) {
+    public void setOwner(PersonDTO owner) {
         this.owner = owner;
     }
 

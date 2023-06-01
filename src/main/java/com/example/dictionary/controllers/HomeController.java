@@ -11,8 +11,6 @@ import com.example.dictionary.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @RestController
 @RequestMapping("")
@@ -37,15 +35,8 @@ public class HomeController {
     public Dictionary helloPage(@RequestHeader("Authorization") String jwt){
         return dictionaryService.getDictionaryByUsername(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
     }
-
-    @GetMapping("")
-    public List<PersonDTO> getAllUsers(){
-        return personService.getAllUsers().stream().map(converter::convertToPersonDTO).toList();
+    @GetMapping("/me")
+    public PersonDTO showMe(@RequestHeader("Authorization") String jwt){
+        return converter.convertToPersonDTO(personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7))));
     }
-    // TODO
-    public String mostPopularWords(){
-        return null;
-    }
-
-
 }
