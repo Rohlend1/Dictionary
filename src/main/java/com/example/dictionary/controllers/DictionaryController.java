@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,13 @@ public class DictionaryController {
 
     @GetMapping("/words")
     public List<WordDTO> getWordsByDictionary(@RequestHeader("Authorization")String jwt){
-        return getDictionaryByJwt(jwt).getWords().stream().map(converter::convertToWordDTO).toList();
+        Dictionary dictionary = getDictionaryByJwt(jwt);
+        if(dictionary != null){
+            return getDictionaryByJwt(jwt).getWords().stream().map(converter::convertToWordDTO).toList();
+        }
+        else {
+            return new ArrayList<>();
+        }
     }
 
 
