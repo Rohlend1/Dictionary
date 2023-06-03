@@ -2,7 +2,6 @@ package com.example.dictionary.controllers;
 
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.services.PersonService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +11,10 @@ import java.util.Map;
 @RequestMapping("")
 public class AccountController {
     private final PersonService personService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public AccountController(PersonService personService, ModelMapper modelMapper) {
+    public AccountController(PersonService personService) {
         this.personService = personService;
-        this.modelMapper = modelMapper;
     }
 
     @PatchMapping("/rename")

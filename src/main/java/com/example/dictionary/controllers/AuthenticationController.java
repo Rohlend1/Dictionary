@@ -8,7 +8,6 @@ import com.example.dictionary.services.PersonService;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.ErrorResponse;
 import com.example.dictionary.util.errors.PersonNotCreatedException;
-import com.example.dictionary.util.validators.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,15 +27,13 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final PersonService personService;
-    private final PersonValidator personValidator;
     private final JwtUtil jwtUtil;
     private final Converter converter;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationController(PersonService personService, PersonValidator personValidator, JwtUtil jwtUtil, Converter converter, AuthenticationManager authenticationManager) {
+    public AuthenticationController(PersonService personService, JwtUtil jwtUtil, Converter converter, AuthenticationManager authenticationManager) {
         this.personService = personService;
-        this.personValidator = personValidator;
         this.jwtUtil = jwtUtil;
         this.converter = converter;
         this.authenticationManager = authenticationManager;
