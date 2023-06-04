@@ -15,7 +15,6 @@ import java.util.List;
 public class PersonService {
 
     private final PersonRepository personRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -28,10 +27,6 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person getUserById(int userId){
-        return personRepository.findById(userId).orElse(null);
-    }
-
     @Transactional
     public void register(Person person){
         person.setPassword(passwordEncoder.encode(person.getPassword()));
@@ -41,23 +36,16 @@ public class PersonService {
     }
 
     @Transactional
-    public void removeUser(Person person){
-        personRepository.delete(person);
-    }
-
-    @Transactional
-    public void renameUser(String newUsername,int userId){
-        Person person = getUserById(userId);
+    public void renameUser(String newUsername,Person person){
         person.setUsername(newUsername);
     }
     @Transactional
-    public void deleteUser(int id){
-        personRepository.delete(getUserById(id));
+    public void deleteUser(Person person){
+        personRepository.delete(person);
     }
     public boolean checkIfExists(String username){
         return personRepository.findByUsername(username).isPresent();
     }
-
     public Person findByName(String username){
         return personRepository.findByUsername(username).orElse(null);
     }

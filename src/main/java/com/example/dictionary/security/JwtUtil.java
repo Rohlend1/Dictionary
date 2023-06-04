@@ -36,5 +36,19 @@ public class JwtUtil {
         DecodedJWT jwt = jwtVerifier.verify(token);
         return jwt.getClaim("username").asString();
     }
+    public String rewriteUsernameInToken(String username, String token){
+        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(secret))
+                .withSubject("User details")
+                .withIssuer("dictionary-app")
+                .build();
+        DecodedJWT jwt = jwtVerifier.verify(token);
+        return JWT.create()
+                .withSubject("User details")
+                .withClaim("username",username)
+                .withIssuedAt(jwt.getIssuedAt())
+                .withIssuer("dictionary-app")
+                .withExpiresAt(jwt.getExpiresAt())
+                .sign(Algorithm.HMAC256(secret));
+    }
 
 }
