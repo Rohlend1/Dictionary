@@ -57,12 +57,11 @@ input[type="password"]:focus {
 
 .button:hover {
     background-color: #0056b3;
-    transform: translateY(-2px);
-
+    scale:1.10;
 }
 
 .button:active {
-    transform: translateY(0px);
+  scale:0.9
 }
 
 .container {
@@ -316,7 +315,7 @@ input[type="password"]:focus {
 }
 
 .checkbox-label {
-  position: absolute;
+  position:absolute;
   color: white;
   user-select: none;
 }
@@ -327,4 +326,60 @@ input[type="password"]:focus {
 
 .name-change {
   width: 90%;
+}
+
+.send-words-container {
+  width: 500px;
+}
+
+.word-list-send {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.word-value-send {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s,background-color 0.3s ease-in-out;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  margin: 3px;
+}
+
+.word-value-send:hover {
+  background-color: #c42121;
+  transform: translateY(-2px);
+}
+
+.word-value:active {
+  transform: translateY(0px);
+}
+
+.word-item-dict-container{
+  border: 1px solid black;
+  height: 20px;
+  overflow: hidden;
+  transition: all .4s;
+}
+
+.word-item-dict-container:hover{
+  height: 40px;
+}
+
+.word-item-dict{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-dictionary-section{
+}
+.profile-word-list{
+  width: 200px;
 }

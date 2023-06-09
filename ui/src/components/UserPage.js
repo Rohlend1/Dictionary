@@ -5,7 +5,7 @@ import AddDictWords from './AddDictWords';
 import Modal from './Modal'
 import Navbar from './Navbar';
 const UserPage = () => {
-    const link = "https://8080-rohlend1-dictionary-5jnb5hheiop.ws-eu99.gitpod.io"
+    const link = "http://localhost:8080"
     const navigate = useNavigate()
     const [dictionaries, setDictionaries] = useState([]);
     const [showStateS,setShowStateS] = useState(false)
@@ -34,15 +34,18 @@ const UserPage = () => {
             <h1 className="title">Словари пользователя</h1>
             <Modal active={showStateS} setActive={setShowStateS} children={<AddDictWords/>}/>
             {dictionaries.words && dictionaries.words.length > 0 ? (
-                <div className="dictionary-section" onClick={()=>setShowStateS(true)}>
+                <div className="profile-dictionary-section" onClick={()=>setShowStateS(true)}>
                 <h2 className="dictionary-name" onClick={()=>setShowStateS(true)}>{dictionaries.name}</h2>
-                    <ul className="word-list">
+                    <div className="profile-word-list">
                         {dictionaries.words.map((word) => (
-                            <li key={word.value} className="word-item">
-                                <strong className="word-value">{word.value}:</strong> {word.translate}
-                            </li>
+                            <div className='word-item-dict-container'>
+                            <div key={word.value} className="word-item-dict">
+                                <div className="word-value-dict">{word.value}</div>
+                                <div className="word-value-dict">{word.translate}</div>
+                            </div>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             ) : (
                 <div  onClick={()=>setShowStateS(true)}>

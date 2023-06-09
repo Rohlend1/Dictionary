@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Logout from './Logout';
 import Modal from './Modal';
 const Navbar = () => {
-    const link = "https://8080-rohlend1-dictionary-5jnb5hheiop.ws-eu99.gitpod.io"
+    const link = "http://localhost:8080"
     const navigate = useNavigate()
     const [user, setUser] = useState('Unknown');
     const [showStateS,setShowStateS] = useState(false)

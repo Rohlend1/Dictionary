@@ -4,15 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 import DeleteDictWords from './DeleteDictWords';
+import Modal from './Modal';
+import SendDictWords from './SendDictWords';
 const EditDict = () => {
-    const link = "https://8080-rohlend1-dictionary-5jnb5hheiop.ws-eu99.gitpod.io"
+    const link = "http://localhost:8080"
     let navigate = useNavigate()
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
     const [search,setSearch] = useState('')
     const [byTranslate,setByTranslate] = useState(false)
     const [actionType,setActionType] = useState(true)
-
+    const [showState,setShowState] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
         
@@ -23,40 +25,12 @@ const EditDict = () => {
         },
         params:{
             page:0,
-            items_per_page:1000
+            items_per_page:600
         }
     }
     ).then(response => (setWords(response.data))).catch(err => console.error('Ошибка:', err));
 };
 
-    const fetchDictWords = async () => {
-        try {
-            const response = await axios.get(`${link}/dict/words`, { headers: {
-                'Authorization': Authorization
-            }});
-    
-            setDictWords(response.data);
-        } catch (error) {
-            console.error('Ошибка при получении данных словарей:', error);
-        }
-    };
-    
-    const sendDictionatiesWords = async () => {
-        try {
-            const response = await axios.post(`${link}/dict/add_words`,{ words: dictWords },
-                {
-                    headers: {
-                        'Authorization': Authorization
-                    }
-                }
-            );
-            navigate("/profile")
-            console.log(response.data)
-        } catch (error) {
-            console.error('Ошибка при получении данных словарей:', error);
-        }
-    };
-    
 
     const handleSearch = async () => {  
         if (!search){
@@ -84,21 +58,12 @@ const EditDict = () => {
             const updatedWords = prevWords.filter(e => e.value !== word);
             return updatedWords;
           });
+          console.log(dictWords)
       }
 
-      const handleDeleteWord = (word) => {
-        let element = dictWords.find(e => e.value === word)
-        setDictWords(prevDictWords => {
-          const updatedDictWords = prevDictWords.filter(e => e.value !== word);
-          return updatedDictWords;
-        });
-        setWords(prevWords => [...prevWords, element]);
-      }
-      
 
       useEffect(() => {
         fetchWords()
-        fetchDictWords()
     }, []);
 
     useEffect(()=>{
@@ -118,6 +83,8 @@ const EditDict = () => {
         </div>
         {actionType ? (
                     <div className = "add-words-block">
+                        <Modal active={showState} setActive={setShowState} children={<SendDictWords words = {dictWords} setWords={setDictWords} allWords = {words} setAllWords = {setWords}/>}/>
+                        <button className='button' onClick={()=>setShowState(true)}>{dictWords.length}</button>
         <div className='search'>
         <label className="search-bytranslate-container">
         <input type='checkbox' className='search-bytranslate' defaultChecked={false} onChange={(e)=> {setByTranslate(e.target.checked)}}/>
@@ -156,20 +123,6 @@ const EditDict = () => {
                  ) : (
                      <FontAwesomeIcon icon={faSpinner} />
                  )}
-                 <div className = "block">
-                 {/* {dictWords && dictWords.length > 0 ? (
-                     <div className="">
-                         <div className="">
-                             {dictWords.map((word) => (
-                                     <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value">{word.value}</button>
-                             ))}
-                         </div>
-                     </div>
-                 ) : (
-                     <div>Добавьте в словарь слова</div>
-                 )} */}
-                  <button className = "button" onClick={sendDictionatiesWords} >Добавить</button>
-                 </div>
                  </div>
             ):(
                 <div>
