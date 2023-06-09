@@ -40,13 +40,16 @@ public class PersonService {
     public void renameUser(String newUsername,Person person){
         person.setUsername(newUsername);
     }
+
     @Transactional
     public void deleteUser(Person person){
         personRepository.delete(person);
     }
+
     public boolean checkIfExists(String username){
         return personRepository.findByUsername(username).isPresent();
     }
+
     public Person findByName(String username){
         return personRepository.findByUsername(username).orElse(null);
     }

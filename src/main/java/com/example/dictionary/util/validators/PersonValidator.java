@@ -32,8 +32,9 @@ public class PersonValidator implements Validator {
             errors.rejectValue("username","","This username has already been used");
         }
     }
+
     private boolean checkIfExist(Person person){
         List<Person> people = personService.getAllUsers();
-        return people.stream().filter(p -> p.getUsername().equals(person.getUsername())).collect(Collectors.toList()).isEmpty();
+        return people.stream().noneMatch(p -> p.getUsername().equals(person.getUsername()));
     }
 }

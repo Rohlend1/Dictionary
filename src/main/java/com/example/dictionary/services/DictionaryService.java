@@ -1,5 +1,6 @@
 package com.example.dictionary.services;
 
+import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
@@ -20,39 +21,33 @@ public class DictionaryService {
     private final DictionaryRepository dictionaryRepository;
     private final PersonService personService;
     private final Converter converter;
+    private final WordService wordService;
 
-    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService, Converter converter) {
+    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService, Converter converter, WordService wordService) {
         this.dictionaryRepository = dictionaryRepository;
         this.personService = personService;
         this.converter = converter;
+        this.wordService = wordService;
     }
 
-    public List<Dictionary> getAllDictionaries(){
-        return dictionaryRepository.findAll();
-    }
-
-    public Dictionary getDictionaryById(String dictionaryId){
-        return dictionaryRepository.findById(dictionaryId).orElse(null);
-    }
-    public List<Word> getAllWordsByDictionaryId(String dictionaryId){
-        Dictionary dictionary = getDictionaryById(dictionaryId);
-        return dictionary.getWords();
-    }
     @Transactional
     public void deleteDictionary(Dictionary dictionary){
         dictionaryRepository.delete(dictionary);
     }
+
     @Transactional
     public void renameDictionary(Dictionary dictionary,String newName){
         dictionary.setName(newName);
         dictionaryRepository.save(dictionary);
     }
+
     @Transactional
     public void addNewWordToDictionary(List<Word> newWords,Dictionary dictionary){
         List<Word> remainingWords = getMismatchedWords(newWords,dictionary.getWords());
         dictionary.getWords().addAll(remainingWords);
         dictionaryRepository.save(dictionary);
     }
+
     @Transactional
     public void save(Dictionary dictionary,String username){
         Person owner = personService.findByName(username);
@@ -60,15 +55,23 @@ public class DictionaryService {
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }
+
     public Dictionary getDictionaryByUsername(String username){
         return dictionaryRepository.findDictionariesByOwner(converter.convertToPersonDTO(personService.findByName(username)));
     }
+
     @Transactional
     public void deleteWords(Dictionary dictionary, List<Word> words){
         List<Word> remainingWords = getMismatchedWords(dictionary.getWords(),words);
         dictionary.setWords(remainingWords);
         dictionaryRepository.save(dictionary);
     }
+
+    public List<WordDTO> getAllWordsExcludedByDictionary(Dictionary dictionary,int page,int itemsPerPage){
+        List<Word> words = getMismatchedWords(wordService.findAll(page,itemsPerPage),dictionary.getWords());
+        return words.stream().map(converter::convertToWordDTO).toList();
+    }
+
     private List<Word> getMismatchedWords(List<Word> checkableWords,List<Word> filterWords){
         Map<String,String> filterValues = new HashMap<>();
         for(Word word : filterWords){

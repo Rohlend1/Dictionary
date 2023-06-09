@@ -5,6 +5,7 @@ import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.WordRepository;
 import com.example.dictionary.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +24,14 @@ public class WordService {
         this.converter = converter;
     }
 
-    public List<Word> getAllWords(){
+    public List<Word> findAll(){
         return wordRepository.findAll();
     }
-    public Word findWordByValue(String value){
-        return wordRepository.findByValueEquals(value);
+
+    public List<Word> findAll(int page, int itemsPerPage){
+        return wordRepository.findAll(PageRequest.of(page,itemsPerPage)).getContent();
     }
-    public Word findWordByTranslate(String translate){
-        return wordRepository.findByTranslateEquals(translate);
-    }
+
     private boolean isNullOrEmpty(String str) {
         return str == null || str.isBlank();
     }
@@ -53,5 +53,4 @@ public class WordService {
     public List<WordDTO> findByValue(String startsWith, List<Word> words) {
         return findByStartsWith(startsWith, words, Word::getValue);
     }
-
 }

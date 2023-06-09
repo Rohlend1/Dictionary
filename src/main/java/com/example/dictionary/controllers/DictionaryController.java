@@ -120,6 +120,14 @@ public class DictionaryController {
         }
     }
 
+    @GetMapping("/excluded_words")
+    public List<WordDTO> getAllWordsExcludedByDictionary(@RequestHeader("Authorization") String jwt,
+                                                         @RequestParam (value = "page")int page,
+                                                         @RequestParam (value = "items_per_page")int itemsPerPage){
+        Dictionary dictionary = getDictionaryByJwt(jwt);
+        return dictionaryService.getAllWordsExcludedByDictionary(dictionary,page,itemsPerPage);
+    }
+
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> exceptionHandler(DictionaryNotCreatedException e){
         ErrorResponse response = new ErrorResponse(e.getMessage());

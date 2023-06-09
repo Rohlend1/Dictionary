@@ -63,7 +63,9 @@ public class AuthenticationController {
     public ResponseEntity<Map<String,String>> login(@RequestBody @Valid AuthenticationDTO authenticationDTO,BindingResult bindingResult){
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getUsername(),authenticationDTO.getPassword());
-
+        if(bindingResult.hasErrors()) {
+            throw new BadCredentialsException("Incorrect data");
+        }
         try{
             authenticationManager.authenticate(authenticationToken);
         }

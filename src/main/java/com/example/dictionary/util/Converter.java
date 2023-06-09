@@ -25,6 +25,7 @@ public class Converter {
     public PersonDTO convertToPersonDTO(Person person){
         return modelMapper.map(person,PersonDTO.class);
     }
+
     public Person convertToPerson(PersonDTO personDTO){
         return modelMapper.map(personDTO,Person.class);
     }
@@ -44,6 +45,7 @@ public class Converter {
     public Word convertToWord(WordDTO wordDTO){
         return modelMapper.map(wordDTO,Word.class);
     }
+
     public Person convertToPerson(AuthenticationDTO authenticationDTO){
         return modelMapper.map(authenticationDTO,Person.class);
     }
