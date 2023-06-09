@@ -42,4 +42,13 @@ public class AccountController {
         personService.deleteUser(personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7))));
     }
 
+    @PatchMapping("/repass")
+    public ResponseEntity<HttpStatus> changePassword(@RequestBody Map<String,Object> jsonData,
+                                           @RequestHeader("Authorization") String jwt){
+        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
+        String newPassword = (String) jsonData.get("new_password");
+        Person person = personService.findByName(username);
+        personService.changePassword(newPassword,person);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }

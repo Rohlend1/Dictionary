@@ -1,6 +1,5 @@
 package com.example.dictionary.dto;
 
-import com.example.dictionary.entities.Dictionary;
 
 
 public class WordDTO {

@@ -2,6 +2,7 @@ package com.example.dictionary.services;
 
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.repositories.PersonRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,5 +49,11 @@ public class PersonService {
     }
     public Person findByName(String username){
         return personRepository.findByUsername(username).orElse(null);
+    }
+
+    @Transactional
+    public void changePassword(String newPassword, Person person){
+        person.setPassword(passwordEncoder.encode(newPassword));
+        Hibernate.initialize(person);
     }
 }

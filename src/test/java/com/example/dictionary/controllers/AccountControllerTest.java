@@ -32,6 +32,8 @@ public class AccountControllerTest {
     private final String nameChangeTo="test1";
 
     private String jwt;
+    private final String wrongJwt = "1234";
+    private final String newPassword = "test1";
 
     @BeforeEach
     public void getAuthTokenAndCreateTestEntity() throws Exception {
@@ -89,14 +91,13 @@ public class AccountControllerTest {
 
     @Test
     public void testDeletePersonWrongJwt()throws Exception{
-        String wrongJwt = "1234";
         mvc.perform(MockMvcRequestBuilders.delete("/delete")
                         .header("Authorization",wrongJwt))
                 .andExpect(status().isBadRequest());
     }
     @Test
     public void testRenamePersonWrongJwt()throws Exception{
-        String wrongJwt = "1234";
+
         mvc.perform(MockMvcRequestBuilders.patch("/rename")
                         .header("Authorization",wrongJwt))
                 .andExpect(status().isBadRequest());
@@ -110,5 +111,41 @@ public class AccountControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization","Bearer "+jwt))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testChangePasswordOk() throws Exception{
+        String jsonRequest = "{ \"new_password\": \""+newPassword+"\"}";
+
+        mvc.perform(MockMvcRequestBuilders.patch("/repass")
+                .content(jsonRequest)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization","Bearer "+jwt))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testChangePasswordWrongJwt()throws Exception{
+        String jsonRequest = "{ \"new_password\": \""+newPassword+"\"}";
+
+        mvc.perform(MockMvcRequestBuilders.patch("/repass")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization",wrongJwt))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void testAuthAfterChangingPassword() throws Exception{
+        testChangePasswordOk();
+        String jsonRequest = "{ \"username\": \"" + username + "\", \"password\": \"" + newPassword + "\" }";
+
+        MvcResult authResult = mvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andReturn();
+
+        String responseJson = authResult.getResponse().getContentAsString();
+        JSONObject jsonResponse = new JSONObject(responseJson);
+        jwt = jsonResponse.getString("jwt");
     }
 }
