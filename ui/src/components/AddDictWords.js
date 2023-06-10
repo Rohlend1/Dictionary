@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSlash, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 import DeleteDictWords from './DeleteDictWords';
 import Modal from './Modal';
@@ -17,6 +17,7 @@ const EditDict = () => {
     const [showState,setShowState] = useState(false)
     const [page,setPage] = useState(0)
     const [fetching,setFetching] = useState()
+    const [wasSearch,setWasSearch] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
         
@@ -32,8 +33,16 @@ const EditDict = () => {
         }
     }
     ).then(response => {
+        console.log(wasSearch)
+        if(wasSearch){
+            setWords([])
+            setWasSearch(false)
+            console.log(response.data)
+            setWords(response.data)
+        } else if (!wasSearch){
         setWords([...words,...response.data])
         setPage(prevState => prevState+1)
+        }
     }
     ).catch(err => console.error('Ошибка:', err)).finally(()=>{setFetching(false)});
     console.log(words,page)
@@ -44,7 +53,7 @@ const EditDict = () => {
         if (!search){
             fetchWords()
             return
-        }
+        } else {
         console.log(search)
         axios.get(`${link}/words/search`,{headers:{
                     'Authorization':Authorization
@@ -57,9 +66,11 @@ const EditDict = () => {
             ).then(response => {
                 setWords(response.data)
                 setPage(0)
+                setWasSearch(true)
             }).catch(err => console.error('Ошибка:', err));
             console.log(words)
             console.log(byTranslate)
+        }
         };
 
     const handleAddWord = (word) => {
@@ -101,12 +112,9 @@ const EditDict = () => {
     useEffect(()=>{
         let Debounce = setTimeout(()=>{
             handleSearch()
-        },300)
+        },400)
         return () => {
             clearTimeout(Debounce)
-            if(search){
-            setWords([])
-            }
         }
     },[search])
 
