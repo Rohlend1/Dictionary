@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner,faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 const DeleteDictWords = () => {
     const navigate = useNavigate()
@@ -70,7 +70,7 @@ const DeleteDictWords = () => {
 
     const handleAddWord = (word) => {
         let element = words.find(e => e.value === word)
-        setDictWords(prevDictWords => [...prevDictWords, element]);
+        setDictWords(prevDictWords => [element,...prevDictWords]);
         setWords(prevWords => {
             const updatedWords = prevWords.filter(e => e.value !== word);
             return updatedWords;
@@ -83,7 +83,7 @@ const DeleteDictWords = () => {
           const updatedDictWords = prevDictWords.filter(e => e.value !== word);
           return updatedDictWords;
         });
-        setWords(prevWords => [...prevWords, element]);
+        setWords(prevWords => [element,...prevWords]);
       }
 
 
@@ -100,13 +100,13 @@ const DeleteDictWords = () => {
         <input type="text"value={dictName} onChange={(event)=> {setDictname(event.target.value)}}></input>
         </div>
         <div className='line'>
-        <div className = "block">
+        <div className = "block-del">
         {words && words.length > 0 ? (
-                <div className="words-list-container">
-                    <div className="words-list">
+                <div className="words-list-container-del">
+                    <div className="words-list-del">
                         {words.map((word) => (
-                            <div key={word.value} className="word-item">
-                                <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value">{word.value}:{word.translate}</button>
+                            <div key={word.value} className="word-item-del">
+                                <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value-del-left">{word.value}:{word.translate}</button>
                             </div>
                         ))}
                     </div>
@@ -115,12 +115,18 @@ const DeleteDictWords = () => {
                 <FontAwesomeIcon icon={faSpinner} />
             )}
             </div>
-            <div className = "block">
+            <div className='arrow-block'>
+            <FontAwesomeIcon icon={faArrowRight} />
+            <FontAwesomeIcon icon={faArrowRight} rotation={180} />
+            </div>
+            <div className = "block-del">
             {dictWords && dictWords.length > 0 ? (
-                <div className="words-list-container">
-                    <div className="words-list">
+                <div className="words-list-container-del">
+                    <div className="words-list-del">
                         {dictWords.map((word) => (
-                                <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value">{word.value}:{word.translate}</button>
+                             <div key={word.value} className="word-item-del">
+                                <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value-del-right">{word.value}:{word.translate}</button>
+                                </div>
                         ))}
                     </div>
                 </div>
@@ -129,7 +135,7 @@ const DeleteDictWords = () => {
             )}
             </div>
             </div>
-            <button className = "button" onClick={sendDictionaties}>Изменить</button>
+            <button className = "button center" onClick={sendDictionaties}>Изменить</button>
     </div>
     );
 };

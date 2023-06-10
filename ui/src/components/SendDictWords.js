@@ -34,7 +34,7 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
           const updatedDictWords = prevDictWords.filter(e => e.value !== word);
           return updatedDictWords;
         });
-        setAllWords(prevWords => [...prevWords, element]);
+        setAllWords(prevWords => [element,...prevWords]);
       }
       
     useEffect(() => {
@@ -50,7 +50,10 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
                     <div className="words-list-send">
                         {words.map((word) => (
                             <div key={word.value} className="word-item">
-                                <button  onClick={()=>handleDeleteWord(word.value)} value={word.value} className="word-value-send" >{word.value}:{word.translate}</button>
+                                <button  onClick={()=>handleDeleteWord(word.value)} value={word.value} className="word-value-send" >
+                                    <div>{word.value}</div>
+                                    <div>{word.translate}</div>
+                                    </button>
                             </div>
                         ))}
                     </div>
@@ -60,7 +63,9 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
             )}
             </div>
             </div>
-            <button className = "button" onClick={sendDictionatiesWords}>Изменить</button>
+            <div className = "bottom-line">
+            <button className = "button button-bottom" onClick={sendDictionatiesWords}>Изменить</button>
+            </div>
     </div>
     );
 };

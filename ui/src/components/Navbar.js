@@ -3,10 +3,12 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Logout from './Logout';
 import Modal from './Modal';
+import UserSettings from './UserSettings';
 const Navbar = () => {
     const link = "http://localhost:8080"
     const navigate = useNavigate()
     const [user, setUser] = useState('Unknown');
+    const [showStateL,setShowStateL] = useState(false)
     const [showStateS,setShowStateS] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     const fetchDictionaries = async () => {
@@ -21,19 +23,6 @@ const Navbar = () => {
             console.error('Ошибка при получении данных словарей:', error);
         }
     };
-    const handleLogout = async () => {
-        try {
-            const response = await axios.post(`${link}/logout`,{headers:{
-            'Authorization':Authorization
-        }
-        }); 
-         localStorage.clear()
-            navigate("/login")
-            console.log(response.data)
-        } catch (error) {
-            console.error('Ошибка при получении данных словарей:', error);
-        }
-    }
     
     useEffect(() => {
         fetchDictionaries();
@@ -45,12 +34,14 @@ const Navbar = () => {
                  <div className="user">
                 <div>{user.username}</div>
                 <div>{user.createdAt}</div>
-                <button className='button' onClick={()=>{setShowStateS(true)}}>Logout</button>
+                <button className='button' onClick={()=>{setShowStateL(true)}}>Logout</button>
+                <button className='button' onClick={()=>{setShowStateS(true)}}>UserSettings</button>
                 </div>
             ) : (
                <button className='button' onClick={()=>navigate("/login")}>Log In</button>
             )}
-             <Modal active={showStateS} setActive={setShowStateS} children={<Logout/>}/>
+             <Modal active={showStateL} setActive={setShowStateL} children={<Logout/>}/>
+             <Modal active={showStateS} setActive={setShowStateS} children={<UserSettings/>} user={user} setUserOrig={setUser}/>
         </div>
         
     );
