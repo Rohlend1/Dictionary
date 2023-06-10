@@ -1,7 +1,11 @@
 package com.example.dictionary.controllers;
 
+import com.example.dictionary.dto.PersonDTO;
+import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
+import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
+import com.example.dictionary.util.Converter;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +30,10 @@ public class AccountControllerTest {
 
     @Autowired
     private PersonService personService;
+    @Autowired
+    private Converter converter;
+    @Autowired
+    private DictionaryService dictionaryService;
 
     private final String username = "test";
     private final String password = "test";
@@ -34,52 +42,61 @@ public class AccountControllerTest {
     private String jwt;
     private final String wrongJwt = "1234";
     private final String newPassword = "test1";
+    private final String dictionaryName = "new_dict";
 
     @BeforeEach
     public void getAuthTokenAndCreateTestEntity() throws Exception {
 
         Person person = new Person(username,password,"ROLE_USER");
         personService.register(person);
-        String jsonRequest = "{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }";
+        String jsonRequestToCreatePerson = "{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }";
 
         MvcResult authResult = mvc.perform(MockMvcRequestBuilders.post("/auth/login")
-                        .content(jsonRequest)
+                        .content(jsonRequestToCreatePerson)
                         .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn();
 
         String responseJson = authResult.getResponse().getContentAsString();
         JSONObject jsonResponse = new JSONObject(responseJson);
         jwt = jsonResponse.getString("jwt");
+
+        String jsonRequestToCreateDict = "{ \"name\": \""+dictionaryName+"\"}";
+
+        mvc.perform(MockMvcRequestBuilders.post("/dict")
+                .content(jsonRequestToCreateDict)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer "+jwt)).andExpect(status().isOk());
     }
 
     @AfterEach
     public void deleteTestEntity(){
+        Dictionary dictionaryToDelete;
+
         if(personService.checkIfExists(username)){
+            if((dictionaryToDelete = dictionaryService.findDictionaryByOwner(personService.findByName(username))) != null){
+                dictionaryService.deleteDictionary(dictionaryToDelete);
+            }
             personService.deleteUser(personService.findByName(username));
         }
         if(personService.checkIfExists(nameChangeTo)){
+            if((dictionaryToDelete = dictionaryService.findDictionaryByOwner(personService.findByName(nameChangeTo))) != null){
+                dictionaryService.deleteDictionary(dictionaryToDelete);
+            }
             personService.deleteUser(personService.findByName(nameChangeTo));
         }
     }
 
     @Test
     public void testRenamePersonOk() throws Exception {
-        String jsonRequest = "{ \"new_name\": \""+nameChangeTo+"\"}";
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.patch("/rename")
-                        .content(jsonRequest)
-                        .contentType(MediaType.APPLICATION_JSON)
+        renamePerson();
+
+       MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/me")
                         .header("Authorization","Bearer "+jwt))
-                .andExpect(status().isOk()).andReturn();
-
-        String newJwtString = result.getResponse().getContentAsString();
-        JSONObject jsonJwt = new JSONObject(newJwtString);
-
-        result = mvc.perform(MockMvcRequestBuilders.get("/me")
-                        .header("Authorization","Bearer "+jsonJwt.get("jwt")))
                         .andReturn();
-        JSONObject jsonObject = new JSONObject(result.getResponse().getContentAsString());
 
-        assertEquals(jsonObject.get("username"),nameChangeTo);
+        JSONObject jsonResponse = new JSONObject(result.getResponse().getContentAsString());
+
+        assertEquals(jsonResponse.get("username"),nameChangeTo);
     }
 
     @Test
@@ -114,6 +131,27 @@ public class AccountControllerTest {
     }
 
     @Test
+    public void testGetDictionaryAfterRename() throws Exception{
+
+        renamePerson();
+
+        MvcResult mvcAfterRenameResult = mvc.perform(MockMvcRequestBuilders.get("/dict/my_dictionary")
+                .header("Authorization","Bearer "+jwt))
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONObject dictionaryAfterRename = new JSONObject(mvcAfterRenameResult.getResponse().getContentAsString());
+
+        PersonDTO validPerson = converter.convertToPersonDTO(personService.findByName(nameChangeTo));
+        String validCreatedAt = validPerson.getCreatedAt().toString();
+
+        JSONObject owner = dictionaryAfterRename.getJSONObject("owner");
+
+        assertEquals(dictionaryAfterRename.get("name"),"new_dict");
+        assertEquals(owner.get("username"),nameChangeTo);
+        assertEquals(owner.get("createdAt"),validCreatedAt.substring(0,validCreatedAt.length()-3));
+    }
+
+    @Test
     public void testChangePasswordOk() throws Exception{
         String jsonRequest = "{ \"new_password\": \""+newPassword+"\"}";
 
@@ -134,6 +172,7 @@ public class AccountControllerTest {
                         .header("Authorization",wrongJwt))
                 .andExpect(status().isBadRequest());
     }
+
     @Test
     public void testAuthAfterChangingPassword() throws Exception{
         testChangePasswordOk();
@@ -147,5 +186,19 @@ public class AccountControllerTest {
         String responseJson = authResult.getResponse().getContentAsString();
         JSONObject jsonResponse = new JSONObject(responseJson);
         jwt = jsonResponse.getString("jwt");
+    }
+
+    private void renamePerson() throws Exception{
+        String jsonRequest = "{ \"new_name\": \""+nameChangeTo+"\"}";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.patch("/rename")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization","Bearer "+jwt)).andReturn();
+
+        String newJwtString = result.getResponse().getContentAsString();
+        JSONObject jsonJwt = new JSONObject(newJwtString);
+
+        jwt =jsonJwt.getString("jwt");
     }
 }

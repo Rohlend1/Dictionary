@@ -6,6 +6,7 @@ import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
 import com.example.dictionary.util.Converter;
+import com.example.dictionary.util.errors.PersonNotExistsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,10 @@ public class DictionaryService {
         dictionaryRepository.save(dictionary);
     }
 
-    public Dictionary getDictionaryByUsername(String username){
+    public Dictionary findDictionaryByUsername(String username){
+        if(!personService.checkIfExists(username)){
+            throw new PersonNotExistsException();
+        }
         return dictionaryRepository.findDictionariesByOwner(converter.convertToPersonDTO(personService.findByName(username)));
     }
 
@@ -65,6 +69,17 @@ public class DictionaryService {
         List<Word> remainingWords = getMismatchedWords(dictionary.getWords(),words);
         dictionary.setWords(remainingWords);
         dictionaryRepository.save(dictionary);
+    }
+
+    @Transactional
+    public void changeOwner(Person oldOwner, Person newOwner){
+        Dictionary dictionary = findDictionaryByOwner(oldOwner);
+        dictionary.setOwner(converter.convertToPersonDTO(newOwner));
+        dictionaryRepository.save(dictionary);
+    }
+
+    public Dictionary findDictionaryByOwner(Person owner){
+        return dictionaryRepository.findDictionariesByOwner(converter.convertToPersonDTO(owner));
     }
 
     public List<WordDTO> getAllWordsExcludedByDictionary(Dictionary dictionary,int page,int itemsPerPage){
