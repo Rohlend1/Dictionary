@@ -79,21 +79,23 @@ input[type="password"]:focus {
     margin-bottom: 16px;
   }
   
+
+
   .dictionary-section {
     width: 400px;
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 16px;
-    margin-top: 16px;
     max-height: 500px;
     overflow-y: auto;
   }
   
   .dictionary-name {
     font-size: 20px;
-    margin-bottom: 8px;
+    padding-bottom: 20px;
     width: 100%;
     text-align: center;
+    border-bottom: 1px solid black;
   }
   
   .word-list {
@@ -382,13 +384,16 @@ input[type="password"]:focus {
 }
 
 .profile-dictionary-section{
+  border-radius: 20px;
+  border: 1px solid black;
+  height: auto;
+
 }
 .profile-word-list{
   width: 500px;
   height: 498px;
   overflow-x: auto;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  margin: 20px;
 }
 
 .font-title {
@@ -483,7 +488,9 @@ input[type="password"]:focus {
   display: flex;
   justify-content: center;
   align-items: center;  
+  padding-top: 20px;
 }
 .button-bottom{
   width: 95%;
 }
+

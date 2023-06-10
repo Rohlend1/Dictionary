@@ -31,12 +31,11 @@ const UserPage = () => {
 
         <div className="container">
             <Navbar />
-            <button className='button' onClick={()=>setShowStateS(true)}>Open</button>
             <h1 className="title">Словари пользователя</h1>
             <Modal active={showStateS} setActive={setShowStateS} children={<AddDictWords/>}/>
-            <h2 className="dictionary-name">{dictionaries.name}</h2>
+            <div className="profile-dictionary-section">
+            <h2 className="dictionary-name">{dictionaries.name}             <button className='button' onClick={()=>setShowStateS(true)}>Open</button></h2>
             {dictionaries.words && dictionaries.words.length > 0 ? (
-                <div className="profile-dictionary-section">
                     <div className="profile-word-list">
                         {dictionaries.words.map((word) => (
                             <div className="word-item-dict-container">
@@ -47,7 +46,6 @@ const UserPage = () => {
                             </div>
                         ))}
                     </div>
-                </div>
             ) : dictionaries ? (
                 (
                 <button className='button' onClick={()=>setShowStateS(true)}>Добавьте слова</button>
@@ -55,6 +53,7 @@ const UserPage = () => {
             ):( 
                 <></>
             )}
+                            </div>
             {dictionaries.length === 0 ? (
                                 <button className='button' onClick={()=>navigate("/dict/create")}>Создайте словарь </button>
             ):(
