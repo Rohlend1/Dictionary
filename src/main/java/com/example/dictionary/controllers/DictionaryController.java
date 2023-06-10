@@ -59,7 +59,7 @@ public class DictionaryController {
                                                        @RequestHeader("Authorization") String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
 
-        if(bindingResult.hasErrors() || dictionaryService.getDictionaryByUsername(username) != null){
+        if(bindingResult.hasErrors() || dictionaryService.findDictionaryByUsername(username) != null){
             throw new DictionaryNotCreatedException("Incorrect data");
         }
         dictionaryService.save(converter.convertToDictionary(dictionaryDTO),username);
@@ -72,7 +72,7 @@ public class DictionaryController {
         if(!personService.checkIfExists(username)){
             throw new RuntimeException();
         }
-        return converter.convertToDictionaryDTO(dictionaryService.getDictionaryByUsername(username));
+        return converter.convertToDictionaryDTO(dictionaryService.findDictionaryByUsername(username));
     }
 
     @PostMapping("/add_words")
@@ -136,6 +136,6 @@ public class DictionaryController {
 
     private Dictionary getDictionaryByJwt(String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        return dictionaryService.getDictionaryByUsername(username);
+        return dictionaryService.findDictionaryByUsername(username);
     }
 }
