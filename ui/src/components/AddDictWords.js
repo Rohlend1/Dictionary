@@ -15,20 +15,28 @@ const EditDict = () => {
     const [byTranslate,setByTranslate] = useState(false)
     const [actionType,setActionType] = useState(true)
     const [showState,setShowState] = useState(false)
+    const [page,setPage] = useState(0)
+    const [fetching,setFetching] = useState()
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
         
 
     const fetchWords = async () => {
+        console.log("fetching")
         axios.get(`${link}/dict/excluded_words`,{headers:{
             'Authorization':Authorization
         },
         params:{
-            page:0,
+            page:page,
             items_per_page:600
         }
     }
-    ).then(response => (setWords(response.data))).catch(err => console.error('Ошибка:', err));
+    ).then(response => {
+        setWords([...words,...response.data])
+        setPage(prevState => prevState+1)
+    }
+    ).catch(err => console.error('Ошибка:', err)).finally(()=>{setFetching(false)});
+    console.log(words,page)
 };
 
 
@@ -46,7 +54,10 @@ const EditDict = () => {
                     by_translate:byTranslate
                 }
             }
-            ).then(response => (setWords(response.data))).catch(err => console.error('Ошибка:', err));
+            ).then(response => {
+                setWords(response.data)
+                setPage(0)
+            }).catch(err => console.error('Ошибка:', err));
             console.log(words)
             console.log(byTranslate)
         };
@@ -60,18 +71,43 @@ const EditDict = () => {
           });
           console.log(dictWords)
       }
+    
+    const scrollHandler = (e) => {
+        if (e.target.scrollHeight - (e.target.scrollTop + (window.innerHeight/2))<100) {
+            setFetching(true)
+        }
+    }
+    const scroll = () => {
+        let wordsList = document.querySelector(".words-list-container")
+        if(wordsList){    
+        wordsList.addEventListener("scroll",scrollHandler)
+    return () => {
+        wordsList.removeEventListener("scroll",scrollHandler)
+}
 
+    }
+}
+    
+    useEffect(()=>{
+        scroll()
+    })
 
       useEffect(() => {
+        if(fetching && !search){
         fetchWords()
-    }, []);
+        } 
+    }, [fetching]);
 
     useEffect(()=>{
         let Debounce = setTimeout(()=>{
             handleSearch()
         },300)
-        console.log(words)
-        return () => clearTimeout(Debounce) 
+        return () => {
+            clearTimeout(Debounce)
+            if(search){
+            setWords([])
+            }
+        }
     },[search])
 
 
@@ -79,7 +115,7 @@ const EditDict = () => {
         <div className="add-words-container">
              <div className = "add-words-top-block">
         <div className = "top-title">Изменение словаря</div>
-        <input type='checkbox' defaultChecked={true} onChange={(e)=> {setActionType(e.target.checked)}}/>
+        <input type='checkbox' defaultChecked={true} onChange={(e)=> {setActionType(e.target.checked);}}/>
         </div>
         {actionType ? (
                     <div className = "add-words-block">

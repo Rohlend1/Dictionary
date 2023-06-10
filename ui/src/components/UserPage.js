@@ -38,9 +38,9 @@ const UserPage = () => {
                 <h2 className="dictionary-name" onClick={()=>setShowStateS(true)}>{dictionaries.name}</h2>
                     <div className="profile-word-list">
                         {dictionaries.words.map((word) => (
-                            <div className='word-item-dict-container'>
+                            <div className="word-item-dict-container">
                             <div key={word.value} className="word-item-dict">
-                                <div className="word-value-dict">{word.value}</div>
+                                <div className="word-value-dict font-title">{word.value}</div>
                                 <div className="word-value-dict">{word.translate}</div>
                             </div>
                             </div>

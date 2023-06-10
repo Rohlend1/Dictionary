@@ -58,7 +58,7 @@ const DeleteDictWords = () => {
         }
         }); 
             sendDictName()
-            navigate("/profile")
+            window.location.reload();
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
         }
@@ -86,18 +86,7 @@ const DeleteDictWords = () => {
         setWords(prevWords => [...prevWords, element]);
       }
 
-    // const handleAddWord = (word) => {
-    //     let element = words.find(e => e.value === word)
-    //     dictWords.push(element)
-    //     setDictWords(dictWords)
-    // }
-    // const handleDeleteWord = (word) => {
-    //     let element = dictWords.find(e => e.value === word)
-    //     let index = dictWords.indexOf(element)
-    //     dictWords.splice(index,1)  
-    //     console.log(word,element,index)
-    //     setDictWords(dictWords)
-    // }
+
 
     useEffect(() => {
         fetchWords();
@@ -107,11 +96,11 @@ const DeleteDictWords = () => {
 
     return (
         <div className="create-form">
-        <div className='line'>
-        <div className = "block">
         <div className = "name-change">
         <input type="text"value={dictName} onChange={(event)=> {setDictname(event.target.value)}}></input>
         </div>
+        <div className='line'>
+        <div className = "block">
         {words && words.length > 0 ? (
                 <div className="words-list-container">
                     <div className="words-list">
@@ -128,8 +117,8 @@ const DeleteDictWords = () => {
             </div>
             <div className = "block">
             {dictWords && dictWords.length > 0 ? (
-                <div className="dictionary-section">
-                    <div className="word-list">
+                <div className="words-list-container">
+                    <div className="words-list">
                         {dictWords.map((word) => (
                                 <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value">{word.value}:{word.translate}</button>
                         ))}

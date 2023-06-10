@@ -20,7 +20,7 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
                     }
                 }
             );
-            navigate("/profile")
+            window.location.reload();
             console.log(response.data)
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);

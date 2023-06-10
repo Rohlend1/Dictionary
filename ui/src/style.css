@@ -312,6 +312,7 @@ input[type="password"]:focus {
   width:50px;
   height: 37px;
   background: #0056b3;
+  transition: all .3s;
 }
 
 .checkbox-label {
@@ -362,13 +363,14 @@ input[type="password"]:focus {
 
 .word-item-dict-container{
   border: 1px solid black;
+  padding: 20px;
   height: 20px;
   overflow: hidden;
   transition: all .4s;
 }
 
 .word-item-dict-container:hover{
-  height: 40px;
+  height: 60px;
 }
 
 .word-item-dict{
@@ -376,10 +378,23 @@ input[type="password"]:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap:20px
 }
 
 .profile-dictionary-section{
 }
 .profile-word-list{
-  width: 200px;
+  width: 500px;
+  height: 498px;
+  overflow-x: auto;
+}
+
+.font-title {
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
 }
