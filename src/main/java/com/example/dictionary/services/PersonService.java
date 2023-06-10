@@ -2,7 +2,6 @@ package com.example.dictionary.services;
 
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.repositories.PersonRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,6 +56,14 @@ public class PersonService {
     @Transactional
     public void changePassword(String newPassword, Person person){
         person.setPassword(passwordEncoder.encode(newPassword));
-        Hibernate.initialize(person);
+    }
+    public Person copyPerson(Person originalPerson){
+        Person copyPerson = new Person();
+        copyPerson.setPassword(originalPerson.getPassword());
+        copyPerson.setRole(originalPerson.getRole());
+        copyPerson.setCreatedAt(originalPerson.getCreatedAt());
+        copyPerson.setUsername(originalPerson.getUsername());
+        copyPerson.setId(originalPerson.getId());
+        return copyPerson;
     }
 }

@@ -2,6 +2,7 @@ package com.example.dictionary.controllers;
 
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
+import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,13 @@ import java.util.Map;
 public class AccountController {
     private final PersonService personService;
     private final JwtUtil jwtUtil;
+    private final DictionaryService dictionaryService;
 
     @Autowired
-    public AccountController(PersonService personService, JwtUtil jwtUtil) {
+    public AccountController(PersonService personService, JwtUtil jwtUtil, DictionaryService dictionaryService) {
         this.personService = personService;
         this.jwtUtil = jwtUtil;
+        this.dictionaryService = dictionaryService;
     }
 
     @PatchMapping("/rename")
@@ -30,10 +33,20 @@ public class AccountController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else{
-            Person personToChange = personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
+            String oldName = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
+
+            Person personToChange = personService.findByName(oldName);
+            Person oldOwner = personService.copyPerson(personToChange);
+
             personService.renameUser(newName, personToChange);
-            String newJwt = jwtUtil.rewriteUsernameInToken(newName,jwt.substring(7));
-            return new ResponseEntity<>(Map.of("jwt",newJwt),HttpStatus.OK);
+
+            if(dictionaryService.findDictionaryByOwner(oldOwner) != null) {
+                dictionaryService.changeOwner(oldOwner, personToChange);
+            }
+
+            String newJwt = jwtUtil.rewriteUsernameInToken(newName, jwt.substring(7));
+
+            return new ResponseEntity<>(Map.of("jwt", newJwt), HttpStatus.OK);
         }
     }
 
