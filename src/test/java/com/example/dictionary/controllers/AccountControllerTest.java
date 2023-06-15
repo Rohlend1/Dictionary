@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -143,23 +145,17 @@ public class AccountControllerTest {
 
         PersonDTO validPerson = converter.convertToPersonDTO(personService.findByName(nameChangeTo));
         String validCreatedAt = validPerson.getCreatedAt().toString();
-
+        System.out.println(validCreatedAt);
         JSONObject owner = dictionaryAfterRename.getJSONObject("owner");
 
         assertEquals(dictionaryAfterRename.get("name"),"new_dict");
         assertEquals(owner.get("username"),nameChangeTo);
-        assertEquals(owner.get("createdAt"),validCreatedAt.substring(0,validCreatedAt.length()-3));
+        assertEquals(LocalDateTime.parse((String)owner.get("createdAt")),LocalDateTime.parse(validCreatedAt.substring(0,validCreatedAt.length()-3)));
     }
 
     @Test
     public void testChangePasswordOk() throws Exception{
-        String jsonRequest = "{ \"new_password\": \""+newPassword+"\"}";
-
-        mvc.perform(MockMvcRequestBuilders.patch("/repass")
-                .content(jsonRequest)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization","Bearer "+jwt))
-                .andExpect(status().isOk());
+        changePassword();
     }
 
     @Test
@@ -175,7 +171,8 @@ public class AccountControllerTest {
 
     @Test
     public void testAuthAfterChangingPassword() throws Exception{
-        testChangePasswordOk();
+        changePassword();
+
         String jsonRequest = "{ \"username\": \"" + username + "\", \"password\": \"" + newPassword + "\" }";
 
         MvcResult authResult = mvc.perform(MockMvcRequestBuilders.post("/auth/login")
@@ -186,6 +183,16 @@ public class AccountControllerTest {
         String responseJson = authResult.getResponse().getContentAsString();
         JSONObject jsonResponse = new JSONObject(responseJson);
         jwt = jsonResponse.getString("jwt");
+    }
+
+    private void changePassword() throws Exception {
+        String jsonRequest = "{ \"new_password\": \""+newPassword+"\"}";
+
+        mvc.perform(MockMvcRequestBuilders.patch("/repass")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization","Bearer "+jwt))
+                .andExpect(status().isOk());
     }
 
     private void renamePerson() throws Exception{
