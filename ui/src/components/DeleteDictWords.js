@@ -1,16 +1,15 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner,faArrowRight,faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
+import { faArrowRight,faTrash } from '@fortawesome/free-solid-svg-icons'
 import Loader from './Loader';
 const DeleteDictWords = () => {
-    const navigate = useNavigate()
     const link = "http://localhost:8080"
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
     const [dictName, setDictname] = useState('Loading...')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
+    
     const fetchWords = async () => {
         try {
             const response = await axios.get(`${link}/dict/words`,{headers:{
@@ -36,11 +35,10 @@ const DeleteDictWords = () => {
         }
     };
 
-    
     const sendDictName = async () => {
         console.log({newName:dictName})
         try {
-            const response = await axios.patch(`${link}/dict`,{newName:dictName},{headers:{
+            axios.patch(`${link}/dict`,{newName:dictName},{headers:{
             'Authorization':Authorization
         }
         });
@@ -49,11 +47,10 @@ const DeleteDictWords = () => {
         }
     };
     
-
     const sendDictionaties = async () => {
         if (dictWords !== []){
         try {
-            const response = await axios.post(`${link}/dict/delete_words`,{words:dictWords},{headers:{
+            axios.post(`${link}/dict/delete_words`,{words:dictWords},{headers:{
             'Authorization':Authorization
         }
         }); 
@@ -66,7 +63,6 @@ const DeleteDictWords = () => {
         return
     }
     };
-
 
     const handleAddWord = (word) => {
         let element = words.find(e => e.value === word)
@@ -87,12 +83,10 @@ const DeleteDictWords = () => {
       }
 
 
-
     useEffect(() => {
         fetchWords();
         fetchDictionaries()
     }, []);
-
 
     return (
         <div className="create-form">

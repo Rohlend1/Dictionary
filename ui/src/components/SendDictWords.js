@@ -1,16 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
-import Loader from './Loader';
 const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
-    const navigate = useNavigate()
     const link = "http://localhost:8080"
-    // const [words, setWords] = useState("")
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
 
-    
     const sendDictionatiesWords = async () => {
 
         try {
@@ -25,7 +18,6 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
             console.log(response.data)
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
-        // }
     };
 }
 

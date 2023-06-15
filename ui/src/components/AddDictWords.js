@@ -1,15 +1,11 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSlash, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
 import DeleteDictWords from './DeleteDictWords';
 import Modal from './Modal';
 import Loader from './Loader';
 import SendDictWords from './SendDictWords';
 const EditDict = () => {
     const link = "http://localhost:8080"
-    let navigate = useNavigate()
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
     const [search,setSearch] = useState('')

@@ -40,7 +40,6 @@ const UserPage = () => {
     useEffect(() => {
         fetchUser();
         fetchDictionaries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
 
