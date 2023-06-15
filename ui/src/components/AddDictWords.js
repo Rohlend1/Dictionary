@@ -4,6 +4,8 @@ import DeleteDictWords from './DeleteDictWords';
 import Modal from './Modal';
 import Loader from './Loader';
 import SendDictWords from './SendDictWords';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 const EditDict = () => {
     const link = "http://localhost:8080"
     const [words, setWords] = useState([])
@@ -117,9 +119,9 @@ const EditDict = () => {
         <label className="search-bytranslate-container">
         <input type='checkbox' className='search-bytranslate' defaultChecked={true} onChange={(e)=> {setActionType(e.target.checked);}}/>
         {actionType ? (
-                <div className='checkbox-label'>Add</div>
+                <div className='checkbox-label'><FontAwesomeIcon icon={faTrash} /></div>
             ):(
-                <div className='checkbox-label'>Delete</div>
+                <div className='checkbox-label'><FontAwesomeIcon icon={faPlus} size='lg' /></div>
             )}
         <span className={`checkbox ${actionType ? "checkbox--active edit" : "edit1"}`} aria-hidden="true"/>
          </label>

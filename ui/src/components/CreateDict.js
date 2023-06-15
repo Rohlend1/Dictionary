@@ -15,7 +15,7 @@ const CreateDict = () => {
                 }
             }
                 );
-                navigate("/profile")
+                window.location.reload()
             console.log(response.data);
         } catch (error) {
             console.error('Ошибка:', error);
@@ -24,17 +24,13 @@ const CreateDict = () => {
 
     return (
         <div className="create-form">
-        <div className = "block">
-        <div className = "title">Создание словаря</div>
-        <div className = "center-line">Название:
-            <div className = "input">
-                <input type="text" onChange={(event)=> {setDictname(event.target.value)}}></input>
+                <div className="settings-container">
+                <div className = "title">Создание словаря</div>
+                <div className="settings-group">
+                <input type="text" placeholder='Название' onChange={(event)=> {setDictname(event.target.value)}}></input>
                 </div>
+                <button className = "button" onClick={handleSubmit} >Создать</button>
         </div>
-        <div className="line">
-        <button className = "button" onClick={handleSubmit} >Создать</button>
-        </div>
-    </div>
     </div>
     );
 };

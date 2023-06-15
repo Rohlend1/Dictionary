@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import AddDictWords from './AddDictWords';
 import Modal from './Modal'
 import Navbar from './Navbar';
+import CreateDict from './CreateDict';
 const UserPage = () => {
     const link = "http://localhost:8080"
-    const navigate = useNavigate()
     const [dictionaries, setDictionaries] = useState([]);
     const [showStateS,setShowStateS] = useState(false)
+    const [showStateС,setShowStateС] = useState(false)
     const [user,setUser] = useState(undefined)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
@@ -48,6 +48,7 @@ const UserPage = () => {
                         <div className="container">
                 <Navbar user = {user} setUser={setUser} />
                 <Modal active={showStateS} setActive={setShowStateS} children={<AddDictWords/>}/>
+                <Modal active={showStateС} setActive={setShowStateС} children={<CreateDict/>}/>
                 {dictionaries.words && dictionaries.words.length > 0 ? (
                     <div className="profile-dictionary-section">
                     <h2 className="dictionary-name">{dictionaries.name} 
@@ -64,7 +65,7 @@ const UserPage = () => {
                         </div>
                                                         </div>
                 ):dictionaries.length === 0 ? (
-                        <button className='button' onClick={()=>navigate("/dict/create")}>Создайте словарь </button>
+                        <button className='button' onClick={()=>setShowStateС(true)}>Создайте словарь </button>
     ):(
               <div className="profile-dictionary-section">
         <h2 className="dictionary-name">{dictionaries.name}</h2>
