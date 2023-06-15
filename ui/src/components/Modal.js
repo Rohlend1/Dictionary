@@ -1,4 +1,3 @@
-
 const Modal = ({active, setActive,children}) => {
 
         return (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 const CreateDict = () => {
-    const link = "https://8080-rohlend1-dictionary-5jnb5hheiop.ws-eu99.gitpod.io"
+    const link = "http://localhost:8080"
     const navigate = useNavigate()
     const [dictName, setDictname] = useState(' ')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}` 

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 const Logout = () => {
-    const link = "https://8080-rohlend1-dictionary-5jnb5hheiop.ws-eu99.gitpod.io"
+    const link = "http://localhost:8080"
     const navigate = useNavigate()
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     const handleLogout = async () => {

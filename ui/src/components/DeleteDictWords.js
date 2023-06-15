@@ -1,15 +1,15 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from "react-router-dom";
+import { faArrowRight,faTrash } from '@fortawesome/free-solid-svg-icons'
+import Loader from './Loader';
 const DeleteDictWords = () => {
-    const navigate = useNavigate()
-    const link = "https://8080-rohlend1-dictionary-5jnb5hheiop.ws-eu99.gitpod.io"
+    const link = "http://localhost:8080"
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
-    const [dictName, setDictname] = useState(' ')
+    const [dictName, setDictname] = useState('Loading...')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
+    
     const fetchWords = async () => {
         try {
             const response = await axios.get(`${link}/dict/words`,{headers:{
@@ -35,30 +35,27 @@ const DeleteDictWords = () => {
         }
     };
 
-    
     const sendDictName = async () => {
         console.log({newName:dictName})
         try {
-            const response = await axios.patch(`${link}/dict`,{newName:dictName},{headers:{
+            axios.patch(`${link}/dict`,{newName:dictName},{headers:{
             'Authorization':Authorization
         }
         });
-            console.log(response)
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
         }
     };
     
-
     const sendDictionaties = async () => {
         if (dictWords !== []){
         try {
-            const response = await axios.post(`${link}/dict/delete_words`,{words:dictWords},{headers:{
+            axios.post(`${link}/dict/delete_words`,{words:dictWords},{headers:{
             'Authorization':Authorization
         }
         }); 
             sendDictName()
-            navigate("/profile")
+            window.location.reload();
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
         }
@@ -67,10 +64,9 @@ const DeleteDictWords = () => {
     }
     };
 
-
     const handleAddWord = (word) => {
         let element = words.find(e => e.value === word)
-        setDictWords(prevDictWords => [...prevDictWords, element]);
+        setDictWords(prevDictWords => [element,...prevDictWords]);
         setWords(prevWords => {
             const updatedWords = prevWords.filter(e => e.value !== word);
             return updatedWords;
@@ -83,64 +79,63 @@ const DeleteDictWords = () => {
           const updatedDictWords = prevDictWords.filter(e => e.value !== word);
           return updatedDictWords;
         });
-        setWords(prevWords => [...prevWords, element]);
+        setWords(prevWords => [element,...prevWords]);
       }
 
-    // const handleAddWord = (word) => {
-    //     let element = words.find(e => e.value === word)
-    //     dictWords.push(element)
-    //     setDictWords(dictWords)
-    // }
-    // const handleDeleteWord = (word) => {
-    //     let element = dictWords.find(e => e.value === word)
-    //     let index = dictWords.indexOf(element)
-    //     dictWords.splice(index,1)  
-    //     console.log(word,element,index)
-    //     setDictWords(dictWords)
-    // }
 
     useEffect(() => {
         fetchWords();
         fetchDictionaries()
     }, []);
 
-
     return (
         <div className="create-form">
-        <div className='line'>
-        <div className = "block">
         <div className = "name-change">
         <input type="text"value={dictName} onChange={(event)=> {setDictname(event.target.value)}}></input>
         </div>
+        <div className='line'>
+        <div className = "block-del">
         {words && words.length > 0 ? (
-                <div className="words-list-container">
-                    <div className="words-list">
+                <div className="words-list-container-del">
+                    <div className="words-list-del">
                         {words.map((word) => (
-                            <div key={word.value} className="word-item">
-                                <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value">{word.value}:{word.translate}</button>
+                            <div key={word.value} className="word-item-del">
+                                <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value-del-left">{word.value}:{word.translate}</button>
                             </div>
                         ))}
                     </div>
                 </div>
             ) : (
-                <FontAwesomeIcon icon={faSpinner} />
+                <Loader />
             )}
             </div>
-            <div className = "block">
+            <div className='arrow-block'>
+            <FontAwesomeIcon icon={faArrowRight} />
+            <FontAwesomeIcon icon={faArrowRight} rotation={180} />
+            </div>
+            <div className = "block-del">
             {dictWords && dictWords.length > 0 ? (
-                <div className="dictionary-section">
-                    <div className="word-list">
+                <div className="words-list-container-del">
+                    <div className="words-list-del">
                         {dictWords.map((word) => (
-                                <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value">{word.value}:{word.translate}</button>
+                             <div key={word.value} className="word-item-del">
+                                <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value-del-right">{word.value}:{word.translate}</button>
+                                </div>
                         ))}
+                     </div>
                     </div>
-                </div>
             ) : (
-                <div>Удалить слова</div>
+                <div className = "words-list-container-del">
+                    <div className="del-trash-icon">
+                <FontAwesomeIcon icon={faTrash} size='10x'/>
+                </div>
+                </div>
             )}
             </div>
             </div>
-            <button className = "button" onClick={sendDictionaties}>Изменить</button>
+            <div className = "bottom-line">
+            <button className = "button button-bottom" onClick={sendDictionaties}>Изменить</button>
+            </div>
     </div>
     );
 };
