@@ -1,14 +1,15 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner,faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner,faArrowRight,faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
+import Loader from './Loader';
 const DeleteDictWords = () => {
     const navigate = useNavigate()
     const link = "http://localhost:8080"
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
-    const [dictName, setDictname] = useState(' ')
+    const [dictName, setDictname] = useState('Loading...')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     const fetchWords = async () => {
         try {
@@ -43,7 +44,6 @@ const DeleteDictWords = () => {
             'Authorization':Authorization
         }
         });
-            console.log(response)
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
         }
@@ -112,7 +112,7 @@ const DeleteDictWords = () => {
                     </div>
                 </div>
             ) : (
-                <FontAwesomeIcon icon={faSpinner} />
+                <Loader />
             )}
             </div>
             <div className='arrow-block'>
@@ -128,14 +128,20 @@ const DeleteDictWords = () => {
                                 <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value-del-right">{word.value}:{word.translate}</button>
                                 </div>
                         ))}
+                     </div>
                     </div>
-                </div>
             ) : (
-                <div>Удалить слова</div>
+                <div className = "words-list-container-del">
+                    <div className="del-trash-icon">
+                <FontAwesomeIcon icon={faTrash} size='10x'/>
+                </div>
+                </div>
             )}
             </div>
             </div>
-            <button className = "button center" onClick={sendDictionaties}>Изменить</button>
+            <div className = "bottom-line">
+            <button className = "button button-bottom" onClick={sendDictionaties}>Изменить</button>
+            </div>
     </div>
     );
 };

@@ -1,3 +1,11 @@
+@keyframes spin { 
+  from { 
+      transform: rotate(0deg); 
+  } to { 
+      transform: rotate(360deg); 
+  }
+}
+
 
 .center-line {
     display: flex;
@@ -171,9 +179,35 @@ input[type="password"]:focus {
     gap: 40px;
 }
 
-.user::before {
-    content: "Пользователь:";
+.user-username{
+  text-align: center;
 }
+
+.user-contents {
+border: 1px solid black;
+justify-content: center;
+align-items: center;
+}
+
+.user-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.user-card {
+  margin: 5px;
+  transition: all .3s;
+}
+
+.user-hidden{
+  opacity: 0;
+}
+
+.user-show {
+  opacity: 1;
+}
+
 
 .logout{
   width: 200px;
@@ -256,7 +290,7 @@ input[type="password"]:focus {
 .word-value:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
-  scale: 2;
+  scale: 1.40;
   z-index: 1;
 }
 
@@ -307,7 +341,6 @@ input[type="password"]:focus {
  margin-bottom: 0.5rem;
 }
 
-
 .checkbox {
   display: inline-block; 
   width:50px;
@@ -324,6 +357,13 @@ input[type="password"]:focus {
 
 .checkbox--active {
   background: #007bff;
+}
+
+.edit {
+  border-radius: 10px;
+}
+
+.edit1 {
 }
 
 .name-change {
@@ -364,15 +404,30 @@ input[type="password"]:focus {
 }
 
 .word-item-dict-container{
-  border: 1px solid black;
   padding: 20px;
   height: 20px;
   overflow: hidden;
   transition: all .3s;
 }
 
+.word-item-dict-container:first-child:hover{
+  height: 90px;
+  border-bottom: 1px solid black; 
+}
+
+.word-item-dict-container:not(:first-child):hover{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+.word-item-dict-container:last-child:hover{
+  border-top: 1px solid black;
+  border-bottom: 0;
+}
+
+
+
 .word-item-dict-container:hover{
-  height: 60px;
+  height: 90px;
 }
 
 .word-item-dict{
@@ -390,6 +445,7 @@ input[type="password"]:focus {
 
 }
 .profile-word-list{
+  border: 1px solid black;
   width: 500px;
   height: 498px;
   overflow-x: auto;
@@ -410,7 +466,7 @@ input[type="password"]:focus {
 
 .words-list-container-del {
   width: 100%;
-  height: 550px;
+  height: 549px;
   overflow-y: visible;
   overflow-x: scroll;
 }
@@ -423,6 +479,7 @@ input[type="password"]:focus {
 }
 
 .block-del {
+  margin-top:20px;
   width: 100%;
 }
 
@@ -431,7 +488,7 @@ input[type="password"]:focus {
   border: none;
   cursor: pointer;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s,background-color 0.3s ease-in-out;
+  transition: transform 0.3s,background-color 0.2s ease-in-out;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: bold;
@@ -447,19 +504,20 @@ input[type="password"]:focus {
   background-color: green;
 }
 .word-value-del-left:hover{
-  scale:0.95;
+  scale:1.05;
   background-color: #c42121;
 }
 .word-value-del-right:hover{
   scale:1.05;
   background-color: green;
+  
 }
 
 .arrow-block {
   display: flex;
   flex-direction: column;
   width: auto;
-  height: 500px;
+  height: 560px;
   align-items: center;
   justify-content: center;
 }
@@ -485,12 +543,38 @@ input[type="password"]:focus {
 }
 
 .bottom-line{
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;  
   padding-top: 20px;
 }
+
 .button-bottom{
-  width: 95%;
+  width: 90%;
 }
 
+
+.del-trash-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  opacity: 0.2;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-icon {
+  scale: 2;
+  animation-name: spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;;
+}

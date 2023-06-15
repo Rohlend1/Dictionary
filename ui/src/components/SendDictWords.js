@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
+import Loader from './Loader';
 const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
     const navigate = useNavigate()
     const link = "http://localhost:8080"
@@ -43,9 +44,8 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
 
     return (
         <div className="send-words-container">
-        <div className='line'>
-        <div className = "block">
         {words && words.length > 0 ? (
+                    <div className = "block">
                 <div className="words-list-container-del">
                     <div className="words-list-del">
                         {words.map((word) => (
@@ -58,14 +58,15 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
                         ))}
                     </div>
                 </div>
-           ) : (
-                <FontAwesomeIcon icon={faSpinner} />
+                <div className = "bottom-line">
+                <button className = "button button-bottom" onClick={sendDictionatiesWords}>Изменить</button>
+                </div>
+                </div>
+           ) : (   
+            <div className = "block">
+                <div style={{textAlign:"center"}}>Добавьте слова</div>
+                </div>
             )}
-            </div>
-            </div>
-            <div className = "bottom-line">
-            <button className = "button button-bottom" onClick={sendDictionatiesWords}>Изменить</button>
-            </div>
     </div>
     );
 };

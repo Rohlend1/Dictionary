@@ -5,6 +5,7 @@ import { faSlash, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate } from "react-router-dom";
 import DeleteDictWords from './DeleteDictWords';
 import Modal from './Modal';
+import Loader from './Loader';
 import SendDictWords from './SendDictWords';
 const EditDict = () => {
     const link = "http://localhost:8080"
@@ -33,19 +34,18 @@ const EditDict = () => {
         }
     }
     ).then(response => {
-        console.log(wasSearch)
         if(wasSearch){
             setWords([])
             setWasSearch(false)
-            console.log(response.data)
             setWords(response.data)
         } else if (!wasSearch){
         setWords([...words,...response.data])
         setPage(prevState => prevState+1)
         }
     }
-    ).catch(err => console.error('Ошибка:', err)).finally(()=>{setFetching(false)});
-    console.log(words,page)
+    ).catch(err => console.error('Ошибка:', err)).finally(()=>{
+        setFetching(false)
+    });
 };
 
 
@@ -54,7 +54,6 @@ const EditDict = () => {
             fetchWords()
             return
         } else {
-        console.log(search)
         axios.get(`${link}/words/search`,{headers:{
                     'Authorization':Authorization
                 },
@@ -68,8 +67,6 @@ const EditDict = () => {
                 setPage(0)
                 setWasSearch(true)
             }).catch(err => console.error('Ошибка:', err));
-            console.log(words)
-            console.log(byTranslate)
         }
         };
 
@@ -80,7 +77,6 @@ const EditDict = () => {
             const updatedWords = prevWords.filter(e => e.value !== word);
             return updatedWords;
           });
-          console.log(dictWords)
       }
     
     const scrollHandler = (e) => {
@@ -118,12 +114,19 @@ const EditDict = () => {
         }
     },[search])
 
-
     return (
         <div className="add-words-container">
              <div className = "add-words-top-block">
         <div className = "top-title">Изменение словаря</div>
-        <input type='checkbox' defaultChecked={true} onChange={(e)=> {setActionType(e.target.checked);}}/>
+        <label className="search-bytranslate-container">
+        <input type='checkbox' className='search-bytranslate' defaultChecked={true} onChange={(e)=> {setActionType(e.target.checked);}}/>
+        {actionType ? (
+                <div className='checkbox-label'>Add</div>
+            ):(
+                <div className='checkbox-label'>Delete</div>
+            )}
+        <span className={`checkbox ${actionType ? "checkbox--active edit" : "edit1"}`} aria-hidden="true"/>
+         </label>
         </div>
         {actionType ? (
                     <div className = "add-words-block">
@@ -165,7 +168,7 @@ const EditDict = () => {
                          }
                  </div>
                  ) : (
-                     <FontAwesomeIcon icon={faSpinner} />
+                    <Loader />
                  )}
                  </div>
             ):(
