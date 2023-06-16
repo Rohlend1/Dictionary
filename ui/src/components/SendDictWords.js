@@ -33,7 +33,6 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
     useEffect(() => {
     }, []);
 
-
     return (
         <div className="send-words-container">
         {words && words.length > 0 ? (
@@ -51,7 +50,7 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
                     </div>
                 </div>
                 <div className = "bottom-line">
-                <button className = "button button-bottom" onClick={sendDictionatiesWords}>Изменить</button>
+                <button className = "button button-bottom" onClick={sendDictionatiesWords}>Добавить слова</button>
                 </div>
                 </div>
            ) : (   

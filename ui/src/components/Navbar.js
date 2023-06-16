@@ -8,9 +8,11 @@ const Navbar = (user,setUser) => {
     const [showStateL,setShowStateL] = useState(false)
     const [showStateS,setShowStateS] = useState(false)
     const [showStateU,setShowStateU] = useState(false)
+
     useEffect(()=>{
         console.log(showStateU)
     },[showStateU])
+    
     return (
             <div className="navbar">
             {user.user !== undefined ? (

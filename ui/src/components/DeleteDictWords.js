@@ -134,7 +134,7 @@ const DeleteDictWords = () => {
             </div>
             </div>
             <div className = "bottom-line">
-            <button className = "button button-bottom" onClick={sendDictionaties}>Изменить</button>
+            <button className = "button button-bottom" onClick={sendDictionaties}>Удалить слова</button>
             </div>
     </div>
     );
