@@ -1,6 +1,9 @@
 package com.example.dictionary.controllers;
 
+import com.example.dictionary.entities.Person;
+import com.example.dictionary.services.PersonService;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +23,18 @@ public class HomeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private PersonService personService;
+
     private String jwt;
+
+    private final String username = "test";
+    private final String password = "test";
 
     @BeforeEach
     public void getAuthToken() throws Exception {
-        String username = "admin";
-        String password = "admin";
+        Person person = new Person(username,password,"ROLE_USER");
+        personService.register(person);
         String jsonRequest = "{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }";
 
         MvcResult authResult = mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
@@ -36,6 +45,13 @@ public class HomeControllerTest {
         String responseJson = authResult.getResponse().getContentAsString();
         JSONObject jsonResponse = new JSONObject(responseJson);
         jwt = jsonResponse.getString("jwt");
+    }
+
+    @AfterEach
+    public void deleteTestEntity(){
+        if(personService.checkIfExists("test")){
+            personService.deleteUser(personService.findByName("test"));
+        }
     }
 
     @Test
