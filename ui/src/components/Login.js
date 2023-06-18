@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Loader from './Loader'
 
 const Login = () => {
     const link = "http://localhost:8080"
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading,setIsLoading] = useState(false)
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -18,32 +20,35 @@ const Login = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true)
         try {
             const response = await axios.post(
                 `${link}/auth/login`, 
                 { username, password }
                 );
-                navigate('/profile')
                 localStorage.setItem("jwt",response.data.jwt)
-            console.log(response.data);
+                navigate('/profile')
         } catch (error) {
             console.error('Ошибка при авторизации:', error);
         }
     };
+    
+    if (isLoading) return <Loader />
 
     return (
         <div className="login-container">
-            <h1>Авторизация</h1>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
+            <div className='login-form'>
+            <div className="form-group">
+                    <div className='top-title' style={{fontWeight:"600"}}>Авторизация</div>
+                    </div>
                     <input type="text" placeholder="Имя пользователя" value={username} onChange={handleUsernameChange} />
-                </div>
-                <div className="form-group">
                     <input type="password" placeholder="Пароль" value={password} onChange={handlePasswordChange} />
+                <button className='button' onClick={handleSubmit}>Войти</button>
+            </div>
+            <div style={{marginTop:"20px"}}>
+            <div style={{fontSize:"15px",opacity:"0.8",marginBottom:"10px",textAlign:"center"}}>Нет аккаунта?</div>
+                <button className='button button-login'  onClick={()=>navigate("/register")}>Зарегистрироваться</button>
                 </div>
-                <button className='button' type="submit">Войти</button>
-            </form>
-            <button className='button' onClick={()=>navigate("/register")}>Sign In</button>
         </div>
     );
 };

@@ -6,6 +6,7 @@ import CreateDict from "./components/CreateDict"
 const Router = () => {
     return <BrowserRouter>
         <Routes>
+            <Route element={<UserPage/>} path = '/' />
             <Route element={<UserPage/>} path = '/profile' />
             <Route element={<Auth/>} path = '/login' />
             <Route element={<Registration/>} path = '/register' />

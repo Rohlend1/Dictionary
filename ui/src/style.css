@@ -6,6 +6,11 @@
   }
 }
 
+#root {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
 
 .center-line {
     display: flex;
@@ -15,27 +20,47 @@
 }
 
 .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.button-login {
+  width: 100%;
+  opacity: 0.8;
+  transition: all .3s;
+}
+.button-login:hover {
+  opacity: 1;
+  scale: 1 !important;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px -1px 100px 31px rgba(34, 60, 80, 0.3);
+}
+
+.login-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-bottom > div {
+  font-size: 15px;
 }
 
 h1 {
     font-size: 2rem;
-    margin-bottom: 2rem;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
 
 input[type="text"],
 input[type="password"] {
@@ -65,12 +90,9 @@ input[type="password"]:focus {
 
 .button:hover {
     background-color: #0056b3;
-    scale:1.10;
 }
 
 .button:active {
-  scale:0.9;
-
 }
 
 .container {
@@ -171,7 +193,6 @@ input[type="password"]:focus {
     margin: 0;
     width: 100%;
     padding: 20px;
-    border-bottom: 1px solid black;
 }
 .user {
     display: flex;
@@ -441,9 +462,12 @@ align-items: center;
 
 .profile-dictionary-section{
   border-radius: 20px;
-  border: 1px solid black;
   height: auto;
+  padding: 20px;
+}
 
+.profile-dictionary-noDictionary{
+  border:none;
 }
 .profile-word-list{
   border: 1px solid black;
@@ -470,6 +494,7 @@ align-items: center;
   height: 549px;
   overflow-y: visible;
   overflow-x: scroll;
+  border-radius: 20px;
 }
 
 .words-list-del {
@@ -518,9 +543,10 @@ align-items: center;
   display: flex;
   flex-direction: column;
   width: auto;
-  height: 560px;
+  height: 510px;
   align-items: center;
   justify-content: center;
+  background-color: white;
 }
 .arrow-block > svg{
   font-size: 30px;
@@ -578,4 +604,10 @@ align-items: center;
   animation-duration: 2000ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear;;
+}
+
+.shadow {
+  -webkit-box-shadow: 0px 9px 100px 50px rgba(34, 60, 80, 0.23);
+-moz-box-shadow: 0px 9px 100px 50px rgba(34, 60, 80, 0.23);
+box-shadow: 0px 9px 100px 50px rgba(34, 60, 80, 0.23);
 }

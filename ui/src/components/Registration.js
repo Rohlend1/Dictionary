@@ -39,7 +39,6 @@ const Registration = () => {
             try {
                 const response = await axios.post(`${link}/auth/registration`,{ username, password}
                 );
-                // console.log(response.data);
                 if (response.data){
                 navigate('/profile')
                 localStorage.setItem("jwt",response.data.jwt)
@@ -54,22 +53,19 @@ const Registration = () => {
 
     return (
         <div className="login-container">
-            <h1>Регистрация</h1>
-            <form onSubmit={handleSubmit}>
+            <div className="login-form">
                 <div className="form-group">
+                    <div className='top-title' style={{fontWeight:"600"}}>Регистрация</div>
+                </div>
                     <input type="text" placeholder="Имя пользователя" value={username} onChange={handleUsername} />
-                </div>
-                <div className="form-group">
                     <input type="password" placeholder="Пароль" value={password} onChange={handlePassword} />
-                </div>
-                <div className="form-group">
                     <input type="password" id="pass2" placeholder="Повторите пароль" value={password2} onChange={handlePassword2} />
+                <button className='button' type="submit" onClick={handleSubmit}>Регистрация</button>
+            </div>
+            <div style={{marginTop:"20px"}}>
+            <div style={{fontSize:"15px",opacity:"0.8",marginBottom:"10px",textAlign:"center"}}>Уже есть аккаунт?</div>
+                <button className='button button-login' onClick={()=>navigate("/login")}>Войти</button>
                 </div>
-                <button className='button' type="submit" >
-                    Регистрация
-                </button>
-                
-            </form>
         </div>
     );
 };

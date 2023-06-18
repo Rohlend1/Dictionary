@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import Logout from './Logout';
 import Modal from './Modal';
 import UserSettings from './UserSettings';
 const Navbar = (user,setUser) => {
-    const navigate = useNavigate()
     const [showStateL,setShowStateL] = useState(false)
     const [showStateS,setShowStateS] = useState(false)
     const [showStateU,setShowStateU] = useState(false)
 
+    
     useEffect(()=>{
-        console.log(showStateU)
-    },[showStateU])
+    },[])
     
     return (
             <div className="navbar">
@@ -30,8 +28,8 @@ const Navbar = (user,setUser) => {
                 </div>
             ) : (
                 <div>
-               <button className='button' onClick={()=>navigate("/login")}>Log In</button>
-               <button className='button' onClick={()=>navigate("/register")}>Sign In</button>
+               {/* <button className='button' onClick={()=>navigate("/login")}>Log In</button>
+               <button className='button' onClick={()=>navigate("/register")}>Sign In</button> */}
                </div>
             )}
              <Modal active={showStateL} setActive={setShowStateL} children={<Logout/>}/>
@@ -42,3 +40,4 @@ const Navbar = (user,setUser) => {
 };
 
 export default Navbar;
+    
