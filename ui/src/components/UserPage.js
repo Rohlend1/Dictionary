@@ -29,9 +29,6 @@ const UserPage = () => {
             setUser(response.data);
         } catch (error) {
             setErrror(error)
-            // if (error.code === "ERR_BAD_REQUEST"){
-            //     navigate("/login")
-            // }
              if (error){
                 navigate("/login")
             }

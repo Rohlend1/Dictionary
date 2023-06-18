@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
 import Logout from './Logout';
 import Modal from './Modal';
 import UserSettings from './UserSettings';
 const Navbar = (user,setUser) => {
-    let count = 0
-    const navigate = useNavigate()
     const [showStateL,setShowStateL] = useState(false)
     const [showStateS,setShowStateS] = useState(false)
     const [showStateU,setShowStateU] = useState(false)
