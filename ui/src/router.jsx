@@ -3,9 +3,11 @@ import UserPage from "./components/UserPage"
 import Auth from "./components/Login"
 import Registration from "./components/Registration"
 import CreateDict from "./components/CreateDict"
+import Login from "./components/Login"
 const Router = () => {
     return <BrowserRouter>
         <Routes>
+            <Route element={<UserPage/>} path = '/' />
             <Route element={<UserPage/>} path = '/profile' />
             <Route element={<Auth/>} path = '/login' />
             <Route element={<Registration/>} path = '/register' />

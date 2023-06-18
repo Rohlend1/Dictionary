@@ -106,7 +106,7 @@ const EditDict = () => {
     useEffect(()=>{
         let Debounce = setTimeout(()=>{
             handleSearch()
-        },400)
+        },600)
         return () => {
             clearTimeout(Debounce)
         }
@@ -148,7 +148,7 @@ const EditDict = () => {
                      <div className="words-list-container">
                          <div className="words-list">
                              {words.map((word) => (
-                                     <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value">{word.translate}</button>
+                                     <button onClick={()=>handleAddWord(word.value)} value={word.value} key={word.value} className="word-value">{word.translate}</button>
                              ))}
                          </div>
                      </div>
@@ -157,7 +157,7 @@ const EditDict = () => {
                     <div className="words-list-container">
                     <div className="words-list">
                         {words.map((word) => (
-                                <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value">{word.value}</button>
+                                <button onClick={()=>handleAddWord(word.value)} value={word.value} key={word.value} className="word-value">{word.value}</button>
                         ))}
                     </div>
                 </div>
