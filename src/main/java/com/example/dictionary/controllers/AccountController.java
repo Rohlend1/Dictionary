@@ -52,7 +52,9 @@ public class AccountController {
 
     @DeleteMapping("/delete")
     public void deleteAccount(@RequestHeader("Authorization") String jwt){
-        personService.deleteUser(personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7))));
+        Person person = personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
+        dictionaryService.deleteDictionary(dictionaryService.findDictionaryByOwner(person));
+        personService.deleteUser(person);
     }
 
     @PatchMapping("/repass")
