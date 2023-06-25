@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="change project structure and add docker settings">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/Dockerfile-backend" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/DictionaryApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/config/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/config/JWTFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AuthenticationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/HomeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/WordController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/AuthenticationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/DictionaryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/PersonDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/WordDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Dictionary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Word.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/repositories/DictionaryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/repositories/PersonRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/repositories/WordRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/security/PersonDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/PersonDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/PersonService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/WordService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/util/Converter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/util/ErrorResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/util/errors/DictionaryNotCreatedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/util/errors/PersonNotCreatedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/util/errors/PersonNotExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/util/validators/PersonValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/DictionaryApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/controllers/AccountControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/controllers/HomeControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/Dockerfile-frontend" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/concept/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/concept/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/concept/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/frontend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/logo192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/logo512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/robots.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/App.test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/AddDictWords.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/CreateDict.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/DeleteDictWords.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Loader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Logout.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Modal.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Registration.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/SendDictWords.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ShowWord.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/UserPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/UserSettings.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/logo.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/reportWebVitals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/router.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/setupTests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/postgresql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/postgres/postgresql.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/DictionaryApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/config/CorsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/config/JWTFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/controllers/AccountController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/controllers/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/controllers/DictionaryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/controllers/HomeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/controllers/WordController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/dto/AuthenticationDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/dto/DictionaryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/dto/PersonDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/dto/WordDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/entities/Dictionary.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/entities/Person.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/entities/Word.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/repositories/DictionaryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/repositories/PersonRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/repositories/WordRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/security/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/security/PersonDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/services/DictionaryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/services/PersonDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/services/PersonService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/services/WordService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/util/Converter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/util/ErrorResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/util/errors/DictionaryNotCreatedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/util/errors/PersonNotCreatedException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/util/errors/PersonNotExistsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/dictionary/util/validators/PersonValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/dictionary/DictionaryApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/dictionary/controllers/AccountControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/dictionary/controllers/HomeControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/concept/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/concept/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/concept/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/AddDictWords.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/CreateDict.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/DeleteDictWords.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/Loader.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/Login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/Logout.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/Modal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/Navbar.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/Registration.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/SendDictWords.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/ShowWord.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/UserPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/components/UserSettings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/router.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/src/style.css" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="fork" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2PZPX8y8EAYCVGoyN4hW0u5tPfN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "19",
+    "last_opened_file_path": "C:/Program Files/Java/Projects/dictionary/frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "Docker",
+    "spring.configuration.checksum": "abc20d7bde1df257f890e152af2e3470",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Program Files\Java\Projects\dictionary\frontend" />
+      <recent name="C:\Program Files\Java\Projects\dictionary\src\main\java\com\example\dictionary" />
+      <recent name="C:\Program Files\Java\Projects\dictionary\src\main\resources\templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Program Files\Java\Projects\dictionary\frontend" />
+      <recent name="C:\Program Files\Java\Projects\dictionary\" />
+      <recent name="C:\Program Files\Java\Projects\dictionary\ui" />
+      <recent name="C:\Program Files\Java\Projects\dictionary\postgres" />
+      <recent name="C:\Program Files\Java\Projects\dictionary\src\main\resources\templates" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.dictionary.controllers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.backend/Dockerfile-backend">
+    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="backend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="backend" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DictionaryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="backend" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.dictionary.DictionaryApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Dockerfile-backend" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="Dockerfile-backend" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="backend/Dockerfile-backend" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="backend/Dockerfile-backend" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.backend: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="backend" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="postgres" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.backend/Dockerfile-backend" />
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.Dockerfile-backend" />
+        <item itemvalue="Docker.docker-compose.yml.backend: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="" />
+      <created>1683661667832</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683661667832</updated>
+      <workItem from="1683661668836" duration="5534000" />
+      <workItem from="1683738928015" duration="12035000" />
+      <workItem from="1683800651756" duration="130000" />
+      <workItem from="1683801310757" duration="112000" />
+      <workItem from="1683812780893" duration="732000" />
+      <workItem from="1683826178137" duration="3955000" />
+      <workItem from="1684176543048" duration="3653000" />
+      <workItem from="1684187915130" duration="25000" />
+      <workItem from="1684337332521" duration="10135000" />
+      <workItem from="1684441588071" duration="1423000" />
+      <workItem from="1684509727163" duration="14556000" />
+      <workItem from="1684610911712" duration="10419000" />
+      <workItem from="1684670193344" duration="54000" />
+      <workItem from="1684674266293" duration="13000" />
+      <workItem from="1684756580312" duration="3987000" />
+      <workItem from="1684771944712" duration="11343000" />
+      <workItem from="1684858030483" duration="19000" />
+      <workItem from="1685036171564" duration="6552000" />
+      <workItem from="1685117112404" duration="9337000" />
+      <workItem from="1685139459478" duration="119000" />
+      <workItem from="1685222683222" duration="6000" />
+      <workItem from="1685271582707" duration="23811000" />
+      <workItem from="1685363839879" duration="319000" />
+      <workItem from="1685385163099" duration="2842000" />
+      <workItem from="1685472646472" duration="252000" />
+      <workItem from="1685473017920" duration="3499000" />
+      <workItem from="1685478752516" duration="1422000" />
+      <workItem from="1685552533527" duration="8749000" />
+      <workItem from="1685645686544" duration="6701000" />
+      <workItem from="1685734364361" duration="15000" />
+      <workItem from="1685818678527" duration="7892000" />
+      <workItem from="1685898605556" duration="2699000" />
+      <workItem from="1685903144273" duration="5103000" />
+      <workItem from="1686160046048" duration="12000" />
+      <workItem from="1686303780974" duration="5308000" />
+      <workItem from="1686315035677" duration="519000" />
+      <workItem from="1686415832232" duration="8564000" />
+      <workItem from="1686429359765" duration="3000" />
+      <workItem from="1686501819537" duration="8718000" />
+      <workItem from="1686580696917" duration="1002000" />
+      <workItem from="1686583417134" duration="745000" />
+      <workItem from="1686856824808" duration="327000" />
+      <workItem from="1686865050814" duration="2009000" />
+      <workItem from="1686926080773" duration="1331000" />
+      <workItem from="1686999875923" duration="908000" />
+      <workItem from="1687031272254" duration="723000" />
+      <workItem from="1687039566182" duration="520000" />
+      <workItem from="1687113635371" duration="7000" />
+      <workItem from="1687712475757" duration="5220000" />
+      <workItem from="1687718000837" duration="2114000" />
+      <workItem from="1687724420214" duration="18000" />
+      <workItem from="1687724624899" duration="143000" />
+      <workItem from="1687724790817" duration="255000" />
+      <workItem from="1687725054529" duration="4830000" />
+    </task>
+    <task id="LOCAL-00001" summary="add searching by value and translate">
+      <created>1683666606061</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1683666606061</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add json converting">
+      <created>1683757224554</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1683757224554</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add the ability to add new words to the dictionary, also add the ability to rename users and dictionaries">
+      <created>1683829534374</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683829534374</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add Spring Security, sign in and logout operations">
+      <created>1684179589188</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684179589188</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add authority and Person.java validation">
+      <created>1684342019299</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1684342019299</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add ability to rename">
+      <created>1684349884228</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1684349884228</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add REST features">
+      <created>1684443006437</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1684443006437</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix HomeController and AccountController">
+      <created>1684612897866</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1684612897866</updated>
+    </task>
+    <task id="LOCAL-00009" summary="add PersonDTO">
+      <created>1684761768761</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1684761768761</updated>
+    </task>
+    <task id="LOCAL-00010" summary="add exception handler">
+      <created>1684773832539</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1684773832539</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add exception handler">
+      <created>1684774025842</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1684774025842</updated>
+    </task>
+    <task id="LOCAL-00012" summary="add JWT authentication and registration">
+      <created>1684789007667</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1684789007667</updated>
+    </task>
+    <task id="LOCAL-00013" summary="adding converter and dictionary creation capabilities">
+      <created>1685056669597</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1685056669597</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix bug">
+      <created>1685124894222</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1685124894222</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fix bug with autoincrement id's">
+      <created>1685127301662</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1685127301662</updated>
+    </task>
+    <task id="LOCAL-00016" summary="add ability to watch user's dictionary and WordDTO.java">
+      <created>1685131552778</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1685131552778</updated>
+    </task>
+    <task id="LOCAL-00017" summary="add Exception handler">
+      <created>1685272990906</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1685272990907</updated>
+    </task>
+    <task id="LOCAL-00018" summary="add MongoDB connection">
+      <created>1685281045199</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1685281045199</updated>
+    </task>
+    <task id="LOCAL-00019" summary="add ability to add new words to dictionaries">
+      <created>1685286682897</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1685286682897</updated>
+    </task>
+    <task id="LOCAL-00020" summary="add ability to change dictionary">
+      <created>1685289793806</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1685289793806</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix bug with delete and add words">
+      <created>1685300342278</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1685300342278</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix bug, refactor and add ability to search words by dictionary">
+      <created>1685388383861</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1685388383861</updated>
+    </task>
+    <task id="LOCAL-00023" summary="add ability to find words by translate">
+      <created>1685474890914</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1685474890914</updated>
+    </task>
+    <task id="LOCAL-00024" summary="add ability to find words by value or translate">
+      <created>1685562481791</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1685562481791</updated>
+    </task>
+    <task id="LOCAL-00025" summary="change owner in Dictionary from Person to PersonDTO and add ability to show profile">
+      <created>1685649879300</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1685649879300</updated>
+    </task>
+    <task id="LOCAL-00026" summary="fix NullPointerException on new user's dictionary">
+      <created>1685650587505</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1685650587505</updated>
+    </task>
+    <task id="LOCAL-00027" summary="fix logout function">
+      <created>1685652076400</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1685652076400</updated>
+    </task>
+    <task id="LOCAL-00028" summary="refactoring and add tests">
+      <created>1685831760722</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1685831760722</updated>
+    </task>
+    <task id="LOCAL-00029" summary="fix bug with rename account">
+      <created>1685907703627</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1685907703628</updated>
+    </task>
+    <task id="LOCAL-00030" summary="refactoring">
+      <created>1685908246331</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1685908246331</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add change password">
+      <created>1686305334993</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1686305334993</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add pagination">
+      <created>1686308483544</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1686308483544</updated>
+    </task>
+    <task id="LOCAL-00033" summary="fix bug and refactoring">
+      <created>1686422182136</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1686422182136</updated>
+    </task>
+    <task id="LOCAL-00034" summary="fix bugs with delete methods, fix tests bugs">
+      <created>1686516281436</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1686516281436</updated>
+    </task>
+    <task id="LOCAL-00035" summary="fix test bugs">
+      <created>1687031328739</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1687031328739</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add JWT authentication and registration" />
+    <MESSAGE value="adding converter and dictionary creation capabilities" />
+    <MESSAGE value="fix bug" />
+    <MESSAGE value="fix bug with autoincrement id's" />
+    <MESSAGE value="add ability to watch user's dictionary and WordDTO.java" />
+    <MESSAGE value="add Exception handler" />
+    <MESSAGE value="add MongoDB connection" />
+    <MESSAGE value="add ability to add new words to dictionaries" />
+    <MESSAGE value="add ability to change dictionary" />
+    <MESSAGE value="fix bug with delete and add words" />
+    <MESSAGE value="fix bug, refactor and add ability to search words by dictionary" />
+    <MESSAGE value="add ability to find words by translate" />
+    <MESSAGE value="add ability to find words by value or translate" />
+    <MESSAGE value="change owner in Dictionary from Person to PersonDTO and add ability to show profile" />
+    <MESSAGE value="fix NullPointerException on new user's dictionary" />
+    <MESSAGE value="fix logout function" />
+    <MESSAGE value="refactoring and add tests" />
+    <MESSAGE value="fix bug with rename account" />
+    <MESSAGE value="refactoring" />
+    <MESSAGE value="add change password" />
+    <MESSAGE value="add pagination" />
+    <MESSAGE value="fix bug and refactoring" />
+    <MESSAGE value="fix bugs with delete methods, fix tests bugs" />
+    <MESSAGE value="fix test bugs" />
+    <MESSAGE value="change project structure and add docker settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="change project structure and add docker settings" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

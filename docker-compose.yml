@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-backend
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-network
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - spring-network
+  postgres:
+    image: postgres:15-alpine
+    volumes:
+      - ./postgres/:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=dictionary_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - spring-network
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_DATABASE=dictionary
+    ports:
+      - "27017:27017"
+    networks:
+      - spring-network
+networks:
+  spring-network:
+    driver: bridge

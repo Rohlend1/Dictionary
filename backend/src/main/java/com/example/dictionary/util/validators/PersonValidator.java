@@ -8,7 +8,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class PersonValidator implements Validator {
