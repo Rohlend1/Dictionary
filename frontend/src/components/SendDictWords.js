@@ -38,7 +38,7 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
         {words && words.length > 0 ? (
                     <div className = "block">
                 <div className="words-list-container-del">
-                    <div className="words-list-del">
+                    <div className="words-list-del" >
                         {words.map((word) => (
                             <div key={word.value} className="word-item">
                                 <button  onClick={()=>handleDeleteWord(word.value)} value={word.value} className="word-value-send" >

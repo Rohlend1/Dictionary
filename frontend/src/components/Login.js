@@ -27,9 +27,14 @@ const Login = () => {
                 { username, password }
                 );
                 localStorage.setItem("jwt",response.data.jwt)
+                setIsLoading(false)
                 navigate('/profile')
         } catch (error) {
             console.error('Ошибка при авторизации:', error);
+            setIsLoading(false)
+            if (error.code === "ERR_BAD_REQUEST"){
+                alert("Неправильный логин или пароль")
+            }
         }
     };
     
@@ -37,7 +42,7 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className='login-form'>
+            <div className='login-form shadow'>
             <div className="form-group">
                     <div className='top-title' style={{fontWeight:"600"}}>Авторизация</div>
                     </div>
@@ -46,7 +51,7 @@ const Login = () => {
                 <button className='button' onClick={handleSubmit}>Войти</button>
             </div>
             <div style={{marginTop:"20px"}}>
-            <div style={{fontSize:"15px",opacity:"0.8",marginBottom:"10px",textAlign:"center"}}>Нет asd?</div>
+            <div style={{fontSize:"15px",opacity:"0.8",marginBottom:"10px",textAlign:"center"}}>Нет аккаунта?</div>
                 <button className='button button-login'  onClick={()=>navigate("/register")}>Зарегистрироваться</button>
                 </div>
         </div>

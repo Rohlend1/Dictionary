@@ -100,7 +100,7 @@ const DeleteDictWords = () => {
                     <div className="words-list-del">
                         {words.map((word) => (
                             <div key={word.value} className="word-item-del">
-                                <button onClick={()=>handleAddWord(word.value)} value={word.value} className="word-value-del-left">{word.value}:{word.translate}</button>
+                                <button onClick={()=>handleAddWord(word.value)} value={word.value} onMouseEnter={(e)=>{e.target.innerHTML= word.translate}} onMouseLeave={(e)=>{e.target.innerHTML= word.value}} className="word-value-del-left">{word.value}</button>
                             </div>
                         ))}
                     </div>
@@ -119,7 +119,7 @@ const DeleteDictWords = () => {
                     <div className="words-list-del">
                         {dictWords.map((word) => (
                              <div key={word.value} className="word-item-del">
-                                <button key={word.value} onClick={()=>handleDeleteWord(word.value)} className="word-value-del-right">{word.value}:{word.translate}</button>
+                                <button key={word.value} onClick={()=>handleDeleteWord(word.value)} onMouseEnter={(e)=>{e.target.innerHTML= word.translate}} onMouseLeave={(e)=>{e.target.innerHTML= word.value}} className="word-value-del-right">{word.value}</button>
                                 </div>
                         ))}
                      </div>
