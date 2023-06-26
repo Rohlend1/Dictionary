@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="change project structure and add docker settings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Dockerfile-frontend" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/Dockerfile-frontend" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/frontend.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +64,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/Projects/dictionary/frontend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/Projects/dictionary&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -97,7 +101,7 @@
       <recent name="com.example.dictionary.controllers" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.backend/Dockerfile-backend">
+  <component name="RunManager" selected="Docker.frontend/Dockerfile-frontend">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
     </configuration>
@@ -171,26 +175,22 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml.postgres: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
+    <configuration name="frontend/Dockerfile-frontend" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
         <settings>
-          <option name="services">
-            <list>
-              <option value="postgres" />
-            </list>
-          </option>
-          <option name="sourceFilePath" value="docker-compose.yml" />
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="frontend/Dockerfile-frontend" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.frontend/Dockerfile-frontend" />
         <item itemvalue="Docker.backend/Dockerfile-backend" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Docker.Dockerfile-backend" />
         <item itemvalue="Docker.docker-compose.yml.backend: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yml.postgres: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -259,6 +259,8 @@
       <workItem from="1687730282353" duration="29000" />
       <workItem from="1687734367261" duration="387000" />
       <workItem from="1687798461116" duration="3000" />
+      <workItem from="1687813584123" duration="6517000" />
+      <workItem from="1687820834023" duration="698000" />
     </task>
     <task id="LOCAL-00001" summary="add searching by value and translate">
       <created>1683666606061</created>
@@ -512,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687730152839</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="change project structure and add docker settings">
+      <created>1687813862209</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1687813862209</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
