@@ -17,6 +17,7 @@ const EditDict = () => {
     const [page,setPage] = useState(0)
     const [fetching,setFetching] = useState()
     const [wasSearch,setWasSearch] = useState(false)
+    const [showWords,setShowWords] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
         
@@ -148,7 +149,7 @@ const EditDict = () => {
                      <div className="words-list-container">
                          <div className="words-list">
                              {words.map((word) => (
-                                     <button onClick={()=>handleAddWord(word.value)} value={word.value} key={word.value} className="word-value">{word.translate}</button>
+                                        <button onClick={()=>handleAddWord(word.value)} value={word.value} key={word.value}  className="word-value">{word.translate}</button>
                              ))}
                          </div>
                      </div>

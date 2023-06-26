@@ -10,6 +10,8 @@ services:
     networks:
       - spring-network
   frontend:
+    volumes:
+      - ./frontend:/app
     build:
       context: ./frontend
       dockerfile: Dockerfile-frontend
