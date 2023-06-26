@@ -46,7 +46,7 @@ const Login = () => {
                 <button className='button' onClick={handleSubmit}>Войти</button>
             </div>
             <div style={{marginTop:"20px"}}>
-            <div style={{fontSize:"15px",opacity:"0.8",marginBottom:"10px",textAlign:"center"}}>Нет аккаунта?</div>
+            <div style={{fontSize:"15px",opacity:"0.8",marginBottom:"10px",textAlign:"center"}}>Нет asd?</div>
                 <button className='button button-login'  onClick={()=>navigate("/register")}>Зарегистрироваться</button>
                 </div>
         </div>
