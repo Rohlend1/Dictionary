@@ -1,5 +1,6 @@
 package com.example.dictionary.controllers;
 
+import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
@@ -53,7 +54,10 @@ public class AccountController {
     @DeleteMapping("/delete")
     public void deleteAccount(@RequestHeader("Authorization") String jwt){
         Person person = personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
-        dictionaryService.deleteDictionary(dictionaryService.findDictionaryByOwner(person));
+        Dictionary dictionary = dictionaryService.findDictionaryByOwner(person);
+        if(dictionary!=null) {
+            dictionaryService.deleteDictionary(dictionary);
+        }
         personService.deleteUser(person);
     }
 

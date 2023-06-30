@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="change project structure and add docker settings">
+    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/Dockerfile-frontend" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/Dockerfile-frontend" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/frontend.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +61,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/Projects/dictionary&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/Projects/DirectorAndSchoolHibernate&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -261,6 +258,11 @@
       <workItem from="1687798461116" duration="3000" />
       <workItem from="1687813584123" duration="6517000" />
       <workItem from="1687820834023" duration="698000" />
+      <workItem from="1687852613693" duration="444000" />
+      <workItem from="1687865056362" duration="599000" />
+      <workItem from="1688058939700" duration="9000" />
+      <workItem from="1688071733940" duration="395000" />
+      <workItem from="1688159139110" duration="699000" />
     </task>
     <task id="LOCAL-00001" summary="add searching by value and translate">
       <created>1683666606061</created>
