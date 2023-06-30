@@ -14,8 +14,8 @@ const Navbar = (user,setUser) => {
              <Modal active={showStateU} setActive={setShowStateU} children={<UserSettings/>} user={user.user} setUserOrig={setUser}/>
              <Modal active={showStateL} setActive={setShowStateL} children={<Logout/>}/>
             {user.user !== undefined ? (
-                 <div className="user" onClick={()=>{setShowStateU(true)}}>
-                <div className='user-contents'>
+                 <div className="user">
+                <div className='user-contents' onClick={()=>{setShowStateU(true)}}>
                 <FontAwesomeIcon icon={faUser} />
                 <div className='user-username'>{user.user.username}</div>
                 </div>
