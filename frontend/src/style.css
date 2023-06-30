@@ -90,6 +90,14 @@ input[type="password"]:focus {
     font-weight: bold;
 }
 
+.button-alert {
+  background-color: #c42121;
+}
+
+.button-alert:hover {
+  background-color: #f00303 !important;
+}
+
 .button:hover {
     background-color: #0056b3;
 }
@@ -207,16 +215,31 @@ input[type="password"]:focus {
 }
 
 .user-contents {
-border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+  border-radius:10px;
 justify-content: center;
 align-items: center;
+padding: 10px;
+gap: 10px;
+color: white;
+background-color:#007bff;
+transition: all .4s;
 }
+
+.user-contents:hover {
+  background-color: #0056b3;
+
+}
+
 
 .user-buttons {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
 }
+
 
 .user-card {
   margin: 5px;
@@ -641,4 +664,12 @@ align-items: center;
 
 .alert:hover{
   background-color: #c42121;
+}
+
+.deletion-alert {
+  width: 100%;
+  text-align: center;
+  color: #c42121;
+  font-size: 18px;
+  font-weight: 500;
 }
