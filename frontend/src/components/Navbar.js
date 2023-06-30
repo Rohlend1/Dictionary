@@ -1,39 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import Logout from './Logout';
-import Modal from './Modal';
 import UserSettings from './UserSettings';
+import Modal from './Modal'
+import Logout from './Logout';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 const Navbar = (user,setUser) => {
-    const [showStateL,setShowStateL] = useState(false)
-    const [showStateS,setShowStateS] = useState(false)
     const [showStateU,setShowStateU] = useState(false)
+    const [showStateL,setShowStateL] = useState(false)
 
-    
-    useEffect(()=>{
-    },[])
     
     return (
             <div className="navbar">
+             <Modal active={showStateU} setActive={setShowStateU} children={<UserSettings/>} user={user.user} setUserOrig={setUser}/>
+             <Modal active={showStateL} setActive={setShowStateL} children={<Logout/>}/>
             {user.user !== undefined ? (
-                 <div className="user">
-                <div className='user-contents' onMouseEnter={()=>{setShowStateU(true)}} onMouseLeave={()=>{setShowStateU(false)}}>
+                 <div className="user" onClick={()=>{setShowStateU(true)}}>
+                <div className='user-contents'>
+                <FontAwesomeIcon icon={faUser} />
                 <div className='user-username'>{user.user.username}</div>
-                <div className={`user-card ${showStateU ? 'user-show' : 'user-hidden'}`}>
-                <div>{user.user.createdAt}</div>
-                <div className='user-buttons'>
-                <button className='button' onClick={()=>{setShowStateL(true)}}>Logout</button>
-                <button className='button' onClick={()=>{setShowStateS(true)}}>UserSettings</button>
                 </div>
-                </div>
-                </div>
+                <button className="button" onClick={()=>{setShowStateL(true)}}>Logout</button>
                 </div>
             ) : (
                 <div>
-               {/* <button className='button' onClick={()=>navigate("/login")}>Log In</button>
-               <button className='button' onClick={()=>navigate("/register")}>Sign In</button> */}
                </div>
             )}
-             <Modal active={showStateL} setActive={setShowStateL} children={<Logout/>}/>
-             <Modal active={showStateS} setActive={setShowStateS} children={<UserSettings/>} user={user.user} setUserOrig={setUser}/>
         </div>
         
     );

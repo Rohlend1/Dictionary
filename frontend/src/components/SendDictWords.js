@@ -50,7 +50,7 @@ const SendDictWords = ({words,setWords,allwords,setAllWords}) => {
                     </div>
                 </div>
                 <div className = "bottom-line">
-                <button className = "button button-bottom" onClick={sendDictionatiesWords}>Добавить слова</button>
+                <button className = "button button-bottom" style={{marginTop:"5px"}} onClick={sendDictionatiesWords}>Добавить слова</button>
                 </div>
                 </div>
            ) : (   

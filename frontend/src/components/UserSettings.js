@@ -1,12 +1,17 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Modal from './Modal';
+import Logout from './Logout';
+import Delete from './Delete';
 
 const UserSettings = () => {
     const link = "http://localhost:8080"
     let navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showStateL,setShowStateL] = useState(false)
+    const [showStateD,setShowStateD] = useState(false)
     const [user,setUser] = useState('')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
 
@@ -70,6 +75,8 @@ const UserSettings = () => {
     },[])
     return (
         <div className="settings-container">
+            <Modal active={showStateL} setActive={setShowStateL} children={<Logout/>}/>
+            <Modal active={showStateD} setActive={setShowStateD} children={<Delete/>}/>
             <div className='font-title'>Настройки пользователя</div>
                 <div className="settings-group">
                     <input type="text" placeholder="Имя пользователя" value={username} onChange={(e)=>{setUsername(e.target.value)}} />
@@ -79,6 +86,12 @@ const UserSettings = () => {
                     <input type="password" placeholder="Пароль" value={password} onChange={(e)=>{setPassword(e.target.value)}} />
                 </div>
                 <button className='button' onClick={()=>{handlePassChange()}}>Изменить пароль</button>
+                <div className="settings-group">
+                    <div className='deletion-alert'>
+                        Удаление аккаунта
+                    </div>
+                </div>
+                <button className='button button-alert' onClick={()=>{setShowStateD(true)}}>Delete</button>
         </div>
     );
 };
