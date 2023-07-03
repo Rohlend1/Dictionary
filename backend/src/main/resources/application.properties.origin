@@ -1,0 +1,21 @@
+#Datasource configuration
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.url=
+
+#Hibernate configuration
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.show_sql=true
+
+#For (patch,delete,put) methods
+spring.mvc.hiddenmethod.filter.enabled=true
+
+jwt_secret=
+
+spring.data.mongodb.host=mongo
+spring.data.mongodb.port=27017
+spring.data.mongodb.authentication-database=
+spring.data.mongodb.username=
+spring.data.mongodb.password=
+spring.data.mongodb.database=
