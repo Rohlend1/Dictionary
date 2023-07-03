@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 const SendDictWords = ({words,setWords,setAllWords}) => {
-    const link = process.env.REACT_APP_LINKs
+    const link = process.env.REACT_APP_LINK
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
 
     const sendDictionatiesWords = async () => {
