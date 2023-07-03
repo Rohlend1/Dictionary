@@ -45,6 +45,11 @@ const Registration = () => {
                 }
             } catch (error) {
                 console.error('Ошибка при авторизации:', error);
+                if (error.code === "ERR_BAD_REQUEST"){
+                    alert("Такой аккаунт уже зарегестрирован")
+                } else {
+                    alert("Server unavailable")
+                }
             }
         } else{
             alert('Пароли не совпадают');

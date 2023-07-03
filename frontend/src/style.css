@@ -405,6 +405,12 @@ transition: all .4s;
   background: #007bff;
 }
 
+.checkbox-inactive{
+  display: none;
+  visibility: hidden;
+  user-select: none;
+}
+
 .edit {
   border-radius: 10px;
 }
@@ -414,7 +420,25 @@ transition: all .4s;
 }
 
 .name-change {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
   width: 90%;
+}
+
+.name-change-dict-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 39x;
+  color: black;
+  font-size: 20px;
+  transition: all .4s;
+}
+
+.name-change-dict-close:hover{
+  scale: 1.5;
 }
 
 .send-words-container {
@@ -649,7 +673,7 @@ transition: all .4s;
   background-color: white;
   border-radius: 20px;
   transition: all .4s;
-  left: 90%;
+  bottom: 87%;
   visibility:hidden;
   z-index: 1;
   opacity: 0;
@@ -664,6 +688,14 @@ transition: all .4s;
 
 .alert:hover{
   background-color: #c42121;
+}
+
+.alert-contents {
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
 }
 
 .deletion-alert {

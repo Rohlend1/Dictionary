@@ -7,7 +7,6 @@ const DeleteDictWords = () => {
     const link = process.env.REACT_APP_LINK
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
-    const [dictName, setDictname] = useState('Loading...')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
     const fetchWords = async () => {
@@ -23,29 +22,16 @@ const DeleteDictWords = () => {
         }
     };
 
-    const fetchDictionaries = async () => {
-        try {
-            const response = await axios.get(`${link}/home`,{headers:{
-            'Authorization':Authorization
-        }
-        }); 
-            setDictname(response.data.name);
-        } catch (error) {
-            console.error('Ошибка при получении данных словарей:', error);
-        }
-    };
-
-    const sendDictName = async () => {
-        console.log({newName:dictName})
-        try {
-            axios.patch(`${link}/dict`,{newName:dictName},{headers:{
-            'Authorization':Authorization
-        }
-        });
-        } catch (error) {
-            console.error('Ошибка при получении данных словарей:', error);
-        }
-    };
+    // const fetchDictionaries = async () => {
+    //     try {
+    //         const response = await axios.get(`${link}/home`,{headers:{
+    //         'Authorization':Authorization
+    //     }
+    //     }); 
+    //     } catch (error) {
+    //         console.error('Ошибка при получении данных словарей:', error);
+    //     }
+    // };
     
     const sendDictionaties = async () => {
         if (dictWords !== []){
@@ -54,7 +40,6 @@ const DeleteDictWords = () => {
             'Authorization':Authorization
         }
         }); 
-            sendDictName()
             window.location.reload();
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
@@ -85,14 +70,11 @@ const DeleteDictWords = () => {
 
     useEffect(() => {
         fetchWords();
-        fetchDictionaries()
+        // fetchDictionaries()
     }, []);
 
     return (
         <div className="create-form">
-        <div className = "name-change">
-        <input type="text"value={dictName} onChange={(event)=> {setDictname(event.target.value)}}></input>
-        </div>
         <div className='line'>
         <div className = "block-del">
         {words && words.length > 0 ? (

@@ -34,6 +34,8 @@ const Login = () => {
             setIsLoading(false)
             if (error.code === "ERR_BAD_REQUEST"){
                 alert("Неправильный логин или пароль")
+            } else {
+                alert("Server unavailable")
             }
         }
     };
