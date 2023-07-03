@@ -6,7 +6,7 @@ import Logout from './Logout';
 import Delete from './Delete';
 
 const UserSettings = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     let navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

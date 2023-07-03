@@ -10,7 +10,7 @@ import Loader from './Loader'
 import Alert from './Alert'
 import { useNavigate } from 'react-router-dom';
 const UserPage = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const navigate = useNavigate()
     const [dictionaries, setDictionaries] = useState([]);
     const [showStateS,setShowStateS] = useState(false)

@@ -7,7 +7,7 @@ import SendDictWords from './SendDictWords';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 const EditDict = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
     const [search,setSearch] = useState('')
@@ -17,7 +17,6 @@ const EditDict = () => {
     const [page,setPage] = useState(0)
     const [fetching,setFetching] = useState()
     const [wasSearch,setWasSearch] = useState(false)
-    const [showWords,setShowWords] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
         

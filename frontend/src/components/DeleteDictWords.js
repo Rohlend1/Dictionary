@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight,faTrash } from '@fortawesome/free-solid-svg-icons'
 import Loader from './Loader';
 const DeleteDictWords = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const [words, setWords] = useState([])
     const [dictWords,setDictWords] = useState([])
     const [dictName, setDictname] = useState('Loading...')

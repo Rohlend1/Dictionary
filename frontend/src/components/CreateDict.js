@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 const CreateDict = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const [dictName, setDictname] = useState(' ')
     let Authorization = `Bearer ${localStorage.getItem("jwt")}` 
     const handleSubmit = async (event) => {

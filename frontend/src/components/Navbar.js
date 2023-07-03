@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import UserSettings from './UserSettings';
 import Modal from './Modal'
 import Logout from './Logout';
