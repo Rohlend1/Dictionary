@@ -4,7 +4,7 @@ const Alert = ({isShow,setIsShow,children}) => {
   useEffect(()=>{
     let Debounce = setTimeout(()=>{
         setIsShow(false)
-    },2000)
+    },1000)
     return () => {
         clearTimeout(Debounce)
     }

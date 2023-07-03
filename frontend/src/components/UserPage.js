@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AddDictWords from './AddDictWords';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil,faClipboard} from '@fortawesome/free-solid-svg-icons'
+import { faPencil,faClipboard,faCheck,faXmark, faArrowLeft} from '@fortawesome/free-solid-svg-icons'
 import Modal from './Modal'
 import Navbar from './Navbar';
 import CreateDict from './CreateDict';
@@ -10,15 +10,18 @@ import Loader from './Loader'
 import Alert from './Alert'
 import { useNavigate } from 'react-router-dom';
 const UserPage = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const navigate = useNavigate()
     const [dictionaries, setDictionaries] = useState([]);
     const [showStateS,setShowStateS] = useState(false)
     const [showStateС,setShowStateС] = useState(false)
+    const [showStateE,setShowStateE] = useState(false)
     const [user,setUser] = useState(undefined)
     const [isLoading,setIsLoading] = useState(false)
     const [showAlert,setAlert] = useState(false)
     const [contents,setContents] = useState()
+    const [dictName, setDictname] = useState('Loading...')
+    const [changeState,setChangeState] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     
     const fetchUser = async () => {
@@ -45,12 +48,33 @@ const UserPage = () => {
         }
         }); 
             setDictionaries(response.data);
+            setDictname(response.data.name);
             console.log(dictionaries)
             setIsLoading(false)
         } catch (error) {
             console.error(error.code)
         }
     };
+
+    
+    const sendDictName = async () => {
+        axios.patch(`${link}/dict`,{newName:dictName},{headers:{
+        'Authorization':Authorization
+    }
+    }).catch((error)=>{
+        console.error('Ошибка при получении данных словарей:', error)
+        if(error){
+            alert(error)
+        window.location.reload()
+        }
+    }
+    ).finally(()=>{
+        setShowStateE(false)
+        setDictionaries({...dictionaries,name:dictName})
+    })
+    
+};
+
 
     useEffect(() => {
         fetchUser();
@@ -71,13 +95,34 @@ const UserPage = () => {
                 {dictionaries.words && dictionaries.words.length > 0 ? (
                     <div className="profile-dictionary-section shadow">
                     <button className='button' onClick={()=>setShowStateS(true)}><FontAwesomeIcon icon={faPencil} /></button>
-                    <h2 className="dictionary-name">{dictionaries.name} </h2>
+                {showStateE ? ( 
+                    <div style={{display:"flex",flexDirection:"row",justifyContent:"center",margin:"20px"}}>
+                    <div className='search'>
+        <label className="search-bytranslate-container">
+        <input type='checkbox' className="search-bytranslate" disabled={`${changeState ? "disabled" : ""}`} defaultChecked={true} onChange={()=> {sendDictName();setChangeState(true)}}/>
+        {changeState ? (
+                <div className='checkbox-label'><FontAwesomeIcon icon={faCheck} /></div>
+            ):(
+                <div className='checkbox-label'><FontAwesomeIcon icon={faXmark}/></div>
+            )}
+        <span className={`checkbox ${changeState ? "checkbox--active" : ""}`} aria-hidden="true"/>
+         </label>
+         <input className='search-input'value={dictName} onChange={(event)=> {setDictname(event.target.value);setChangeState(false)}}></input>
+            </div>
+            <div className='name-change-dict-close'onClick={(e)=>{setShowStateE(false);e.preventDefault()}}><FontAwesomeIcon icon={faXmark}/></div>
+            </div>
+                ):( 
+                    <h2 className="dictionary-name" onClick={(e)=>{setShowStateE(true);e.preventDefault()}}>{dictionaries.name} </h2>
+                )
+            }
+
                         <div className="profile-word-list">
                             {dictionaries.words.map((word) => (
                                 <div className="word-item-dict-container" key={word.value} onClick={() => {
                                     navigator.clipboard.writeText(word.value + " " + word.translate)
-                                    setContents(<div>
+                                    setContents(<div className='alert-contents'>
                                         <FontAwesomeIcon icon={faClipboard} />
+                                        <FontAwesomeIcon icon={faArrowLeft} />
                                         {word.value}
                                         </div>)
                                     setAlert(true)
@@ -94,7 +139,7 @@ const UserPage = () => {
                 ):dictionaries.length === 0 ? (
                         <button className='button' onClick={()=>setShowStateС(true)}>Создайте словарь</button>
     ):(
-              <div className="profile-dictionary-section profile-dictionary-noDictionary">
+              <div className="profile-dictionary-section profile-dictionary-noDictionary shadow">
         <h2 className="dictionary-name">{dictionaries.name}</h2>
         <button className='button' onClick={()=>setShowStateS(true)}>Добавьте слова</button>
         </div>

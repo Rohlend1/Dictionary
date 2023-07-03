@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 const Delete = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const navigate = useNavigate()
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     const handleLogout = async () => {

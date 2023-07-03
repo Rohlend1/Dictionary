@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from './Loader'
 
 const Login = () => {
-    const link = "http://localhost:8080"
+    const link = process.env.REACT_APP_LINK
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -34,6 +34,8 @@ const Login = () => {
             setIsLoading(false)
             if (error.code === "ERR_BAD_REQUEST"){
                 alert("Неправильный логин или пароль")
+            } else {
+                alert("Server unavailable")
             }
         }
     };
