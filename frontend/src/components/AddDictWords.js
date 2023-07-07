@@ -47,7 +47,7 @@ const EditDict = () => {
 };
 
 
-    const handleSearch = async () => {  
+    const handleSearch = () => {  
         if (!search){
             fetchWords()
             return
@@ -106,7 +106,7 @@ const EditDict = () => {
     useEffect(()=>{
         let Debounce = setTimeout(()=>{
             handleSearch()
-        },600)
+        },300)
         return () => {
             clearTimeout(Debounce)
         }

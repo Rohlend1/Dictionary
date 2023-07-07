@@ -19,9 +19,9 @@ const UserSettings = () => {
         try {
             const response = await axios.post(`${link}/logout`,{headers:{
             'Authorization':Authorization
-        }
-        }); 
-         localStorage.clear()
+            }
+            }); 
+            localStorage.clear()
             navigate("/login")
             console.log(response.data)
         } catch (error) {
