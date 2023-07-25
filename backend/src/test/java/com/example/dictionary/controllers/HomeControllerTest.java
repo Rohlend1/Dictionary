@@ -33,7 +33,10 @@ public class HomeControllerTest {
 
     @BeforeEach
     public void getAuthToken() throws Exception {
-        Person person = new Person(username,password,"ROLE_USER");
+        Person person = new Person();
+        person.setUsername(username);
+        person.setPassword(password);
+        person.setRole("ROLE_USER");
         personService.register(person);
         String jsonRequest = "{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }";
 

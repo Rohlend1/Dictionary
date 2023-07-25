@@ -1,39 +1,24 @@
 package com.example.dictionary.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Setter
+@Getter
+@EqualsAndHashCode
 public class DictionaryDTO {
 
-    @NotEmpty
+    @NotBlank(message = "Name can't be blank")
     private String name;
 
+    @EqualsAndHashCode.Exclude
     private List<WordDTO> words;
 
-    private PersonDTO owner;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<WordDTO> getWords() {
-        return words;
-    }
-
-    public void setWords(List<WordDTO> words) {
-        this.words = words;
-    }
-
-    public PersonDTO getOwner() {
-        return owner;
-    }
-
-    public void setOwner(PersonDTO owner) {
-        this.owner = owner;
-    }
+    @NotNull(message = "Owner can't be null")
+    private Long owner;
 }
