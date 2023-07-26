@@ -51,7 +51,7 @@ const EditDict = () => {
             fetchWords()
             return
         } else {
-        axios.get(`${link}/find/words`,{headers:{
+        axios.get(`${link}/words/find/translate-value`,{headers:{
                     'Authorization':Authorization
                 },
                 params:{

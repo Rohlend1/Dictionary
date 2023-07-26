@@ -29,7 +29,6 @@ public class AccountController {
     @PatchMapping("/rename")
     public ResponseEntity<Map<String,String>> renameAccount(@RequestParam("new_name") String newName,
                                                     @RequestHeader("Authorization") String jwt){
-        System.out.println("s");
         if(personService.checkIfExists(newName)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
