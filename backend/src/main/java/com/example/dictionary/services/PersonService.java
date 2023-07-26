@@ -2,6 +2,7 @@ package com.example.dictionary.services;
 
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.repositories.PersonRepository;
+import com.example.dictionary.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final JwtUtil jwtUtil;
+
     @Autowired
-    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder) {
+    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public List<Person> getAllUsers(){
@@ -36,7 +40,8 @@ public class PersonService {
     }
 
     @Transactional
-    public void renameUser(String newUsername,Person person){
+    public void renameUser(String newUsername, String jwt){
+        Person person = findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
         person.setUsername(newUsername);
     }
 

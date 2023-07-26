@@ -58,3 +58,4 @@ build/
 .vscode/
 /src/main/resources/templates/auth/
 /src/main/resources/application.properties
+/words.txt
