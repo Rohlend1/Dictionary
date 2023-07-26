@@ -53,11 +53,9 @@ public class AccountController {
     }
 
     @PatchMapping("/change/pass")
-    public ResponseEntity<HttpStatus> changePassword(@RequestParam("new_password") String newPass,
+    public ResponseEntity<HttpStatus> changePassword(@RequestBody Map<Object,String> newPass,
                                            @RequestHeader("Authorization") String jwt){
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        Person person = personService.findByName(username);
-        personService.changePassword(newPass,person);
+        personService.changePassword(newPass.get("password"), jwt);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -49,6 +49,8 @@ public class WordService {
     }
 
     public List<WordDTO> findByValue(String startsWith, List<WordDTO> words) {
+        System.out.println(words);
+        System.out.println(startsWith);
         return findByStartsWith(startsWith, words, WordDTO::getValue);
     }
 }

@@ -59,16 +59,8 @@ public class PersonService {
     }
 
     @Transactional
-    public void changePassword(String newPassword, Person person){
+    public void changePassword(String newPassword, String jwt){
+        Person person = findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
         person.setPassword(passwordEncoder.encode(newPassword));
-    }
-    public Person copyPerson(Person originalPerson){
-        Person copyPerson = new Person();
-        copyPerson.setPassword(originalPerson.getPassword());
-        copyPerson.setRole(originalPerson.getRole());
-        copyPerson.setCreatedAt(originalPerson.getCreatedAt());
-        copyPerson.setUsername(originalPerson.getUsername());
-        copyPerson.setId(originalPerson.getId());
-        return copyPerson;
     }
 }
