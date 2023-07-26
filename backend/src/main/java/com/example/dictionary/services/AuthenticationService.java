@@ -19,9 +19,11 @@ public class AuthenticationService {
     private final Converter converter;
 
     private final JwtUtil jwtUtil;
+    
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthenticationService(PersonRepository personRepository, Converter converter, JwtUtil jwtUtil) {
+    public AuthenticationService(PersonRepository personRepository, Converter converter, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.converter = converter;
         this.jwtUtil = jwtUtil;

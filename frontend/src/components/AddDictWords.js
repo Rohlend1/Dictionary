@@ -22,8 +22,7 @@ const EditDict = () => {
         
 
     const fetchWords = async () => {
-        console.log("fetching")
-        axios.get(`${link}/dict/excluded_words`,{headers:{
+        axios.get(`${link}/dict/find/excluded-words`,{headers:{
             'Authorization':Authorization
         },
         params:{

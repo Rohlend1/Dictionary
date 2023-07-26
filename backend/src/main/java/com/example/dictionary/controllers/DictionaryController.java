@@ -25,14 +25,12 @@ public class DictionaryController {
 
     private final DictionaryService dictionaryService;
     private final PersonService personService;
-    private final Converter converter;
     private final WordService wordService;
 
     @Autowired
-    public DictionaryController(DictionaryService dictionaryService, PersonService personService, Converter converter, WordService wordService) {
+    public DictionaryController(DictionaryService dictionaryService, PersonService personService, WordService wordService) {
         this.dictionaryService = dictionaryService;
         this.personService = personService;
-        this.converter = converter;
         this.wordService = wordService;
     }
 
