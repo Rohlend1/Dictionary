@@ -7,7 +7,7 @@ const SendDictWords = ({words,setWords,setAllWords}) => {
     const sendDictionatiesWords = async () => {
 
         try {
-            const response = await axios.post(`${link}/dict/add_words`,{ words: words },
+            const response = await axios.post(`${link}/add/words`,{ words: words },
                 {
                     headers: {
                         'Authorization': Authorization

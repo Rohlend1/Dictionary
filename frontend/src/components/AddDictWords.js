@@ -52,7 +52,7 @@ const EditDict = () => {
             fetchWords()
             return
         } else {
-        axios.get(`${link}/words/search`,{headers:{
+        axios.get(`${link}/find/words`,{headers:{
                     'Authorization':Authorization
                 },
                 params:{

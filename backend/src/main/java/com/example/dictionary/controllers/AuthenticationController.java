@@ -50,7 +50,7 @@ public class AuthenticationController {
             throw new PersonNotCreatedException(errorMsg.toString());
         }
         String token = authenticationService.register(authenticationDTO);
-
+        
         return new ResponseEntity<>(Map.of("jwt", token),HttpStatus.OK);
     }
 

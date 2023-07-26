@@ -36,7 +36,7 @@ const DeleteDictWords = () => {
     const sendDictionaties = async () => {
         if (dictWords !== []){
         try {
-            axios.post(`${link}/dict/delete_words`,{words:dictWords},{headers:{
+            axios.post(`${link}/dict/delete/words`,{words:dictWords},{headers:{
             'Authorization':Authorization
         }
         }); 
@@ -70,7 +70,6 @@ const DeleteDictWords = () => {
 
     useEffect(() => {
         fetchWords();
-        // fetchDictionaries()
     }, []);
 
     return (

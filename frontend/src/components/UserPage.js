@@ -22,7 +22,7 @@ const UserPage = () => {
     const [contents,setContents] = useState()
     const [dictName, setDictname] = useState('Loading...')
     const [changeState,setChangeState] = useState(false)
-    let Authorization = `Bearer ${localStorage.getItem("jwt")}`
+    let Authorization = `Bearer ${localStorage.getItem("jw")}`
     
     const fetchUser = async () => {
         setIsLoading(true)
