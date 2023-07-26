@@ -64,7 +64,7 @@ public class DictionaryService {
         dictionaryRepository.save(dictionary);
     }
 
-    public DictionaryDTO findDictionaryByUsername(String jwt){
+    public DictionaryDTO findDictionaryJwt(String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         if(!personService.checkIfExists(username)){
             throw new PersonNotExistsException();
