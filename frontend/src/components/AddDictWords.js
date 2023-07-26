@@ -105,7 +105,7 @@ const EditDict = () => {
     useEffect(()=>{
         let Debounce = setTimeout(()=>{
             handleSearch()
-        },300)
+        },250)
         return () => {
             clearTimeout(Debounce)
         }

@@ -57,6 +57,11 @@ const UserSettings = () => {
             window.location.reload();
           } catch (err) {
             console.error('Ошибка name change:', err);
+            if (err.code === "ERR_BAD_REQUEST"){
+                alert("Такой аккаунт уже существует")
+            } else {
+                alert("Server unavailable")
+            }
           }
         }
       };
