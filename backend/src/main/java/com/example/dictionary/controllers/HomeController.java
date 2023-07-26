@@ -29,7 +29,7 @@ public class HomeController {
     }
     @GetMapping("/home")
     public DictionaryDTO helloPage(@RequestHeader("Authorization") String jwt){
-        return dictionaryService.findDictionaryByUsername(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
+        return dictionaryService.findDictionaryJwt(jwt);
     }
     @GetMapping("/me")
     public PersonDTO showMe(@RequestHeader("Authorization") String jwt){

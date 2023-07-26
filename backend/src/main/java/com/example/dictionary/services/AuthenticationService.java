@@ -20,14 +20,12 @@ public class AuthenticationService {
 
     private final JwtUtil jwtUtil;
 
-    private final PasswordEncoder passwordEncoder;
-    
     @Autowired
-    public AuthenticationService(PersonRepository personRepository, Converter converter, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
-        this.passwordEncoder =  passwordEncoder;
+    public AuthenticationService(PersonRepository personRepository, Converter converter, JwtUtil jwtUtil) {
         this.personRepository = personRepository;
         this.converter = converter;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean checkIfExists(String username){
