@@ -33,11 +33,8 @@ public class AccountController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else{
-
             personService.renameUser(newName, jwt);
-
             String newJwt = jwtUtil.rewriteUsernameInToken(newName, jwt.substring(7));
-
             return new ResponseEntity<>(Map.of("jwt", newJwt), HttpStatus.OK);
         }
     }
