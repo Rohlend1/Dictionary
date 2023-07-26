@@ -1,6 +1,6 @@
 package com.example.dictionary.controllers;
 
-import com.example.dictionary.entities.Dictionary;
+import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
@@ -27,23 +27,17 @@ public class AccountController {
     }
 
     @PatchMapping("/rename")
-    public ResponseEntity<Map<String,String>> renameAccount(@RequestBody Map<String,Object> jsonData,
+    public ResponseEntity<Map<String,String>> renameAccount(@RequestParam("new_name") String newName,
                                                     @RequestHeader("Authorization") String jwt){
-        String newName = (String) jsonData.get("new_name");
         if(personService.checkIfExists(newName)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else{
             String oldName = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
 
-            Person personToChange = personService.findByName(oldName);
-            Person oldOwner = personService.copyPerson(personToChange);
+            Person user = personService.findByName(oldName);
 
-            personService.renameUser(newName, personToChange);
-
-            if(dictionaryService.findDictionaryByOwner(oldOwner) != null) {
-                dictionaryService.changeOwner(oldOwner, personToChange);
-            }
+            personService.renameUser(newName, user);
 
             String newJwt = jwtUtil.rewriteUsernameInToken(newName, jwt.substring(7));
 
@@ -54,20 +48,19 @@ public class AccountController {
     @DeleteMapping("/delete")
     public void deleteAccount(@RequestHeader("Authorization") String jwt){
         Person person = personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
-        Dictionary dictionary = dictionaryService.findDictionaryByOwner(person);
+        DictionaryDTO dictionary = dictionaryService.findDictionaryByOwner(person.getId());
         if(dictionary!=null) {
             dictionaryService.deleteDictionary(dictionary);
         }
         personService.deleteUser(person);
     }
 
-    @PatchMapping("/repass")
-    public ResponseEntity<HttpStatus> changePassword(@RequestBody Map<String,Object> jsonData,
+    @PatchMapping("/change/pass")
+    public ResponseEntity<HttpStatus> changePassword(@RequestParam("new_password") String newPass,
                                            @RequestHeader("Authorization") String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        String newPassword = (String) jsonData.get("new_password");
         Person person = personService.findByName(username);
-        personService.changePassword(newPassword,person);
+        personService.changePassword(newPass,person);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

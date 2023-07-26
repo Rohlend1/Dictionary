@@ -1,12 +1,14 @@
 package com.example.dictionary.services;
 
+import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
-import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
+import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.errors.PersonNotExistsException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,72 +26,71 @@ public class DictionaryService {
     private final Converter converter;
     private final WordService wordService;
 
-    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService, Converter converter, WordService wordService) {
+    private final JwtUtil jwtUtil;
+
+    @Autowired
+    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService, Converter converter, WordService wordService, JwtUtil jwtUtil) {
         this.dictionaryRepository = dictionaryRepository;
         this.personService = personService;
         this.converter = converter;
         this.wordService = wordService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Transactional
-    public void deleteDictionary(Dictionary dictionary){
-        dictionaryRepository.delete(dictionary);
+    public void deleteDictionary(DictionaryDTO dictionaryDto){
+        dictionaryRepository.delete(converter.convertToDictionary(dictionaryDto));
     }
 
     @Transactional
-    public void renameDictionary(Dictionary dictionary,String newName){
+    public void renameDictionary(DictionaryDTO dictionary,String newName){
         dictionary.setName(newName);
-        dictionaryRepository.save(dictionary);
+        dictionaryRepository.save(converter.convertToDictionary(dictionary));
     }
 
     @Transactional
-    public void addNewWordToDictionary(List<Word> newWords,Dictionary dictionary){
-        List<Word> remainingWords = getMismatchedWords(newWords,dictionary.getWords());
+    public void addNewWordToDictionary(List<WordDTO> newWords,DictionaryDTO dictionary){
+        List<WordDTO> remainingWords = getMismatchedWords(newWords, dictionary.getWords());
         dictionary.getWords().addAll(remainingWords);
-        dictionaryRepository.save(dictionary);
+        dictionaryRepository.save(converter.convertToDictionary(dictionary));
     }
 
     @Transactional
-    public void save(Dictionary dictionary,String username){
+    public void save(Dictionary dictionary, String jwt){
+        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         Person owner = personService.findByName(username);
-        dictionary.setOwner(converter.convertToPersonDTO(owner));
+        dictionary.setOwner(owner.getId());
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }
 
-    public Dictionary findDictionaryByUsername(String username){
+    public DictionaryDTO findDictionaryByUsername(String jwt){
+        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         if(!personService.checkIfExists(username)){
             throw new PersonNotExistsException();
         }
-        return dictionaryRepository.findDictionariesByOwner(converter.convertToPersonDTO(personService.findByName(username)));
+        return converter.convertToDictionaryDTO(dictionaryRepository.findDictionariesByOwner(personService.findByName(username).getId()));
     }
 
     @Transactional
-    public void deleteWords(Dictionary dictionary, List<Word> words){
-        List<Word> remainingWords = getMismatchedWords(dictionary.getWords(),words);
+    public void deleteWords(DictionaryDTO dictionary, List<WordDTO> words){
+        List<WordDTO> remainingWords = getMismatchedWords(dictionary.getWords(), words);
         dictionary.setWords(remainingWords);
-        dictionaryRepository.save(dictionary);
+        dictionaryRepository.save(converter.convertToDictionary(dictionary));
     }
 
-    @Transactional
-    public void changeOwner(Person oldOwner, Person newOwner){
-        Dictionary dictionary = findDictionaryByOwner(oldOwner);
-        dictionary.setOwner(converter.convertToPersonDTO(newOwner));
-        dictionaryRepository.save(dictionary);
+    public DictionaryDTO findDictionaryByOwner(Long owner){
+        return converter.convertToDictionaryDTO(dictionaryRepository.findDictionariesByOwner(owner));
     }
 
-    public Dictionary findDictionaryByOwner(Person owner){
-        return dictionaryRepository.findDictionariesByOwner(converter.convertToPersonDTO(owner));
+    public List<WordDTO> getAllWordsExcludedByDictionary(DictionaryDTO dictionaryDto,int page,int itemsPerPage){
+        List<WordDTO> words = getMismatchedWords(wordService.findAllPagination(page,itemsPerPage), dictionaryDto.getWords());
+        return words.stream().toList();
     }
 
-    public List<WordDTO> getAllWordsExcludedByDictionary(Dictionary dictionary,int page,int itemsPerPage){
-        List<Word> words = getMismatchedWords(wordService.findAll(page,itemsPerPage),dictionary.getWords());
-        return words.stream().map(converter::convertToWordDTO).toList();
-    }
-
-    private List<Word> getMismatchedWords(List<Word> checkableWords,List<Word> filterWords){
+    private List<WordDTO> getMismatchedWords(List<WordDTO> checkableWords,List<WordDTO> filterWords){
         Map<String,String> filterValues = new HashMap<>();
-        for(Word word : filterWords){
+        for(WordDTO word : filterWords){
             filterValues.put(word.getValue(),word.getTranslate());
         }
         return checkableWords.stream().filter(word -> !filterValues.containsKey(word.getValue())).toList();
