@@ -6,7 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/WordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/WordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/AuthenticationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/AuthenticationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/DictionaryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/DictionaryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/PersonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/PersonDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/WordDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/dto/WordDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Dictionary.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Dictionary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Word.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/entities/Word.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/repositories/DictionaryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/repositories/DictionaryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/WordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/WordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/controllers/AccountControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/controllers/AccountControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/controllers/HomeControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/com/example/dictionary/controllers/HomeControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,9 +76,9 @@
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;refactoring&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/Projects/DirectorAndSchoolHibernate&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Program Files/Java/Projects/dictionary&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -262,7 +279,26 @@
       <workItem from="1687865056362" duration="599000" />
       <workItem from="1688058939700" duration="9000" />
       <workItem from="1688071733940" duration="395000" />
-      <workItem from="1688159139110" duration="699000" />
+      <workItem from="1688159139110" duration="1926000" />
+      <workItem from="1688201225469" duration="654000" />
+      <workItem from="1688232728412" duration="1905000" />
+      <workItem from="1688315227652" duration="2000" />
+      <workItem from="1688425522464" duration="261000" />
+      <workItem from="1688592860802" duration="784000" />
+      <workItem from="1688667125927" duration="5000" />
+      <workItem from="1688822203488" duration="24000" />
+      <workItem from="1688980596577" duration="416000" />
+      <workItem from="1688982541413" duration="1822000" />
+      <workItem from="1689185859885" duration="5000" />
+      <workItem from="1689796204377" duration="5893000" />
+      <workItem from="1689866751879" duration="7929000" />
+      <workItem from="1689945529106" duration="599000" />
+      <workItem from="1689960935206" duration="249000" />
+      <workItem from="1690046537214" duration="48000" />
+      <workItem from="1690046678611" duration="227000" />
+      <workItem from="1690046951331" duration="224000" />
+      <workItem from="1690314254636" duration="75000" />
+      <workItem from="1690315092597" duration="2337000" />
     </task>
     <task id="LOCAL-00001" summary="add searching by value and translate">
       <created>1683666606061</created>
@@ -523,7 +559,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687813862209</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="fix">
+      <created>1688162299207</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1688162299207</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -541,7 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add JWT authentication and registration" />
     <MESSAGE value="adding converter and dictionary creation capabilities" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="fix bug with autoincrement id's" />
@@ -566,7 +608,8 @@
     <MESSAGE value="fix bugs with delete methods, fix tests bugs" />
     <MESSAGE value="fix test bugs" />
     <MESSAGE value="change project structure and add docker settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="change project structure and add docker settings" />
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

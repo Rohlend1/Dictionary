@@ -1,7 +1,7 @@
 package com.example.dictionary.controllers;
 
+import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.PersonDTO;
-import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
@@ -49,7 +49,10 @@ public class AccountControllerTest {
     @BeforeEach
     public void getAuthTokenAndCreateTestEntity() throws Exception {
 
-        Person person = new Person(username,password,"ROLE_USER");
+        Person person = new Person();
+        person.setUsername(username);
+        person.setPassword(password);
+        person.setRole("ROLE_USER");
         personService.register(person);
         String jsonRequestToCreatePerson = "{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }";
 
@@ -72,16 +75,16 @@ public class AccountControllerTest {
 
     @AfterEach
     public void deleteTestEntity(){
-        Dictionary dictionaryToDelete;
+        DictionaryDTO dictionaryToDelete;
 
         if(personService.checkIfExists(username)){
-            if((dictionaryToDelete = dictionaryService.findDictionaryByOwner(personService.findByName(username))) != null){
+            if((dictionaryToDelete = dictionaryService.findDictionaryByOwner(personService.findByName(username).getId())) != null){
                 dictionaryService.deleteDictionary(dictionaryToDelete);
             }
             personService.deleteUser(personService.findByName(username));
         }
         if(personService.checkIfExists(nameChangeTo)){
-            if((dictionaryToDelete = dictionaryService.findDictionaryByOwner(personService.findByName(nameChangeTo))) != null){
+            if((dictionaryToDelete = dictionaryService.findDictionaryByOwner(personService.findByName(nameChangeTo).getId())) != null){
                 dictionaryService.deleteDictionary(dictionaryToDelete);
             }
             personService.deleteUser(personService.findByName(nameChangeTo));
