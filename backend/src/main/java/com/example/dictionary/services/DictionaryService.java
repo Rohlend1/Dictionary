@@ -56,9 +56,10 @@ public class DictionaryService {
     }
 
     @Transactional
-    public void save(Dictionary dictionary, String jwt){
+    public void save(DictionaryDTO dictionaryDTO, String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         Person owner = personService.findByName(username);
+        Dictionary dictionary = converter.convertToDictionary(dictionaryDTO);
         dictionary.setOwner(owner.getId());
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
@@ -69,7 +70,11 @@ public class DictionaryService {
         if(!personService.checkIfExists(username)){
             throw new PersonNotExistsException();
         }
-        return converter.convertToDictionaryDTO(dictionaryRepository.findDictionariesByOwner(personService.findByName(username).getId()));
+        Dictionary dictionary = dictionaryRepository.findDictionariesByOwner(personService.findByName(username).getId());
+        if(dictionary != null){
+            return converter.convertToDictionaryDTO(dictionary);
+        }
+        return null;
     }
 
     @Transactional

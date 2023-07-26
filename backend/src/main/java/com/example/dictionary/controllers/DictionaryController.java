@@ -56,7 +56,7 @@ public class DictionaryController {
         if(bindingResult.hasErrors() || dictionaryService.findDictionaryJwt(jwt) != null){
             throw new DictionaryNotCreatedException("Incorrect data");
         }
-        dictionaryService.save(converter.convertToDictionary(dictionaryDTO), jwt);
+        dictionaryService.save(dictionaryDTO, jwt);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
