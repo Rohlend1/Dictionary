@@ -40,8 +40,8 @@ const Registration = () => {
                 const response = await axios.post(`${link}/auth/registration`,{ username, password}
                 );
                 if (response.data){
+                    localStorage.setItem("jwt",response.data.jwt)
                 navigate('/profile')
-                localStorage.setItem("jwt",response.data.jwt)
                 }
             } catch (error) {
                 console.error('Ошибка при авторизации:', error);

@@ -1,7 +1,6 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.dto.WordDTO;
-import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.WordRepository;
 import com.example.dictionary.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,33 +23,32 @@ public class WordService {
         this.converter = converter;
     }
 
-    public List<Word> findAll(){
-        return wordRepository.findAll();
+    public List<WordDTO> findAll(){
+        return wordRepository.findAll().stream().map(converter::convertToWordDTO).toList();
     }
 
-    public List<Word> findAll(int page, int itemsPerPage){
-        return wordRepository.findAll(PageRequest.of(page,itemsPerPage)).getContent();
+    public List<WordDTO> findAllPagination(int page, int itemsPerPage){
+        return wordRepository.findAll(PageRequest.of(page,itemsPerPage)).getContent().stream().map(converter::convertToWordDTO).toList();
     }
 
     private boolean isNullOrEmpty(String str) {
         return str == null || str.isBlank();
     }
 
-    private List<WordDTO> findByStartsWith(String startsWith, List<Word> words, Function<Word, String> getField) {
+    private List<WordDTO> findByStartsWith(String startsWith, List<WordDTO> words, Function<WordDTO, String> getField) {
         if (isNullOrEmpty(startsWith)) {
-            return words.stream().map(converter::convertToWordDTO).toList();
+            return words;
         }
         return words.stream()
                 .filter(w -> getField.apply(w).startsWith(startsWith))
-                .map(converter::convertToWordDTO)
                 .toList();
     }
 
-    public List<WordDTO> findByTranslate(String startsWith, List<Word> words) {
-        return findByStartsWith(startsWith, words, Word::getTranslate);
+    public List<WordDTO> findByTranslate(String startsWith, List<WordDTO> words) {
+        return findByStartsWith(startsWith, words, WordDTO::getTranslate);
     }
 
-    public List<WordDTO> findByValue(String startsWith, List<Word> words) {
-        return findByStartsWith(startsWith, words, Word::getValue);
+    public List<WordDTO> findByValue(String startsWith, List<WordDTO> words) {
+        return findByStartsWith(startsWith, words, WordDTO::getValue);
     }
 }

@@ -2,10 +2,8 @@ package com.example.dictionary.controllers;
 
 
 import com.example.dictionary.dto.AuthenticationDTO;
-import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
-import com.example.dictionary.services.PersonService;
-import com.example.dictionary.util.Converter;
+import com.example.dictionary.services.AuthenticationService;
 import com.example.dictionary.util.ErrorResponse;
 import com.example.dictionary.util.errors.PersonNotCreatedException;
 import jakarta.validation.Valid;
@@ -26,23 +24,21 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final PersonService personService;
+    private final AuthenticationService authenticationService;
     private final JwtUtil jwtUtil;
-    private final Converter converter;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationController(PersonService personService, JwtUtil jwtUtil, Converter converter, AuthenticationManager authenticationManager) {
-        this.personService = personService;
+    public AuthenticationController(AuthenticationService authenticationService, JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
+        this.authenticationService = authenticationService;
         this.jwtUtil = jwtUtil;
-        this.converter = converter;
         this.authenticationManager = authenticationManager;
     }
 
     @PostMapping("/registration")
     public ResponseEntity<Map<String,String>> registration(@RequestBody @Valid AuthenticationDTO authenticationDTO, BindingResult bindingResult){
 
-        if(personService.checkIfExists(authenticationDTO.getUsername())){
+        if(authenticationService.checkIfExists(authenticationDTO.getUsername())){
             bindingResult.reject("Username exists","Name already exists");
         }
         if(bindingResult.hasErrors()){
@@ -53,10 +49,9 @@ public class AuthenticationController {
             }
             throw new PersonNotCreatedException(errorMsg.toString());
         }
-        Person person = converter.convertToPerson(authenticationDTO);
-        personService.register(person);
-        String token = jwtUtil.generateToken(person.getUsername());
-        return new ResponseEntity<>(Map.of("jwt",token),HttpStatus.OK);
+        String token = authenticationService.register(authenticationDTO);
+        
+        return new ResponseEntity<>(Map.of("jwt", token),HttpStatus.OK);
     }
 
     @PostMapping("/login")

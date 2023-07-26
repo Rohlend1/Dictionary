@@ -23,7 +23,6 @@ const UserPage = () => {
     const [dictName, setDictname] = useState('Loading...')
     const [changeState,setChangeState] = useState(false)
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
-    
     const fetchUser = async () => {
         setIsLoading(true)
         try {
@@ -49,7 +48,6 @@ const UserPage = () => {
         }); 
             setDictionaries(response.data);
             setDictname(response.data.name);
-            console.log(dictionaries)
             setIsLoading(false)
         } catch (error) {
             console.error(error.code)

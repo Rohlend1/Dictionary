@@ -22,8 +22,7 @@ const EditDict = () => {
         
 
     const fetchWords = async () => {
-        console.log("fetching")
-        axios.get(`${link}/dict/excluded_words`,{headers:{
+        axios.get(`${link}/dict/find/excluded-words`,{headers:{
             'Authorization':Authorization
         },
         params:{
@@ -47,12 +46,12 @@ const EditDict = () => {
 };
 
 
-    const handleSearch = async () => {  
+    const handleSearch = () => {  
         if (!search){
             fetchWords()
             return
         } else {
-        axios.get(`${link}/words/search`,{headers:{
+        axios.get(`${link}/find/words`,{headers:{
                     'Authorization':Authorization
                 },
                 params:{
@@ -106,7 +105,7 @@ const EditDict = () => {
     useEffect(()=>{
         let Debounce = setTimeout(()=>{
             handleSearch()
-        },600)
+        },300)
         return () => {
             clearTimeout(Debounce)
         }

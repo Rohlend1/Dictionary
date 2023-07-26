@@ -1,8 +1,8 @@
 package com.example.dictionary.controllers;
 
 
+import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.PersonDTO;
-import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
@@ -28,8 +28,8 @@ public class HomeController {
         this.jwtUtil = jwtUtil;
     }
     @GetMapping("/home")
-    public Dictionary helloPage(@RequestHeader("Authorization") String jwt){
-        return dictionaryService.findDictionaryByUsername(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
+    public DictionaryDTO helloPage(@RequestHeader("Authorization") String jwt){
+        return dictionaryService.findDictionaryJwt(jwt);
     }
     @GetMapping("/me")
     public PersonDTO showMe(@RequestHeader("Authorization") String jwt){

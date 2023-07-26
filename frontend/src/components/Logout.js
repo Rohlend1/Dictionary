@@ -7,13 +7,12 @@ const Logout = () => {
     let Authorization = `Bearer ${localStorage.getItem("jwt")}`
     const handleLogout = async () => {
         try {
-            const response = await axios.post(`${link}/logout`,{headers:{
+            await axios.post(`${link}/logout`,{headers:{
             'Authorization':Authorization
         }
         }); 
          localStorage.clear()
             navigate("/login")
-            console.log(response.data)
         } catch (error) {
             console.error('Ошибка при получении данных словарей:', error);
         }

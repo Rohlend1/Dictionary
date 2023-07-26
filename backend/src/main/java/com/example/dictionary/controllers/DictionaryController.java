@@ -2,9 +2,6 @@ package com.example.dictionary.controllers;
 
 import com.example.dictionary.dto.DictionaryDTO;
 import com.example.dictionary.dto.WordDTO;
-import com.example.dictionary.entities.Dictionary;
-import com.example.dictionary.entities.Word;
-import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
@@ -28,24 +25,20 @@ public class DictionaryController {
 
     private final DictionaryService dictionaryService;
     private final PersonService personService;
-    private final Converter converter;
     private final WordService wordService;
-    private final JwtUtil jwtUtil;
 
     @Autowired
-    public DictionaryController(DictionaryService dictionaryService, PersonService personService, Converter converter, WordService wordService, JwtUtil jwtUtil) {
+    public DictionaryController(DictionaryService dictionaryService, PersonService personService, WordService wordService) {
         this.dictionaryService = dictionaryService;
         this.personService = personService;
-        this.converter = converter;
         this.wordService = wordService;
-        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/words")
     public List<WordDTO> getWordsByDictionary(@RequestHeader("Authorization")String jwt){
-        Dictionary dictionary = getDictionaryByJwt(jwt);
+        DictionaryDTO dictionary = getDictionaryByJwt(jwt);
         if(dictionary != null){
-            return getDictionaryByJwt(jwt).getWords().stream().map(converter::convertToWordDTO).toList();
+            return getDictionaryByJwt(jwt).getWords().stream().toList();
         }
         else {
             return new ArrayList<>();
@@ -57,61 +50,59 @@ public class DictionaryController {
     public ResponseEntity<HttpStatus> createDictionary(@RequestBody @Valid DictionaryDTO dictionaryDTO,
                                                        BindingResult bindingResult,
                                                        @RequestHeader("Authorization") String jwt){
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
 
-        if(bindingResult.hasErrors() || dictionaryService.findDictionaryByUsername(username) != null){
+        if(bindingResult.hasErrors() || dictionaryService.findDictionaryJwt(jwt) != null){
             throw new DictionaryNotCreatedException("Incorrect data");
         }
-        dictionaryService.save(converter.convertToDictionary(dictionaryDTO),username);
+        dictionaryService.save(dictionaryDTO, jwt);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/my_dictionary")
+    @GetMapping("/find/my_dictionary")
     public DictionaryDTO showDictionary(@RequestHeader("Authorization") String jwt){
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        if(!personService.checkIfExists(username)){
+        if(!personService.checkIfExists(jwt)){
             throw new RuntimeException();
         }
-        return converter.convertToDictionaryDTO(dictionaryService.findDictionaryByUsername(username));
+        return dictionaryService.findDictionaryJwt(jwt);
     }
 
-    @PostMapping("/add_words")
+    @PostMapping("/add/words")
     public ResponseEntity<HttpStatus> addNewWords(@RequestHeader("Authorization") String jwt,
                                                  @RequestBody Map<String,List<WordDTO>> wordsDTO){
-        List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
-        Dictionary dictionary = getDictionaryByJwt(jwt);
-        dictionaryService.addNewWordToDictionary(words,dictionary);
+        List<WordDTO> words = wordsDTO.get("words");
+        DictionaryDTO dictionary = getDictionaryByJwt(jwt);
+        dictionaryService.addNewWordToDictionary(words, dictionary);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteDictionary(@RequestHeader("Authorization") String jwt){
-        Dictionary dictionary = getDictionaryByJwt(jwt);
+        DictionaryDTO dictionary = getDictionaryByJwt(jwt);
         dictionaryService.deleteDictionary(dictionary);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("")
+    @PatchMapping
     public ResponseEntity<HttpStatus> renameDictionary(@RequestHeader("Authorization") String jwt,
                                                        @RequestBody Map<String,String> jsonData){
-        Dictionary dictionary = getDictionaryByJwt(jwt);
-        dictionaryService.renameDictionary(dictionary,jsonData.get("newName"));
+        DictionaryDTO dictionary = getDictionaryByJwt(jwt);
+        dictionaryService.renameDictionary(dictionary, jsonData.get("newName"));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/delete_words")
+    @PostMapping("/delete/words")
     public ResponseEntity<HttpStatus> deleteWordsFromDictionary(@RequestHeader("Authorization") String jwt,
                                                                 @RequestBody Map<String,List<WordDTO>> wordsDTO){
-        List<Word> words = wordsDTO.get("words").stream().map(converter::convertToWord).toList();
-        dictionaryService.deleteWords(getDictionaryByJwt(jwt),words);
+        List<WordDTO> words = wordsDTO.get("words");
+        dictionaryService.deleteWords(getDictionaryByJwt(jwt), words);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/find/words")
     public List<WordDTO> findWordsByDictionary(@RequestHeader("Authorization") String jwt,
                                               @RequestParam(value = "starts_with", required = false)String startsWith,
                                                @RequestParam(value = "by_translate",required = false)Boolean findByTranslate){
-        Dictionary dictionary = getDictionaryByJwt(jwt);
+        DictionaryDTO dictionary = getDictionaryByJwt(jwt);
         if(findByTranslate == null || !findByTranslate){
             return wordService.findByValue(startsWith, dictionary.getWords());
         }
@@ -120,12 +111,12 @@ public class DictionaryController {
         }
     }
 
-    @GetMapping("/excluded_words")
+    @GetMapping("find/excluded-words")
     public List<WordDTO> getAllWordsExcludedByDictionary(@RequestHeader("Authorization") String jwt,
                                                          @RequestParam (value = "page")int page,
                                                          @RequestParam (value = "items_per_page")int itemsPerPage){
-        Dictionary dictionary = getDictionaryByJwt(jwt);
-        return dictionaryService.getAllWordsExcludedByDictionary(dictionary,page,itemsPerPage);
+        DictionaryDTO dictionary = getDictionaryByJwt(jwt);
+        return dictionaryService.getAllWordsExcludedByDictionary(dictionary, page, itemsPerPage);
     }
 
     @ExceptionHandler
@@ -134,8 +125,7 @@ public class DictionaryController {
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
 
-    private Dictionary getDictionaryByJwt(String jwt){
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        return dictionaryService.findDictionaryByUsername(username);
+    private DictionaryDTO getDictionaryByJwt(String jwt){
+        return dictionaryService.findDictionaryJwt(jwt);
     }
 }

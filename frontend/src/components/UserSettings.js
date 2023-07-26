@@ -19,9 +19,9 @@ const UserSettings = () => {
         try {
             const response = await axios.post(`${link}/logout`,{headers:{
             'Authorization':Authorization
-        }
-        }); 
-         localStorage.clear()
+            }
+            }); 
+            localStorage.clear()
             navigate("/login")
             console.log(response.data)
         } catch (error) {
@@ -58,7 +58,7 @@ const UserSettings = () => {
 
         const handlePassChange = async () => {  
             if(password){
-            axios.patch(`${link}/repass`,{new_password:password},{headers:{
+            axios.patch(`${link}/change/pass`,{new_password:password},{headers:{
                         'Authorization':Authorization
                     },
                 }
