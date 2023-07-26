@@ -23,7 +23,7 @@ public class WordController {
         return wordService.findAllPagination(page,itemsPerPage);
     }
 
-    @GetMapping("/find/words/translate-value")
+    @GetMapping("/find/translate-value")
     public List<WordDTO> findWords(@RequestParam("starts_with") String startsWith,
                                           @RequestParam("by_translate")Boolean byTranslate){
         if(byTranslate == null || !byTranslate){

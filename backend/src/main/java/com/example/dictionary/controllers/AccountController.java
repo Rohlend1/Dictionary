@@ -29,7 +29,6 @@ public class AccountController {
     @PatchMapping("/rename")
     public ResponseEntity<Map<String,String>> renameAccount(@RequestParam("new_name") String newName,
                                                     @RequestHeader("Authorization") String jwt){
-        System.out.println("s");
         if(personService.checkIfExists(newName)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -54,11 +53,9 @@ public class AccountController {
     }
 
     @PatchMapping("/change/pass")
-    public ResponseEntity<HttpStatus> changePassword(@RequestParam("new_password") String newPass,
+    public ResponseEntity<HttpStatus> changePassword(@RequestBody Map<Object,String> newPass,
                                            @RequestHeader("Authorization") String jwt){
-        String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        Person person = personService.findByName(username);
-        personService.changePassword(newPass,person);
+        personService.changePassword(newPass.get("password"), jwt);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="fix PersonService">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="add gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/WordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/WordController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/PersonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/PersonService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/WordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/WordService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +254,7 @@
       <workItem from="1688159139110" duration="699000" />
       <workItem from="1690395949054" duration="59000" />
       <workItem from="1690396022007" duration="18000" />
-      <workItem from="1690396047933" duration="359000" />
+      <workItem from="1690396047933" duration="2174000" />
     </task>
     <task id="LOCAL-00001" summary="add searching by value and translate">
       <created>1683666606061</created>
@@ -527,7 +522,14 @@
       <option name="project" value="LOCAL" />
       <updated>1690396404617</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="add gitignore">
+      <created>1690396478444</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1690396478444</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -545,7 +547,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="adding converter and dictionary creation capabilities" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="fix bug with autoincrement id's" />
     <MESSAGE value="add ability to watch user's dictionary and WordDTO.java" />
@@ -570,7 +571,8 @@
     <MESSAGE value="fix test bugs" />
     <MESSAGE value="change project structure and add docker settings" />
     <MESSAGE value="fix PersonService" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix PersonService" />
+    <MESSAGE value="add gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="add gitignore" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
