@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,10 +26,13 @@ public class SecurityConfig {
     private final PersonDetailsService personDetailsService;
     private final JWTFilter jwtFilter;
 
+    private final DaoAuthenticationProvider daoAuthenticationProvider;
+
     @Autowired
     public SecurityConfig(PersonDetailsService personDetailsService, JWTFilter jwtFilter) {
         this.personDetailsService = personDetailsService;
         this.jwtFilter = jwtFilter;
+        this.daoAuthenticationProvider = new DaoAuthenticationProvider();
     }
 
     @Bean
@@ -36,8 +41,16 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationProvider authenticationProvider(){
+        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(personDetailsService);
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
     AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
+        auth.authenticationProvider(authenticationProvider());
         return auth.userDetailsService(personDetailsService).and().build();
     }
     @Bean
@@ -56,11 +69,14 @@ public class SecurityConfig {
             .requestMatchers("/auth/login","/auth/registration","/errors").permitAll()
             .anyRequest().hasAnyRole("ADMIN","USER")
             .and()
-            .formLogin()
-            .loginPage("/auth/login")
-            .loginProcessingUrl("/process_login")
-            .defaultSuccessUrl("/home",true)
-            .failureUrl("/auth/login?error")
+            .exceptionHandling()
+            .authenticationEntryPoint(
+                    (request, response, authException)
+                            -> response.sendError(
+                            HttpServletResponse.SC_UNAUTHORIZED,
+                            authException.getLocalizedMessage()
+                    )
+            )
             .and()
             .logout()
             .logoutUrl("/logout")
@@ -69,9 +85,9 @@ public class SecurityConfig {
                     response.setStatus(HttpServletResponse.SC_OK);
                 }))
             .logoutSuccessUrl("/auth/login")
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

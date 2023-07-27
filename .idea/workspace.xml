@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="refactoring">
+    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="add share feature">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/config/SecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -255,7 +254,7 @@
       <workItem from="1690396047933" duration="3416000" />
       <workItem from="1690449102330" duration="892000" />
       <workItem from="1690464389347" duration="599000" />
-      <workItem from="1690481475122" duration="1608000" />
+      <workItem from="1690481475122" duration="6098000" />
     </task>
     <task id="LOCAL-00001" summary="add searching by value and translate">
       <created>1683666606061</created>
@@ -558,7 +557,14 @@
       <option name="project" value="LOCAL" />
       <updated>1690399744751</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="add share feature">
+      <created>1690483388352</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1690483388352</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,7 +582,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix bug with autoincrement id's" />
     <MESSAGE value="add ability to watch user's dictionary and WordDTO.java" />
     <MESSAGE value="add Exception handler" />
     <MESSAGE value="add MongoDB connection" />
@@ -601,7 +606,8 @@
     <MESSAGE value="add gitignore" />
     <MESSAGE value="fix WordController" />
     <MESSAGE value="refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
+    <MESSAGE value="add share feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="add share feature" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
