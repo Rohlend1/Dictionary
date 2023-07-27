@@ -4,7 +4,7 @@ import Modal from './Modal'
 import Logout from './Logout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-const Navbar = (user,setUser) => {
+const Navbar = (user,setUser,content) => {
     const [showStateU,setShowStateU] = useState(false)
     const [showStateL,setShowStateL] = useState(false)
 
@@ -20,6 +20,7 @@ const Navbar = (user,setUser) => {
                 <div className='user-username'>{user.user.username}</div>
                 </div>
                 <button className="button" onClick={()=>{setShowStateL(true)}}>Logout</button>
+                {content}
                 </div>
             ) : (
                 <div>
