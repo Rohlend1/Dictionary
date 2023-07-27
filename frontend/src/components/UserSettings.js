@@ -43,24 +43,35 @@ const UserSettings = () => {
         }
     };
 
-    const handleNameChange = async () => {  
-        console.log(username)
-        if (username !== user.username){
-        axios.patch(`${link}/rename`,{new_name:username},{headers:{
-                    'Authorization':Authorization
+    const handleNameChange = async () => {
+        if (username !== user.username) {
+          try {
+            const response = await axios.patch(
+              `${link}/rename`,null,{params: {new_name: username},
+                headers: {
+                  'Authorization': Authorization
                 },
+              }
+            );
+            localStorage.setItem("jwt", response.data.jwt);
+            window.location.reload();
+          } catch (err) {
+            console.error('Ошибка name change:', err);
+            if (err.code === "ERR_BAD_REQUEST"){
+                alert("Такой аккаунт уже существует")
+            } else {
+                alert("Server unavailable")
             }
-            ).then(response => {
-                localStorage.setItem("jwt",response.data.jwt)
-                window.location.reload()
-            }).catch(err => console.error('Ошибка name change:', err))
-        }};
+          }
+        }
+      };
 
         const handlePassChange = async () => {  
             if(password){
-            axios.patch(`${link}/change/pass`,{new_password:password},{headers:{
-                        'Authorization':Authorization
-                    },
+            axios.patch(`${link}/change/pass`,{password:password},{
+                    headers:{
+                        'Authorization':Authorization   
+                    }
                 }
                 ).then(response => {
                     console.log(response.data)
