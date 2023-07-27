@@ -5,7 +5,6 @@ import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
-import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.errors.DictionaryNotCreatedException;
 import com.example.dictionary.util.ErrorResponse;
 import jakarta.validation.Valid;
@@ -111,12 +110,22 @@ public class DictionaryController {
         }
     }
 
-    @GetMapping("find/excluded-words")
+    @GetMapping("/find/excluded-words")
     public List<WordDTO> getAllWordsExcludedByDictionary(@RequestHeader("Authorization") String jwt,
                                                          @RequestParam (value = "page")int page,
                                                          @RequestParam (value = "items_per_page")int itemsPerPage){
         DictionaryDTO dictionary = getDictionaryByJwt(jwt);
         return dictionaryService.getAllWordsExcludedByDictionary(dictionary, page, itemsPerPage);
+    }
+
+    @GetMapping("/shared/{id}")
+    public DictionaryDTO getSharedDictionary(@PathVariable("id") String id){
+        return dictionaryService.findById(id);
+    }
+
+    @GetMapping("/share")
+    public String getSharingLink(@RequestHeader("Authorization") String jwt){
+        return dictionaryService.createSharingLink(jwt);
     }
 
     @ExceptionHandler

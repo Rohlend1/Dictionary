@@ -5,6 +5,7 @@ import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.repositories.DictionaryRepository;
+import com.example.dictionary.repositories.PersonRepository;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.errors.PersonNotExistsException;
@@ -12,26 +13,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
-    private final PersonService personService;
+    private final PersonRepository personRepository;
     private final Converter converter;
     private final WordService wordService;
-
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public DictionaryService(DictionaryRepository dictionaryRepository, PersonService personService, Converter converter, WordService wordService, JwtUtil jwtUtil) {
+    public DictionaryService(DictionaryRepository dictionaryRepository, PersonRepository personRepository, Converter converter, WordService wordService, JwtUtil jwtUtil) {
         this.dictionaryRepository = dictionaryRepository;
-        this.personService = personService;
+        this.personRepository = personRepository;
         this.converter = converter;
         this.wordService = wordService;
         this.jwtUtil = jwtUtil;
@@ -58,19 +55,29 @@ public class DictionaryService {
     @Transactional
     public void save(DictionaryDTO dictionaryDTO, String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        Person owner = personService.findByName(username);
+        Person owner = personRepository.findByUsername(username).orElseThrow(RuntimeException::new);
         Dictionary dictionary = converter.convertToDictionary(dictionaryDTO);
         dictionary.setOwner(owner.getId());
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }
 
+    public DictionaryDTO findById(String id){
+        Optional<Dictionary> dictionary = dictionaryRepository.findById(id);
+        dictionary.orElseThrow(RuntimeException::new);
+        return converter.convertToDictionaryDTO(dictionary.get());
+    }
+
+    public String createSharingLink(String jwt){
+        return findDictionaryJwt(jwt).getId();
+    }
+
     public DictionaryDTO findDictionaryJwt(String jwt){
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
-        if(!personService.checkIfExists(username)){
+        if(personRepository.findByUsername(username).isEmpty()){
             throw new PersonNotExistsException();
         }
-        Dictionary dictionary = dictionaryRepository.findDictionariesByOwner(personService.findByName(username).getId());
+        Dictionary dictionary = dictionaryRepository.findDictionariesByOwner(personRepository.findByUsername(username).orElseThrow(RuntimeException::new).getId());
         if(dictionary != null){
             return converter.convertToDictionaryDTO(dictionary);
         }

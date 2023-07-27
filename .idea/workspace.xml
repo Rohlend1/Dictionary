@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="fix WordController">
+    <list default="true" id="cb15bfd1-698c-4107-9b20-986acd44c55e" name="Changes" comment="refactoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/controllers/DictionaryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/example/dictionary/services/DictionaryService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,7 +252,10 @@
       <workItem from="1688159139110" duration="699000" />
       <workItem from="1690395949054" duration="59000" />
       <workItem from="1690396022007" duration="18000" />
-      <workItem from="1690396047933" duration="3113000" />
+      <workItem from="1690396047933" duration="3416000" />
+      <workItem from="1690449102330" duration="892000" />
+      <workItem from="1690464389347" duration="599000" />
+      <workItem from="1690481475122" duration="1608000" />
     </task>
     <task id="LOCAL-00001" summary="add searching by value and translate">
       <created>1683666606061</created>
@@ -541,7 +544,21 @@
       <option name="project" value="LOCAL" />
       <updated>1690398960696</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="refactoring">
+      <created>1690399691634</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1690399691634</updated>
+    </task>
+    <task id="LOCAL-00043" summary="refactoring">
+      <created>1690399744751</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1690399744751</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -574,7 +591,6 @@
     <MESSAGE value="fix logout function" />
     <MESSAGE value="refactoring and add tests" />
     <MESSAGE value="fix bug with rename account" />
-    <MESSAGE value="refactoring" />
     <MESSAGE value="add change password" />
     <MESSAGE value="add pagination" />
     <MESSAGE value="fix bug and refactoring" />
@@ -584,7 +600,8 @@
     <MESSAGE value="fix PersonService" />
     <MESSAGE value="add gitignore" />
     <MESSAGE value="fix WordController" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix WordController" />
+    <MESSAGE value="refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
