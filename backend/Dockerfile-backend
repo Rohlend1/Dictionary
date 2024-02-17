@@ -1,4 +1,4 @@
-FROM maven
+FROM maven:latest
 
 WORKDIR /app
 

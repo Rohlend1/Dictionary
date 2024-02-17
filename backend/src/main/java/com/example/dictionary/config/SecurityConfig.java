@@ -65,7 +65,7 @@ public class SecurityConfig {
             .and()
             .authenticationManager(authenticationManager)
             .authorizeHttpRequests()
-            .requestMatchers("/admin").hasRole("ADMIN")
+            .requestMatchers("/moderation").hasRole("ADMIN")
             .requestMatchers("/auth/login","/auth/registration","/errors").permitAll()
             .anyRequest().hasAnyRole("ADMIN","USER")
             .and()

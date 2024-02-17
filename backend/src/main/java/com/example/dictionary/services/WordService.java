@@ -1,9 +1,10 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.dto.WordDTO;
+import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.WordRepository;
 import com.example.dictionary.util.Converter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,18 +13,17 @@ import java.util.List;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class WordService {
     private final WordRepository wordRepository;
     private final Converter converter;
-
-    @Autowired
-    public WordService(WordRepository wordRepository, Converter converter) {
-        this.wordRepository = wordRepository;
-        this.converter = converter;
-    }
+    private final RedisService redisService;
 
     public List<WordDTO> findAll(){
+        if(redisService.get("main-page-1") == null) {
+            redisService.add("main-page-1", wordRepository.findAll());
+        }
         return wordRepository.findAll().stream().map(converter::convertToWordDTO).toList();
     }
 
@@ -50,5 +50,10 @@ public class WordService {
 
     public List<WordDTO> findByValue(String startsWith, List<WordDTO> words) {
         return findByStartsWith(startsWith, words, WordDTO::getValue);
+    }
+
+    @Transactional
+    public void saveAll(List<Word> words){
+        wordRepository.saveAll(words);
     }
 }

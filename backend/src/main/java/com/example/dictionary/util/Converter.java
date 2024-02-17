@@ -1,16 +1,16 @@
 package com.example.dictionary.util;
 
 
-import com.example.dictionary.dto.AuthenticationDTO;
-import com.example.dictionary.dto.DictionaryDTO;
-import com.example.dictionary.dto.PersonDTO;
-import com.example.dictionary.dto.WordDTO;
+import com.example.dictionary.dto.*;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
+import com.example.dictionary.entities.WordCard;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class Converter {
@@ -48,6 +48,22 @@ public class Converter {
 
     public Person convertToPerson(AuthenticationDTO authenticationDTO){
         return modelMapper.map(authenticationDTO,Person.class);
+    }
+
+    public List<WordCard> convertToWordCardList(List<WordCardDTO> wordCardDTOS){
+        return wordCardDTOS.stream().map(wordCardDTO -> modelMapper.map(wordCardDTO, WordCard.class)).toList();
+    }
+
+    public List<WordCardDTO> convertToWordCardDtoList(List<WordCard> wordCardList){
+        return wordCardList.stream().map(wordCard -> modelMapper.map(wordCard, WordCardDTO.class)).toList();
+    }
+
+    public WordCard convertToWordCard(WordCardDTO wordCardDto){
+        return modelMapper.map(wordCardDto, WordCard.class);
+    }
+
+    public WordCardDTO convertToWordCardDto(WordCard wordCard){
+        return modelMapper.map(wordCard, WordCardDTO.class);
     }
 
 }

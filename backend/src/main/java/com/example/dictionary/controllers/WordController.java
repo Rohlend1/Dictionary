@@ -17,6 +17,11 @@ public class WordController {
         this.wordService = wordService;
     }
 
+    @GetMapping
+    public List<WordDTO> showAllWords(@RequestHeader("Authorization")String jwt){
+        return wordService.findAll();
+    }
+
     @GetMapping("/find/all/pagination")
     public List<WordDTO> showAllWords(@RequestParam(value = "page")int page,
                                       @RequestParam(value = "items_per_page") int itemsPerPage){

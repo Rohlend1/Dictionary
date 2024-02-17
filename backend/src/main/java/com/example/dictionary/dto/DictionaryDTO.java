@@ -13,7 +13,7 @@ import java.util.List;
 public class DictionaryDTO {
 
     private String id;
-    
+
     @NotBlank(message = "Name can't be blank")
     private String name;
 
