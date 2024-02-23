@@ -49,7 +49,7 @@ services:
     networks:
       - spring-network
   redis:
-    image: redis:7-alpine
+    image: redis:7
     restart: always
     command: /bin/sh -c "redis-server --save 60 1 --requirepass $$REDIS_HOST_PASSWORD"
     env_file:

@@ -11,10 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-
-import static com.example.dictionary.util.CardStatus.CREATED;
 
 @Service
 @Transactional
@@ -23,14 +20,6 @@ public class WordCardService {
 
     private final WordCardRepository wordCardRepository;
     private final Converter converter;
-
-    public void save(WordCardDTO wordCardDto){
-        wordCardDto.setVotesAgainst(BigInteger.ZERO);
-        wordCardDto.setVotesFor(BigInteger.ZERO);
-        wordCardDto.setDecisionTime(LocalDateTime.now().plus(1, ChronoUnit.MINUTES));
-        wordCardDto.setStatus(CREATED);
-        wordCardRepository.save(converter.convertToWordCard(wordCardDto));
-    }
 
     @Transactional(readOnly = true)
     public List<WordCardDTO> findAll(){

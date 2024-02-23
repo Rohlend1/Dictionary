@@ -3,7 +3,6 @@ package com.example.dictionary.controllers;
 import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.services.WordService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/words")
-@Slf4j
 public class WordController {
 
     private final WordService wordService;
