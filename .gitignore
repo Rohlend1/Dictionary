@@ -55,3 +55,4 @@
 /backend/target/classes/com/example/dictionary/repositories/WordRepository.class
 /backend/words.txt
 /backend/target/classes/com/example/dictionary/services/WordService.class
+/backend/target/
