@@ -3,27 +3,26 @@ package com.example.dictionary.services;
 import com.example.dictionary.entities.Word;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RedisService {
 
-
-    private final RedisTemplate<String, Word> redisTemplate;
+    private final RedisTemplate<String, List<Word>> redisTemplate;
 
     @Resource(name = "redisTemplate")
-    private ListOperations<String, Word[]> listOps;
+    private ListOperations<String, List<Word>> listOps;
 
-    public void add(String key, Word[] value) {
-        listOps.leftPush(key, value);
+    public void add(String key, List<Word> value) {
+        listOps.leftPushAll(key, value);
     }
 
-    public Word[] get(String key) {
-        return listOps.leftPop(key);
+    public List<Word> get(String key) {
+        return redisTemplate.opsForList().leftPop(key);
     }
 }

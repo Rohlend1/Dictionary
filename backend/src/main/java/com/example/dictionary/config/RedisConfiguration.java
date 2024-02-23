@@ -12,6 +12,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.util.List;
+
 @Configuration
 public class RedisConfiguration {
 
@@ -27,8 +29,8 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public RedisTemplate<String, Word> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String, Word> template = new RedisTemplate<>();
+    public RedisTemplate<String, List<Word>> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate<String, List<Word>> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new ListWordRedisSerializer());
