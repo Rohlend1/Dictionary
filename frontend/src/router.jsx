@@ -3,6 +3,7 @@ import UserPage from "./components/UserPage"
 import Auth from "./components/Login"
 import Registration from "./components/Registration"
 import CreateDict from "./components/CreateDict"
+import Quizlet from "./components/Quizlet"
 const Router = () => {
     return <BrowserRouter>
         <Routes>
@@ -11,6 +12,7 @@ const Router = () => {
             <Route element={<Auth/>} path = '/login' />
             <Route element={<Registration/>} path = '/register' />
             <Route element={<CreateDict/>} path = '/dict/create' />
+            <Route element={<Quizlet/>} path = '/quizlet' />
             <Route path = '*' element = {<div>Страница не найдена</div>} />
         </Routes>
     </BrowserRouter>
