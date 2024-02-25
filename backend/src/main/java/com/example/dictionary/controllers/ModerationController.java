@@ -6,11 +6,7 @@ import com.example.dictionary.services.ModerationService;
 import com.example.dictionary.services.WordCardService;
 import com.example.dictionary.util.CardStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +26,10 @@ public class ModerationController {
     @PatchMapping
     public void moderate(@RequestBody CardModerationReq request){
         moderationService.changeWordCardStatus(request.getWord(), request.getTranslate());
+    }
+
+    @DeleteMapping
+    public void deleteWord(@RequestHeader("Authorization")String jwt, @RequestBody Long id){
+        moderationService.deleteWordById(id);
     }
 }
