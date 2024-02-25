@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useRef, useState} from 'react';
 import axios from 'axios';
 
 const Quizlet = () => {
@@ -6,6 +6,8 @@ const Quizlet = () => {
     const [score, setScore] = useState(0);
     const [selectedCard, setSelectedCard] = useState(null);
     const [gameStarted, setGameStarted] = useState(false);
+    const [roundEnded, setIsRoundEnded] = useState(false)
+    const quiz = useRef(null)
     let token = `Bearer ${localStorage.getItem("jwt")}`
 
     const fetchQuizData = async () => {
@@ -15,7 +17,7 @@ const Quizlet = () => {
                     Authorization: token,
                 },
             });
-
+            setIsRoundEnded(false)
             setData(response.data);
             setScore(0);
             setSelectedCard(null);
@@ -25,19 +27,22 @@ const Quizlet = () => {
         }
     };
 
-    const handleCardClick = (translate, isAnswer) => {
-        if (isAnswer) {
+    const handleCardClick = (item) => {
+        if (roundEnded) return
+        if (item.isAnswer) {
                 setScore((prevScore) => prevScore + 1);
-                document.body.style.backgroundColor = '#4caf50';
+                quiz.current.style.backgroundColor = 'rgba(0,133,5,0.7)';
+                setIsRoundEnded(true)
             } else {
-                document.body.style.backgroundColor = '#f44336';
+                quiz.current.style.backgroundColor = 'rgba(225,0,0,0.7)';
                 setScore(0);
+                setIsRoundEnded(true)
             }
-        setSelectedCard({translate, isAnswer})
+        setSelectedCard(item)
 
             setTimeout(() => {
-                document.body.style.backgroundColor = '';
-            }, 1000);
+                quiz.current.style.backgroundColor = '';
+            }, 700);
     };
 
     const renderCards = () => {
@@ -45,11 +50,11 @@ const Quizlet = () => {
             <div
                 key={index}
                 className={`card ${selectedCard && selectedCard.translate === item.translate ? 'selected' : ''}`}
-                onClick={() => handleCardClick(item.translate, item.isAnswer)}
+                onClick={() => handleCardClick(item)}
             >
                 <p className="value">{item.value}</p>
-                {(selectedCard && selectedCard.translate === item.translate) && (
-                    <div className="translate-container">
+                {(selectedCard && selectedCard.translate === item.translate || roundEnded) && (
+                    <div className={`translate-container ${roundEnded ? "show-translate" : ""}`}>
                         <p className="translate">{item.translate}</p>
                     </div>
                 )}
@@ -59,7 +64,7 @@ const Quizlet = () => {
 
     const getQuestionValue = () => {
         const answerItem = data.find((item) => item.isAnswer);
-        return answerItem ? `Как переводиться \"${answerItem.translate}\"?` : '';
+        return answerItem ? `Как переводится \"${answerItem.translate}\"?` : '';
     };
 
     const renderGameContent = () => {
@@ -81,7 +86,7 @@ const Quizlet = () => {
         }
 
         return (
-            <div>
+            <div ref={quiz} className="quiz-main-wrapper">
                 <p className="score-label">Счет: {score}</p>
                 <div className="quiz-container">
                     <div className="question-box">

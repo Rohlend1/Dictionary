@@ -7,13 +7,24 @@
     }
 }
 
+@keyframes scale {
+    from {
+        transform:scaleX(0);
+    }
+    to {
+        transform:scaleX(1);
+    }
+}
+
 #root {
     margin: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
 }
-
+p{
+    margin: 0;
+}
 .center-line {
     display: flex;
     justify-content: center;
@@ -727,11 +738,10 @@ code {
 
 .question-box {
     border: 2px solid #333;
-    padding: 10px;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
     width: 200px;
     text-align: center;
-    margin-bottom: 20px;
+    border-bottom: 0;
 }
 
 .question-value {
@@ -744,6 +754,9 @@ code {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
+    border: 2px solid black;
+    border-radius: 16px;
+    padding: 10px;
 }
 
 .card {
@@ -753,7 +766,6 @@ code {
     width: 120px;
     background-color: #f7f7f7;
     border-radius: 10px;
-    margin-top: 10px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
     position: relative;
@@ -780,12 +792,26 @@ code {
     background-color: rgba(255, 255, 255, 0.9); /* Задний фон с прозрачностью */
     transform: scaleX(0); /* Начальное значение scaleY (невидимо) */
     transform-origin: bottom center;
-    transition: transform 0.3s ease-in-out;
+    transition: transform .3s ease-in-out;
 }
 
-.card:hover .translate-container {
+.card:hover .show-translate {
     transform: scaleX(1); /* При наведении - разворачиваем */
+    animation: scale .3s ease-in-out;
 }
+
+.card-animate {
+
+}
+
+.quiz-main-wrapper {
+    justify-self: center;
+    align-self: center;
+    width: 500px;
+    height: 500px;
+    transition: background-color .3s ease;
+}
+
 
 .translate {
     margin: 0;
@@ -822,4 +848,12 @@ code {
     margin-top: 20px;
     display: flex;
     justify-content: center; /* Выравнивание по центру */
+}
+.quiz-game-wrapper {
+    height: fit-content;
+    width: 500px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid black;
 }

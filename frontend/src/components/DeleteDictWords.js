@@ -21,17 +21,6 @@ const DeleteDictWords = () => {
             console.error('Ошибка при получении данных словарей:', error);
         }
     };
-
-    // const fetchDictionaries = async () => {
-    //     try {
-    //         const response = await axios.get(`${link}/home`,{headers:{
-    //         'Authorization':Authorization
-    //     }
-    //     }); 
-    //     } catch (error) {
-    //         console.error('Ошибка при получении данных словарей:', error);
-    //     }
-    // };
     
     const sendDictionaties = async () => {
         if (dictWords !== []){
