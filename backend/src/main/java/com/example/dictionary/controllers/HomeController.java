@@ -7,12 +7,12 @@ import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
 import com.example.dictionary.util.Converter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("")
+@RequiredArgsConstructor
 public class HomeController {
 
     private final DictionaryService dictionaryService;
@@ -20,13 +20,6 @@ public class HomeController {
     private final Converter converter;
     private final JwtUtil jwtUtil;
 
-    @Autowired
-    public HomeController(DictionaryService dictionaryService, PersonService personService, Converter converter, JwtUtil jwtUtil) {
-        this.dictionaryService = dictionaryService;
-        this.personService = personService;
-        this.converter = converter;
-        this.jwtUtil = jwtUtil;
-    }
     @GetMapping("/home")
     public DictionaryDTO helloPage(@RequestHeader("Authorization") String jwt){
         return dictionaryService.findDictionaryJwt(jwt);

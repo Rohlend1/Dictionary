@@ -1,34 +1,40 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.dto.WordDTO;
+import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.WordRepository;
 import com.example.dictionary.util.Converter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
+import static com.example.dictionary.util.Constants.MAIN_PAGE_CACHE_KEY;
+
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class WordService {
     private final WordRepository wordRepository;
     private final Converter converter;
-
-    @Autowired
-    public WordService(WordRepository wordRepository, Converter converter) {
-        this.wordRepository = wordRepository;
-        this.converter = converter;
-    }
+    private final RedisService redisService;
 
     public List<WordDTO> findAll(){
-        return wordRepository.findAll().stream().map(converter::convertToWordDTO).toList();
+        if(redisService.get(MAIN_PAGE_CACHE_KEY) == null) {
+            redisService.add(MAIN_PAGE_CACHE_KEY, wordRepository.findAll());
+        }
+        List<Word> wordsArray = redisService.get(MAIN_PAGE_CACHE_KEY);
+        return Objects.requireNonNullElseGet(wordsArray,
+                wordRepository::findAll).stream().map(converter::convertToWordDTO).toList();
     }
 
     public List<WordDTO> findAllPagination(int page, int itemsPerPage){
-        return wordRepository.findAll(PageRequest.of(page,itemsPerPage)).getContent().stream().map(converter::convertToWordDTO).toList();
+        return wordRepository.findAll(PageRequest.of(page,itemsPerPage))
+                .getContent().stream().map(converter::convertToWordDTO).toList();
     }
 
     private boolean isNullOrEmpty(String str) {
@@ -50,5 +56,15 @@ public class WordService {
 
     public List<WordDTO> findByValue(String startsWith, List<WordDTO> words) {
         return findByStartsWith(startsWith, words, WordDTO::getValue);
+    }
+
+    @Transactional
+    public void save(Word word){
+        wordRepository.save(word);
+    }
+
+    @Transactional
+    public void saveAll(List<Word> words){
+        wordRepository.saveAll(words);
     }
 }

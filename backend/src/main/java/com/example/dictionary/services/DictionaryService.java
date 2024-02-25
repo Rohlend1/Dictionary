@@ -9,6 +9,7 @@ import com.example.dictionary.repositories.PersonRepository;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.errors.PersonNotExistsException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
@@ -77,13 +79,14 @@ public class DictionaryService {
         if(personRepository.findByUsername(username).isEmpty()){
             throw new PersonNotExistsException();
         }
+        log.info(personRepository.findByUsername(username).get().toString());
         Dictionary dictionary = dictionaryRepository.findDictionariesByOwner(personRepository.findByUsername(username).orElseThrow(RuntimeException::new).getId());
         if(dictionary != null){
             return converter.convertToDictionaryDTO(dictionary);
         }
         return null;
     }
-
+    
     @Transactional
     public void deleteWords(DictionaryDTO dictionary, List<WordDTO> words){
         List<WordDTO> remainingWords = getMismatchedWords(dictionary.getWords(), words);

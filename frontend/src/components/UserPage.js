@@ -9,6 +9,8 @@ import CreateDict from './CreateDict';
 import Loader from './Loader'
 import Alert from './Alert'
 import { useNavigate } from 'react-router-dom';
+import Quizlet from "./Quizlet";
+import quizlet from "./Quizlet";
 const UserPage = () => {
     const link = process.env.REACT_APP_LINK
     const navigate = useNavigate()
@@ -16,6 +18,7 @@ const UserPage = () => {
     const [showStateS,setShowStateS] = useState(false)
     const [showStateС,setShowStateС] = useState(false)
     const [showStateE,setShowStateE] = useState(false)
+    const [showStateQ,setShowStateQ] = useState(false)
     const [user,setUser] = useState(undefined)
     const [isLoading,setIsLoading] = useState(false)
     const [showAlert,setAlert] = useState(false)
@@ -95,7 +98,6 @@ const UserPage = () => {
         fetchDictionaries();
     }, []);
 
-    if (isLoading) return <Loader />
 
     return (
 
@@ -106,6 +108,8 @@ const UserPage = () => {
                 </Alert>
                 <Modal active={showStateS} setActive={setShowStateS} children={<AddDictWords/>}/>
                 <Modal active={showStateС} setActive={setShowStateС} children={<CreateDict/>}/>
+                <Modal children={<Quizlet/>} setActive={setShowStateQ} active={showStateQ}/>
+                <button className='button' onClick={()=>setShowStateQ(true)}>Сыграть в квиз</button>
                 {dictionaries.words && dictionaries.words.length > 0 ? (
                     <div className="profile-dictionary-section shadow">
                     <button className='button' onClick={()=>setShowStateS(true)}><FontAwesomeIcon icon={faPencil} /></button>
@@ -159,7 +163,7 @@ const UserPage = () => {
         <button className='button' onClick={()=>setShowStateS(true)}>Добавьте слова</button>
         </div>
     )}
-                
+
                   </div>
     );
 };
