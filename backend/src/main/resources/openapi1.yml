@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: API тестовое
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: SpringBootOpenApi
+    description: Description
+paths:
+  /hello/v1:
+    post:
+      summary: summary block
+      operationId: hello
+      tags:
+        - SpringBootOpenApi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelloReq'
+        required: true
+      responses:
+        '200':
+          description: ALL IS OK
+        '400':
+          description: BAD REQUEST
+components:
+  schemas:
+    HelloReq:
+      description: SOME DESC
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
