@@ -5,20 +5,20 @@ info:
 servers:
   - url: http://localhost:8080
 tags:
-  - name: SpringBootOpenApi
+  - name: AdminPanel
     description: Description
 paths:
-  /hello/v1:
-    post:
-      summary: summary block
-      operationId: hello
+  /moderate/v1:
+    patch:
+      summary: Запрос на смену статуса карточки со словом
+      operationId: moderate
       tags:
-        - SpringBootOpenApi
+        - AdminPanel
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/HelloReq'
+              $ref: '#/components/schemas/CardModerationReq'
         required: true
       responses:
         '200':
@@ -27,11 +27,11 @@ paths:
           description: BAD REQUEST
 components:
   schemas:
-    HelloReq:
+    CardModerationReq:
       description: SOME DESC
       type: object
       properties:
-        id:
-          type: integer
-        name:
+        word:
+          type: string
+        translate:
           type: string

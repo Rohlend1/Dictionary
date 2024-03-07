@@ -1,11 +1,11 @@
 package com.example.dictionary.controllers;
 
-import com.example.dictionary.dto.CardModerationReq;
 import com.example.dictionary.dto.WordCardDTO;
 import com.example.dictionary.services.ModerationService;
 import com.example.dictionary.services.WordCardService;
 import com.example.dictionary.util.CardStatus;
 import lombok.RequiredArgsConstructor;
+import org.example.dictionary.model.CardModerationReq;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

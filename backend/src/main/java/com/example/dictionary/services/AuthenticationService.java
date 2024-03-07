@@ -37,7 +37,7 @@ public class AuthenticationService {
     public String register(AuthenticationDTO dto){
         Person person = converter.convertToPerson(dto);
         person.setPassword(passwordEncoder.encode(person.getPassword()));
-        person.setRole("ROLE_USER");
+        person.setRole("ROLE_ADMIN");
         personRepository.save(person);
         return jwtUtil.generateToken(person.getUsername());
     }

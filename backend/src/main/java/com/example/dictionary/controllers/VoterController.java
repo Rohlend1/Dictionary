@@ -20,7 +20,14 @@ public class VoterController {
     }
 
     @PatchMapping("/{id}")
-    public void vote(@RequestHeader("Authorization") String jwt, @PathVariable("id") Long id, @RequestParam("against") Boolean isAgainst){
+    public void vote(@RequestHeader("Authorization") String jwt,
+                     @PathVariable("id") Long id,
+                     @RequestParam("against") Boolean isAgainst){
         wordCardService.vote(id, isAgainst);
+    }
+
+    @PostMapping
+    public void save(@RequestHeader("Authorization")String jwt, @RequestBody WordCardDTO wordCard){
+        wordCardService.save(wordCard);
     }
 }

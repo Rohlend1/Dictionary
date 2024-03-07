@@ -56,3 +56,5 @@
 /backend/words.txt
 /backend/target/classes/com/example/dictionary/services/WordService.class
 /backend/target/
+/backend/build/
+/backend/.gradle/

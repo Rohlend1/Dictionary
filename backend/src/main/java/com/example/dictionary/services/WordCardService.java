@@ -48,4 +48,8 @@ public class WordCardService {
     public List<WordCardDTO> findAllByStatus(CardStatus status){
         return converter.convertToWordCardDtoList(wordCardRepository.findAllByStatus(status));
     }
+
+    public void save(WordCardDTO wordCard){
+        wordCardRepository.save(converter.convertToWordCard(wordCard));
+    }
 }
