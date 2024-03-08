@@ -1,3 +1,5 @@
+import com.google.protobuf.gradle.id
+import org.gradle.kotlin.dsl.resolver.buildSrcSourceRootsFilePath
 import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
@@ -5,11 +7,14 @@ plugins {
     id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.openapi.generator") version "7.3.0"
+    id("com.google.protobuf") version "0.9.4"
 }
 
 group = "com.example"
 version = "1.0"
 val openApiGeneratingTasks = mutableListOf<GenerateTask>()
+val grpcVersion = "1.62.2" // CURRENT_GRPC_VERSION
+val protocVersion = "3.25.3"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -43,6 +48,47 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     testImplementation("junit:junit")
+    implementation("io.grpc:grpc-stub:${grpcVersion}")
+    runtimeOnly("io.grpc:grpc-netty-shaded:${grpcVersion}")
+    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+    implementation("io.grpc:protoc-gen-grpc-java:${grpcVersion}")
+    implementation("io.grpc:grpc-services:${grpcVersion}")
+    implementation("com.google.protobuf:protobuf-java:${protocVersion}")
+    compileOnly("org.apache.tomcat:annotations-api:6.0.53")
+    protobuf("com.google.protobuf:protoc:$protocVersion")
+    protobuf("io.grpc:protoc-gen-grpc-java:$grpcVersion")
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir("${projectDir}/src/main/java/com/example/dictionary/proto")
+        }
+    }
+}
+
+protobuf{
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protocVersion}"
+    }
+    plugins{
+        id("grpc"){
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+    generatedFilesBaseDir = "${buildDir}/generated/protobuf"
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                id("grpc")
+            }
+        }
+    }
 }
 
 val generateOpenApi by tasks.register<GenerateTask>("generateOpenApi"){
@@ -65,7 +111,8 @@ val generateOpenApi by tasks.register<GenerateTask>("generateOpenApi"){
         "delegatePattern" to "true",
         "skipDefaultInterface" to "true",
         "useTags" to "false",
-        "useJakartaEe" to "true")
+        "useJakartaEe" to "true",
+        "generateClientAsBean" to "true")
     )
     skipValidateSpec = true
 }
@@ -73,6 +120,8 @@ val generateOpenApi by tasks.register<GenerateTask>("generateOpenApi"){
 java.sourceSets["main"].java{
     srcDir("${buildDir}/generated/openapi/src/main/java")
 }
+
+
 
 val compileJava by tasks.getting(JavaCompile::class){
     options.encoding = "UTF-8"
