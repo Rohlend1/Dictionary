@@ -21,7 +21,7 @@ public class PersonService {
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public PersonService(PersonRepository personRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    public PersonService(PersonRepository personRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;

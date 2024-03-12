@@ -16,4 +16,6 @@ public interface WordCardRepository extends JpaRepository<WordCard, Long> {
     List<WordCard> findAllByStatus(CardStatus status);
 
     WordCard findAllByWordAndTranslate(String word, String translate);
+
+    List<WordCard> findAllByWord(String word);
 }

@@ -1,10 +1,10 @@
-FROM maven:latest
+FROM gradle:latest
 
 WORKDIR /app
 
 COPY . .
 
-RUN mvn clean package -DskipTests=true
+RUN gradle clean build -x test
 
 
 CMD ["java","-jar","target/backend.jar"]

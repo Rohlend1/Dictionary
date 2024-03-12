@@ -1,16 +1,20 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.dto.WordCardDTO;
+import com.example.dictionary.entities.Word;
 import com.example.dictionary.entities.WordCard;
 import com.example.dictionary.repositories.WordCardRepository;
+import com.example.dictionary.repositories.WordRepository;
 import com.example.dictionary.util.CardStatus;
 import com.example.dictionary.util.Converter;
+import com.example.dictionary.util.errors.NotUniqueEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -19,6 +23,7 @@ import java.util.List;
 public class WordCardService {
 
     private final WordCardRepository wordCardRepository;
+    private final WordRepository wordRepository;
     private final Converter converter;
 
     @Transactional(readOnly = true)
@@ -49,7 +54,14 @@ public class WordCardService {
         return converter.convertToWordCardDtoList(wordCardRepository.findAllByStatus(status));
     }
 
-    public void save(WordCardDTO wordCard){
-        wordCardRepository.save(converter.convertToWordCard(wordCard));
+    public void save(WordCardDTO wordCardDTO){
+        if(!wordCardRepository.findAllByWord(wordCardDTO.getWord()).isEmpty()
+                || !wordRepository.findAllByValue(wordCardDTO.getWord()).isEmpty()) {
+            throw new NotUniqueEntity("NOT UNIQUE WORD CARD");
+        }
+        WordCard wordCard = converter.convertToWordCard(wordCardDTO);
+        wordCard.setStatus(CardStatus.CREATED);
+        wordCard.setDecisionTime(LocalDateTime.now().plusDays(7));
+        wordCardRepository.save(wordCard);
     }
 }

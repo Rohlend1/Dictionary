@@ -36,16 +36,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5433:5432"
-    networks:
-      - spring-network
-  mongo:
-    image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_PASSWORD=mongo
-      - MONGO_INITDB_ROOT_USERNAME=mongo
-      - MONGO_INITDB_DATABASE=dictionary
-    ports:
-      - "27017:27017"
+    command: ["postgres", "-c", "shared_preload_libraries=pg_stat_statements"]
     networks:
       - spring-network
   redis:
@@ -58,6 +49,31 @@ services:
       - "6379:6379"
     networks:
       - spring-network
+  grafana:
+    build: './backend/config/grafana'
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend/config/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      monitoring:
+        aliases:
+          - grafana
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./backend/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    networks:
+      monitoring:
+        aliases:
+          - prometheus
 networks:
   spring-network:
     driver: bridge
+  monitoring:

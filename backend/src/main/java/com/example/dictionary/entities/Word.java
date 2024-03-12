@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Word {
     @Id
-    @Column(name = "id")
+    @Column(name = "word_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

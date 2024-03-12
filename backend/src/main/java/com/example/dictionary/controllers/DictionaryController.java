@@ -8,6 +8,7 @@ import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.errors.DictionaryNotCreatedException;
 import com.example.dictionary.util.ErrorResponse;
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/dict")
+@Log4j2
 public class DictionaryController {
 
     private final DictionaryService dictionaryService;
@@ -45,14 +47,14 @@ public class DictionaryController {
     }
 
 
-    @PostMapping("")
-    public ResponseEntity<HttpStatus> createDictionary(@RequestBody @Valid DictionaryDTO dictionaryDTO,
+    @PostMapping
+    public ResponseEntity<HttpStatus> createDictionary(@RequestBody DictionaryDTO dictionaryDTO,
                                                        BindingResult bindingResult,
                                                        @RequestHeader("Authorization") String jwt){
-
         if(bindingResult.hasErrors() || dictionaryService.findDictionaryJwt(jwt) != null){
             throw new DictionaryNotCreatedException("Incorrect data");
         }
+
         dictionaryService.save(dictionaryDTO, jwt);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -119,12 +121,12 @@ public class DictionaryController {
     }
 
     @GetMapping("/shared/{id}")
-    public DictionaryDTO getSharedDictionary(@PathVariable("id") String id){
+    public DictionaryDTO getSharedDictionary(@PathVariable("id") Long id){
         return dictionaryService.findById(id);
     }
 
     @GetMapping("/share")
-    public String getSharingLink(@RequestHeader("Authorization") String jwt){
+    public Long getSharingLink(@RequestHeader("Authorization") String jwt){
         return dictionaryService.createSharingLink(jwt);
     }
 

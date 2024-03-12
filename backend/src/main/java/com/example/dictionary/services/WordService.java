@@ -58,6 +58,10 @@ public class WordService {
         return findByStartsWith(startsWith, words, WordDTO::getValue);
     }
 
+    public List<Word> findByVal(String word) {
+        return wordRepository.findAllByValue(word);
+    }
+
     @Transactional
     public void save(Word word){
         wordRepository.save(word);

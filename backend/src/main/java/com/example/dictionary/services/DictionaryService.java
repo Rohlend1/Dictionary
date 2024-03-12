@@ -59,18 +59,18 @@ public class DictionaryService {
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         Person owner = personRepository.findByUsername(username).orElseThrow(RuntimeException::new);
         Dictionary dictionary = converter.convertToDictionary(dictionaryDTO);
-        dictionary.setOwner(owner.getId());
+        dictionary.setOwner(owner);
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }
 
-    public DictionaryDTO findById(String id){
+    public DictionaryDTO findById(Long id){
         Optional<Dictionary> dictionary = dictionaryRepository.findById(id);
         dictionary.orElseThrow(RuntimeException::new);
         return converter.convertToDictionaryDTO(dictionary.get());
     }
 
-    public String createSharingLink(String jwt){
+    public Long createSharingLink(String jwt){
         return findDictionaryJwt(jwt).getId();
     }
 

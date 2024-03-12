@@ -13,8 +13,9 @@ plugins {
 group = "com.example"
 version = "1.0"
 val openApiGeneratingTasks = mutableListOf<GenerateTask>()
-val grpcVersion = "1.62.2" // CURRENT_GRPC_VERSION
+val grpcVersion = "1.62.2"
 val protocVersion = "3.25.3"
+val osClassifier = "osx-x86_64"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -31,6 +32,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.3")
+    implementation("io.micrometer:micrometer-registry-prometheus:1.12.3")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
@@ -78,7 +81,7 @@ protobuf{
     }
     plugins{
         id("grpc"){
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
         }
     }
     generatedFilesBaseDir = "${buildDir}/generated/protobuf"
