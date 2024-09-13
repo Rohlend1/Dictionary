@@ -1,7 +1,6 @@
 package com.example.dictionary.repositories;
 
 import com.example.dictionary.entities.Dictionary;
-import com.example.dictionary.entities.Word;
 import com.example.dictionary.projections.WordsProjection;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -12,7 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface DictionaryRepository extends MongoRepository<Dictionary, String> {
-    Dictionary findDictionariesByOwner(Long ownerId);
 
     List<Dictionary> findAllByOwner(Long ownerId);
 
