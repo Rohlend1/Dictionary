@@ -11,6 +11,5 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     List<Word> findAllByValueEquals(String value);
     Word findByTranslateEquals(String translate);
-
     List<Word> findAllByValue(String word);
 }

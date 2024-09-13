@@ -1,7 +1,6 @@
 package com.example.dictionary.services;
 
 import com.example.dictionary.dto.WordCardDTO;
-import com.example.dictionary.entities.Word;
 import com.example.dictionary.entities.WordCard;
 import com.example.dictionary.repositories.WordCardRepository;
 import com.example.dictionary.repositories.WordRepository;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -41,8 +39,8 @@ public class WordCardService {
     }
 
     @Transactional(readOnly = true)
-    public List<WordCard> findAllByDecisionTimeBefore(LocalDateTime dateTime){
-        return wordCardRepository.findAllByDecisionTimeBefore(dateTime);
+    public List<WordCard> findAllForModeration(LocalDateTime dateTime){
+        return wordCardRepository.findAllByDecisionTimeBeforeAndStatus(dateTime, CardStatus.MODERATED);
     }
 
     public void deleteAll(List<WordCard> wordCards){

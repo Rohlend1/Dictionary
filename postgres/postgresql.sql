@@ -22,4 +22,4 @@ insert into person(username, password, role) values('admin','$2a$10$O2pPmmB.XLvr
 insert into word(translate,value) values('Лягушка','Frog'),('Бревно','Log'),('Топор','Axe'),('Кот','Cat'),('Дерево','Tree');
 create index bt_value_word_idx on Word(value);
 create index bt_value_card_idx on word_card(value);
-create index bt_decision_time_idx on word_card(decision_time) where status = 'ACCEPTED';
+create index bt_decision_time_idx on word_card(decision_time) where status = 'MODERATED';

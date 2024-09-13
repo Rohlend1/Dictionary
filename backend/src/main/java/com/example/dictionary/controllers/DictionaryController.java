@@ -7,7 +7,6 @@ import com.example.dictionary.services.PersonService;
 import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.errors.DictionaryNotCreatedException;
 import com.example.dictionary.util.ErrorResponse;
-import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -61,7 +60,7 @@ public class DictionaryController {
 
     @GetMapping("/find/my_dictionary")
     public DictionaryDTO showDictionary(@RequestHeader("Authorization") String jwt){
-        if(!personService.checkIfExists(jwt)){
+        if(!personService.checkIfExistsBy(jwt)){
             throw new RuntimeException();
         }
         return dictionaryService.findDictionaryJwt(jwt);

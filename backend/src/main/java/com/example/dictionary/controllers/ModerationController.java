@@ -5,7 +5,7 @@ import com.example.dictionary.services.ModerationService;
 import com.example.dictionary.services.WordCardService;
 import com.example.dictionary.util.CardStatus;
 import lombok.RequiredArgsConstructor;
-import org.example.dictionary.model.CardModerationReq;
+//import org.example.dictionary.model.CardModerationReq;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +23,10 @@ public class ModerationController {
         return wordCardService.findAllByStatus(CardStatus.CREATED);
     }
 
-    @PatchMapping
-    public void moderate(@RequestBody CardModerationReq request){
-        moderationService.changeWordCardStatus(request.getWord(), request.getTranslate());
-    }
+//    @PatchMapping
+//    public void moderate(@RequestBody CardModerationReq request){
+//        moderationService.changeWordCardStatus(request.getWord(), request.getTranslate());
+//    }
 
     @DeleteMapping
     public void deleteWord(@RequestHeader("Authorization")String jwt, @RequestBody Long id){
