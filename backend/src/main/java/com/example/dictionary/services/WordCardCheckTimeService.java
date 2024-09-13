@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.dictionary.util.CardStatus.MODERATED;
 import static com.example.dictionary.util.Constants.MAIN_PAGE_CACHE_KEY;
 
 @Service
@@ -22,14 +22,13 @@ public class WordCardCheckTimeService {
     private final WordService wordService;
     private final RedisService redisService;
 
-    //ToDo переделать, добавить транзакции
     @Async
     @Scheduled(fixedRate = 60000)
+    @Transactional
     public void acceptOrDeclineWordCard() {
-        List<WordCard> wordCards = wordCardService.findAllByDecisionTimeBefore(LocalDateTime.now())
+        List<WordCard> wordCards = wordCardService.findAllForModeration(LocalDateTime.now())
                 .stream().filter(wordCard ->
-                        0 < wordCard.getVotesFor().compareTo(wordCard.getVotesAgainst())
-                                && wordCard.getStatus().equals(MODERATED))
+                        0 < wordCard.getVotesFor().compareTo(wordCard.getVotesAgainst()))
                 .toList();
 
         List<Word> words = new ArrayList<>(wordCards
@@ -40,7 +39,6 @@ public class WordCardCheckTimeService {
                     word.setValue(wordCard.getWord());
                     return word;
                 }).toList());
-        wordCardService.deleteAll(wordCards);
         List<Word> redisWords = redisService.get(MAIN_PAGE_CACHE_KEY);
         if(redisWords == null){
             redisService.add(MAIN_PAGE_CACHE_KEY, words);
@@ -50,5 +48,6 @@ public class WordCardCheckTimeService {
             redisService.add(MAIN_PAGE_CACHE_KEY, words);
         }
         wordService.saveAll(words);
+        wordCardService.deleteAll(wordCards);
     }
 }

@@ -14,26 +14,16 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "Dictionary")
-@Entity
+@Document("Dictionary")
 public class Dictionary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dictionary_id")
+    @JsonIgnore
     private Long id;
 
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "dictionary_words",
-            inverseJoinColumns = {@JoinColumn(name = "dictionary_id")},
-            joinColumns = {@JoinColumn(name = "word_id")}
-    )
     private List<Word> words;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "owner_id", referencedColumnName = "person_id")
-    private Person owner;
+    private Long owner;
 }

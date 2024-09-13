@@ -31,7 +31,12 @@ public class Converter {
     }
 
     public DictionaryDTO convertToDictionaryDTO(Dictionary dictionary){
-        return modelMapper.map(dictionary,DictionaryDTO.class);
+        DictionaryDTO dictionaryDTO = new DictionaryDTO();
+        dictionaryDTO.setId(dictionary.getId());
+        dictionaryDTO.setName(dictionary.getName());
+        dictionaryDTO.setOwner(dictionary.getId());
+        dictionaryDTO.setWords(dictionary.getWords().stream().map(this::convertToWordDTO).toList());
+        return dictionaryDTO;
     }
 
     public Dictionary convertToDictionary(DictionaryDTO dictionaryDTO){

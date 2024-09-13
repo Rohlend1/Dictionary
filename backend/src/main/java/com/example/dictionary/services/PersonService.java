@@ -3,6 +3,7 @@ package com.example.dictionary.services;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.repositories.PersonRepository;
 import com.example.dictionary.security.JwtUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,8 @@ public class PersonService {
         personRepository.delete(person);
     }
 
-    public boolean checkIfExists(String username){
+    public boolean checkIfExistsBy(String token){
+        String username = jwtUtil.validateTokenAndRetrieveClaim(token.substring(7));
         return personRepository.findByUsername(username).isPresent();
     }
 

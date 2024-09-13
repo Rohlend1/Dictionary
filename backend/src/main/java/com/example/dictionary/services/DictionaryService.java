@@ -9,7 +9,7 @@ import com.example.dictionary.repositories.PersonRepository;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.errors.PersonNotExistsException;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
-@Slf4j
+@Log4j2
 public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
@@ -59,7 +59,7 @@ public class DictionaryService {
         String username = jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
         Person owner = personRepository.findByUsername(username).orElseThrow(RuntimeException::new);
         Dictionary dictionary = converter.convertToDictionary(dictionaryDTO);
-        dictionary.setOwner(owner);
+        dictionary.setOwner(owner.getId());
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }

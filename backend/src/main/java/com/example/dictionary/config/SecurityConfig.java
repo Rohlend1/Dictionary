@@ -52,6 +52,7 @@ public class SecurityConfig {
         auth.authenticationProvider(authenticationProvider());
         return auth.userDetailsService(personDetailsService).and().build();
     }
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 

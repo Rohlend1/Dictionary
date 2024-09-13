@@ -1,6 +1,5 @@
 import com.google.protobuf.gradle.id
-import org.gradle.kotlin.dsl.resolver.buildSrcSourceRootsFilePath
-import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+//import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
     java
@@ -12,7 +11,7 @@ plugins {
 
 group = "com.example"
 version = "1.0"
-val openApiGeneratingTasks = mutableListOf<GenerateTask>()
+//val openApiGeneratingTasks = mutableListOf<GenerateTask>()
 val grpcVersion = "1.62.2"
 val protocVersion = "3.25.3"
 val osClassifier = "osx-x86_64"
@@ -33,6 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.2.3")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("io.micrometer:micrometer-registry-prometheus:1.12.3")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -42,10 +42,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.modelmapper:modelmapper:3.1.1")
     implementation("com.auth0:java-jwt:4.4.0")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
+//    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
@@ -70,7 +69,7 @@ repositories {
 sourceSets {
     main {
         proto {
-            srcDir("${projectDir}/src/main/java/com/example/dictionary/proto")
+            srcDir("${projectDir}/../proto")
         }
     }
 }
@@ -94,32 +93,6 @@ protobuf{
     }
 }
 
-val generateOpenApi by tasks.register<GenerateTask>("generateOpenApi"){
-    generatorName.set("java")
-    inputSpec.set("${rootDir}/src/main/resources/openapi/openapi.yml")
-//    inputSpecRootDirectory.set("${project.projectDir}/src/main/resources/openapi")
-    outputDir.set("${buildDir}/generated/openapi")
-    templateDir.set("${projectDir}/src/main/resources/resttemplate")
-    library.set("resttemplate")
-    modelPackage.set("org.example.dictionary.model")
-    invokerPackage.set("org.example.dictionary.invoker")
-    apiPackage.set("org.example.dictionary.api")
-    generateApiTests.set(false)
-    generateModelTests.set(false)
-    generateModelDocumentation.set(false)
-
-    configOptions.set(
-        mapOf("interfaceOnly" to "false",
-        "sourceFolder" to "src/main/java",
-        "delegatePattern" to "true",
-        "skipDefaultInterface" to "true",
-        "useTags" to "false",
-        "useJakartaEe" to "true",
-        "generateClientAsBean" to "true")
-    )
-    skipValidateSpec = true
-}
-
 java.sourceSets["main"].java{
     srcDir("${buildDir}/generated/openapi/src/main/java")
 }
@@ -128,7 +101,7 @@ java.sourceSets["main"].java{
 
 val compileJava by tasks.getting(JavaCompile::class){
     options.encoding = "UTF-8"
-    dependsOn(generateOpenApi)
+//    dependsOn(generateOpenApi)
 }
 
 tasks.withType<Test> {

@@ -40,11 +40,6 @@ public class WordController {
         }
     }
 
-    @GetMapping("/byWord")
-    public List<Word> findWordsByVal(@RequestParam("word")String word){
-        return wordService.findByVal(word);
-    }
-
     @PostMapping
     public void save(@RequestHeader("Authorization") String jwt, @RequestBody Word word){
         wordService.save(word);
