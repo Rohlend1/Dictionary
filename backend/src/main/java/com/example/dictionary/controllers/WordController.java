@@ -33,10 +33,10 @@ public class WordController {
     public List<WordDTO> findWords(@RequestParam("starts_with") String startsWith,
                                           @RequestParam("by_translate")Boolean byTranslate){
         if(byTranslate == null || !byTranslate){
-            return wordService.findByValue(startsWith,wordService.findAll());
+            return wordService.findByValue(startsWith, wordService.findAll());
         }
         else{
-            return wordService.findByTranslate(startsWith,wordService.findAll());
+            return wordService.findByTranslate(startsWith, wordService.findAll());
         }
     }
 

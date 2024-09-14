@@ -25,7 +25,8 @@ public class WordService {
 
     public List<WordDTO> findAll(){
         if(redisService.get(MAIN_PAGE_CACHE_KEY) == null) {
-            redisService.add(MAIN_PAGE_CACHE_KEY, wordRepository.findAll());
+            redisService.add(MAIN_PAGE_CACHE_KEY,
+                    wordRepository.findAll(PageRequest.of(0, 10)).getContent());
         }
         List<Word> wordsArray = redisService.get(MAIN_PAGE_CACHE_KEY);
         return Objects.requireNonNullElseGet(wordsArray,

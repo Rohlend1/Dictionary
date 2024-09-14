@@ -11,9 +11,11 @@ import java.util.List;
 @Repository
 public interface WordCardRepository extends JpaRepository<WordCard, Long> {
 
-    List<WordCard> findAllByDecisionTimeBefore(LocalDateTime dateTime);
+    List<WordCard> findAllByDecisionTimeBeforeAndStatus(LocalDateTime dateTime, CardStatus status);
 
     List<WordCard> findAllByStatus(CardStatus status);
 
     WordCard findAllByWordAndTranslate(String word, String translate);
+
+    List<WordCard> findAllByWord(String word);
 }

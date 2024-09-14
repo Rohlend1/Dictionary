@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "word_card")
 public class WordCard {
 
     @Id
@@ -22,10 +23,13 @@ public class WordCard {
 
     private String link;
 
+    @Column(name = "votes_for")
     private BigInteger votesFor;
 
+    @Column(name = "votes_against")
     private BigInteger votesAgainst;
 
+    @Column(name = "decision_time")
     private LocalDateTime decisionTime;
 
     @Enumerated(EnumType.STRING)

@@ -52,6 +52,7 @@ public class SecurityConfig {
         auth.authenticationProvider(authenticationProvider());
         return auth.userDetailsService(personDetailsService).and().build();
     }
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -65,7 +66,7 @@ public class SecurityConfig {
             .authenticationManager(authenticationManager)
             .authorizeHttpRequests()
             .requestMatchers("/moderation").hasRole("ADMIN")
-            .requestMatchers("/auth/login","/auth/registration","/errors").permitAll()
+            .requestMatchers("/auth/login","/auth/registration","/errors", "/actuator/**").permitAll()
             .anyRequest().hasAnyRole("ADMIN","USER")
             .and()
             .exceptionHandling()

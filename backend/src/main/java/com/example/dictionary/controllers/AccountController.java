@@ -29,7 +29,7 @@ public class AccountController {
     @PatchMapping("/rename")
     public ResponseEntity<Map<String,String>> renameAccount(@RequestParam("new_name") String newName,
                                                     @RequestHeader("Authorization") String jwt){
-        if(personService.checkIfExists(newName)){
+        if(personService.checkIfExistsBy(newName)){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else{

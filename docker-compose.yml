@@ -7,8 +7,7 @@ services:
       dockerfile: Dockerfile-backend
     ports:
       - "8080:8080"
-    environment:
-      CHOKIDAR_USEPOLLING: "true"
+      - "8081:8081"
     networks:
       - spring-network
   frontend:
@@ -16,7 +15,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile-frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - CHOKIDAR_USEPOLLING=true
       - WATCHPACK_POLLING=true
@@ -37,6 +36,7 @@ services:
     ports:
       - "5433:5432"
     networks:
+      - monitoring
       - spring-network
   mongo:
     image: mongo
@@ -48,6 +48,38 @@ services:
       - "27017:27017"
     networks:
       - spring-network
+  elasticsearch:
+    image: elasticsearch:7.17.20
+    environment:
+      - cluster.name=dictionary-fts-cluster
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=elastic
+      - "ES_JAVA_OPTS=-Xmx1g -Xms1g"
+    ports:
+      - "9200:9200"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: curl -s http://localhost:9200 >/dev/null || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  kibana:
+    image: kibana:7.17.20
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=elastic
+    ports:
+      - '5601:5601'
   redis:
     image: redis:7
     restart: always
@@ -58,6 +90,41 @@ services:
       - "6379:6379"
     networks:
       - spring-network
+  grafana:
+    build: './backend/config/grafana'
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend/config/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      monitoring:
+        aliases:
+          - grafana
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./backend/config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    networks:
+      monitoring:
+        aliases:
+          - prometheus
+  postgres_exporter:
+    image: prometheuscommunity/postgres-exporter:v0.13.1
+    ports:
+      - "9187:9187"
+    environment:
+      - DATA_SOURCE_NAME=postgres://postgres:postgres@postgres:5432/dictionary_db?sslmode=disable
+    networks:
+      - spring-network
+      - monitoring
+
 networks:
   spring-network:
     driver: bridge
+  monitoring:

@@ -9,7 +9,7 @@ import com.example.dictionary.repositories.PersonRepository;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.errors.PersonNotExistsException;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
-@Slf4j
+@Log4j2
 public class DictionaryService {
 
     private final DictionaryRepository dictionaryRepository;
@@ -64,13 +64,13 @@ public class DictionaryService {
         dictionaryRepository.save(dictionary);
     }
 
-    public DictionaryDTO findById(String id){
+    public DictionaryDTO findById(Long id){
         Optional<Dictionary> dictionary = dictionaryRepository.findById(id);
         dictionary.orElseThrow(RuntimeException::new);
         return converter.convertToDictionaryDTO(dictionary.get());
     }
 
-    public String createSharingLink(String jwt){
+    public Long createSharingLink(String jwt){
         return findDictionaryJwt(jwt).getId();
     }
 

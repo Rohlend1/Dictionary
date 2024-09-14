@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package finder;
+
+option java_package = "org.example.dictionary.dict.finder";
+option java_multiple_files = true;
+option go_package = "go/grpc/server/gen";
+
+message FindExamplesRequest {
+  string text = 1;
+}
+
+message FindExampleResponse {
+  repeated DocumentInfo documents = 1;
+}
+
+message DocumentInfo{
+  optional string id = 1;
+  string text = 2;
+  string mainWord = 3;
+}
+
+enum FindExamplesErrorCode {
+  INVALID_WORD_VALUE = 0;
+  WORD_CANNOT_BE_NULL = 1;
+}
+
+message FindExamplesExceptionResponse {
+  google.protobuf.Timestamp timestamp = 1;
+  FindExamplesErrorCode error_code = 2;
+}
+
+service FindExamplesService {
+  // unary
+  rpc findExamples(FindExamplesRequest) returns (FindExampleResponse) {};
+}

@@ -10,16 +10,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document("Dictionary")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@Document("Dictionary")
 public class Dictionary {
 
     @Id
     @JsonIgnore
-    private String id;
+    private Long id;
 
     private String name;
 
