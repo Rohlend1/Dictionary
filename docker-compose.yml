@@ -40,6 +40,8 @@ services:
       - spring-network
   mongo:
     image: mongo
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
       - MONGO_INITDB_ROOT_PASSWORD=mongo
       - MONGO_INITDB_ROOT_USERNAME=mongo

@@ -12,7 +12,7 @@ import java.util.List;
 @EqualsAndHashCode
 public class DictionaryDTO {
 
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Name can't be blank")
     private String name;

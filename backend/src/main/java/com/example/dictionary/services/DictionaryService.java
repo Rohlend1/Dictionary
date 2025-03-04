@@ -70,7 +70,7 @@ public class DictionaryService {
         return converter.convertToDictionaryDTO(dictionary.get());
     }
 
-    public Long createSharingLink(String jwt){
+    public String createSharingLink(String jwt){
         return findDictionaryJwt(jwt).getId();
     }
 
