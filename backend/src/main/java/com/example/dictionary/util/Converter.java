@@ -34,7 +34,7 @@ public class Converter {
         DictionaryDTO dictionaryDTO = new DictionaryDTO();
         dictionaryDTO.setId(dictionary.getId());
         dictionaryDTO.setName(dictionary.getName());
-        dictionaryDTO.setOwner(dictionary.getId());
+        dictionaryDTO.setOwner(dictionary.getOwner());
         dictionaryDTO.setWords(dictionary.getWords().stream().map(this::convertToWordDTO).toList());
         return dictionaryDTO;
     }

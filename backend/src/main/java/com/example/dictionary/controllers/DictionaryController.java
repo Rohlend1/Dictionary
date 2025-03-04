@@ -124,10 +124,10 @@ public class DictionaryController {
         return dictionaryService.findById(id);
     }
 
-    @GetMapping("/share")
-    public Long getSharingLink(@RequestHeader("Authorization") String jwt){
-        return dictionaryService.createSharingLink(jwt);
-    }
+//    @GetMapping("/share")
+//    public Long getSharingLink(@RequestHeader("Authorization") String jwt){
+//        return dictionaryService.createSharingLink(jwt);
+//    }
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> exceptionHandler(DictionaryNotCreatedException e){

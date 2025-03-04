@@ -103,9 +103,9 @@ const Quizlet = () => {
         );
     };
     return (
-        <div>
+        <>
             {renderGameContent()}
-        </div>
+        </>
     );
 };
 

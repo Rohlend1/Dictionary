@@ -1,5 +1,4 @@
 import com.google.protobuf.gradle.id
-//import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 
 plugins {
     java
