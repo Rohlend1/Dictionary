@@ -49,8 +49,9 @@ public class DictionaryService {
 
     @Transactional
     public void addNewWordToDictionary(List<WordDTO> newWords,DictionaryDTO dictionary){
-        List<WordDTO> remainingWords = getMismatchedWords(newWords, dictionary.getWords());
-        dictionary.getWords().addAll(remainingWords);
+        List<WordDTO> modifiableWords = new ArrayList<>(dictionary.getWords());
+        modifiableWords.addAll(getMismatchedWords(newWords, dictionary.getWords()));
+        dictionary.setWords(modifiableWords);
         dictionaryRepository.save(converter.convertToDictionary(dictionary));
     }
 
