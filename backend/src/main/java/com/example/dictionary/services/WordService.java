@@ -23,26 +23,26 @@ public class WordService {
     private final Converter converter;
     private final RedisService redisService;
 
-    public List<WordDTO> findAll(){
-        if(redisService.get(MAIN_PAGE_CACHE_KEY) == null) {
+    public List<Word> findAll() {
+        if (redisService.get(MAIN_PAGE_CACHE_KEY) == null) {
             redisService.add(MAIN_PAGE_CACHE_KEY,
                     wordRepository.findAll(PageRequest.of(0, 10)).getContent());
         }
         List<Word> wordsArray = redisService.get(MAIN_PAGE_CACHE_KEY);
         return Objects.requireNonNullElseGet(wordsArray,
-                wordRepository::findAll).stream().map(converter::convertToWordDTO).toList();
+                wordRepository::findAll);
     }
 
-    public List<WordDTO> findAllPagination(int page, int itemsPerPage){
-        return wordRepository.findAll(PageRequest.of(page,itemsPerPage))
-                .getContent().stream().map(converter::convertToWordDTO).toList();
+    public List<Word> findAllPagination(int page, int itemsPerPage) {
+        return wordRepository.findAll(PageRequest.of(page, itemsPerPage))
+                .getContent();
     }
 
     private boolean isNullOrEmpty(String str) {
         return str == null || str.isBlank();
     }
 
-    private List<WordDTO> findByStartsWith(String startsWith, List<WordDTO> words, Function<WordDTO, String> getField) {
+    private List<Word> findByStartsWith(String startsWith, List<Word> words, Function<Word, String> getField) {
         if (isNullOrEmpty(startsWith)) {
             return words;
         }
@@ -51,21 +51,22 @@ public class WordService {
                 .toList();
     }
 
-    public List<WordDTO> findByTranslate(String startsWith, List<WordDTO> words) {
-        return findByStartsWith(startsWith, words, WordDTO::getTranslate);
-    }
-
-    public List<WordDTO> findByValue(String startsWith, List<WordDTO> words) {
-        return findByStartsWith(startsWith, words, WordDTO::getValue);
+    public List<Word> findBy(String startsWith, List<Word> words, boolean byTranslate) {
+        if (byTranslate) {
+            return findByStartsWith(startsWith, words, Word::getTranslate);
+        }
+        else {
+            return findByStartsWith(startsWith, words, Word::getValue);
+        }
     }
 
     @Transactional
-    public void save(Word word){
+    public void save(Word word) {
         wordRepository.save(word);
     }
 
     @Transactional
-    public void saveAll(List<Word> words){
+    public void saveAll(List<Word> words) {
         wordRepository.saveAll(words);
     }
 }

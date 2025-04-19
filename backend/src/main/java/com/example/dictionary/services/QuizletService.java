@@ -2,6 +2,7 @@ package com.example.dictionary.services;
 
 import com.example.dictionary.dto.QuizCardDTO;
 import com.example.dictionary.dto.WordDTO;
+import com.example.dictionary.entities.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,12 @@ public class QuizletService {
     private final WordService wordService;
 
     public List<QuizCardDTO> createQuiz() {
-        List<WordDTO> words = wordService.findAll();
+        List<Word> words = wordService.findAll();
         Random rand = new Random();
         List<QuizCardDTO> resultQuiz = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             QuizCardDTO quizCardDTO = new QuizCardDTO();
-            WordDTO word = words.get(rand.nextInt(words.size()));
+            Word word = words.get(rand.nextInt(words.size()));
             quizCardDTO.setIsAnswer(false);
             quizCardDTO.setTranslate(word.getTranslate());
             quizCardDTO.setValue(word.getValue());

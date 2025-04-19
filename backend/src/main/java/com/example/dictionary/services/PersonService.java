@@ -40,6 +40,10 @@ public class PersonService {
         personRepository.save(person);
     }
 
+    public String getUsername(String jwt){
+        return jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7));
+    }
+
     @Transactional
     public void renameUser(String newUsername, String jwt){
         Person person = findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
@@ -52,7 +56,7 @@ public class PersonService {
     }
 
     public boolean checkIfExistsBy(String token){
-        String username = jwtUtil.validateTokenAndRetrieveClaim(token.substring(7));
+        String username = getUsername(token);
         return personRepository.findByUsername(username).isPresent();
     }
 
@@ -62,7 +66,12 @@ public class PersonService {
 
     @Transactional
     public void changePassword(String newPassword, String jwt){
-        Person person = findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
+        Person person = findByName(getUsername(jwt));
         person.setPassword(passwordEncoder.encode(newPassword));
+    }
+
+    public long retrieveUserId(String jwt){
+        String username = getUsername(jwt);
+        return personRepository.getUserId(username);
     }
 }

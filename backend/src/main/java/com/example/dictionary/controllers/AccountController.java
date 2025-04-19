@@ -1,6 +1,7 @@
 package com.example.dictionary.controllers;
 
 import com.example.dictionary.dto.DictionaryDTO;
+import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,10 +44,7 @@ public class AccountController {
     @DeleteMapping("/delete")
     public void deleteAccount(@RequestHeader("Authorization") String jwt){
         Person person = personService.findByName(jwtUtil.validateTokenAndRetrieveClaim(jwt.substring(7)));
-        DictionaryDTO dictionary = dictionaryService.findDictionaryByOwner(person.getId());
-        if(dictionary!=null) {
-            dictionaryService.deleteDictionary(dictionary);
-        }
+        dictionaryService.deleteDictionaries(person.getId());
         personService.deleteUser(person);
     }
 
