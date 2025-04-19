@@ -67,7 +67,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/moderation").hasRole("ADMIN")
                 .requestMatchers("/auth/login", "/auth/registration", "/errors", "/actuator/**", "/swagger-ui/**",
-                        "/swagger-ui.html").permitAll()
+                        "/swagger-ui.html",
+                        "/v3/api-docs/**").permitAll()
                 //todo поправить доступ к actuator и swagger
                 .anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
