@@ -1,7 +1,7 @@
 package com.example.dictionary.controllers;
 
 
-import com.example.dictionary.dto.DictionaryDTO;
+import com.example.dictionary.dto.DictionaryMetaDTO;
 import com.example.dictionary.dto.PersonDTO;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
@@ -23,7 +23,7 @@ public class HomeController {
     private final JwtUtil jwtUtil;
 
     @GetMapping("/home")
-    public List<DictionaryDTO> helloPage(@RequestHeader("Authorization") String jwt){
+    public List<DictionaryMetaDTO> helloPage(@RequestHeader("Authorization") String jwt){
         return dictionaryService.findAll(jwt);
     }
     @GetMapping("/me")

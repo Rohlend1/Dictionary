@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class AddWordsRequest {
     @NotNull
-    String dictId;
+    private String dictId;
     @NotNull
-    List<WordDTO> words;
+    private List<WordDTO> words;
 }

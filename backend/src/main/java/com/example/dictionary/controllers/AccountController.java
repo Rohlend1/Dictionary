@@ -1,7 +1,5 @@
 package com.example.dictionary.controllers;
 
-import com.example.dictionary.dto.DictionaryDTO;
-import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.services.DictionaryService;
@@ -11,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController

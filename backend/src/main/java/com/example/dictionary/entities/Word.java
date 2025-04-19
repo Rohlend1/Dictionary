@@ -28,6 +28,4 @@ public class Word {
 
     @Column(name = "translate")
     private String translate;
-
-    private String examples;
 }

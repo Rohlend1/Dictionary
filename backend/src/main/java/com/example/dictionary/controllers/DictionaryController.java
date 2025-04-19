@@ -1,14 +1,19 @@
 package com.example.dictionary.controllers;
 
-import com.example.dictionary.dto.DictionaryDTO;
+import com.example.dictionary.dto.DictionaryDetailsDto;
+import com.example.dictionary.dto.DictionaryMetaDTO;
+import com.example.dictionary.dto.SharedDictionaryDto;
 import com.example.dictionary.dto.WordDTO;
+import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.requests.AddWordsRequest;
+import com.example.dictionary.requests.CreateSharingLinkRequest;
 import com.example.dictionary.requests.DeleteDictRequest;
 import com.example.dictionary.requests.DeleteWordsRequest;
 import com.example.dictionary.requests.RenameDictRequest;
 import com.example.dictionary.services.DictionaryService;
 import com.example.dictionary.services.PersonService;
+import com.example.dictionary.services.ShareService;
 import com.example.dictionary.services.WordService;
 import com.example.dictionary.util.Converter;
 import com.example.dictionary.util.ErrorResponse;
@@ -23,6 +28,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,13 +47,15 @@ public class DictionaryController {
     private final PersonService personService;
     private final WordService wordService;
     private final Converter converter;
+    private final ShareService shareService;
 
     @Autowired
-    public DictionaryController(DictionaryService dictionaryService, PersonService personService, WordService wordService, Converter converter) {
+    public DictionaryController(DictionaryService dictionaryService, PersonService personService, WordService wordService, Converter converter, ShareService shareService) {
         this.dictionaryService = dictionaryService;
         this.personService = personService;
         this.wordService = wordService;
         this.converter = converter;
+        this.shareService = shareService;
     }
 
     @GetMapping("/words")
@@ -60,7 +68,7 @@ public class DictionaryController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> createDictionary(@RequestHeader("Authorization") String jwt,
-                                                       @RequestBody DictionaryDTO dictionaryDTO,
+                                                       @RequestBody DictionaryMetaDTO dictionaryDTO,
                                                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new DictionaryNotCreatedException("Incorrect data");
@@ -75,11 +83,23 @@ public class DictionaryController {
     }
 
     @GetMapping("/all")
-    public List<DictionaryDTO> getDictionaries(@RequestHeader("Authorization") String jwt) {
+    public List<DictionaryMetaDTO> getDictionaries(@RequestHeader("Authorization") String jwt) {
         if (!personService.checkIfExistsBy(jwt)) {
             throw new RuntimeException();
         }
         return dictionaryService.findAll(jwt);
+    }
+
+    @GetMapping("/shared/{hashedOwnerId}/{token}")
+    public SharedDictionaryDto getSharedDictionary(@RequestHeader("Authorization") String jwt,
+                                                   @PathVariable("hashedOwnerId") Long hashedOwnerId,
+                                                   @PathVariable("token") String token) {
+        Dictionary dictionary = dictionaryService.findSharedDict(token, hashedOwnerId);
+        if(shareService.checkIsAllowed(hashedOwnerId, dictionary.getOwner())){
+            return converter.convertToSharedDictionaryDto(dictionary);
+        }
+        //todo перенести в конвертер shared
+        throw new RuntimeException();
     }
 
     @PostMapping("/add/words")
@@ -130,15 +150,17 @@ public class DictionaryController {
         return dictionaryService.findAllWordsExcludedByDictionary(dictId, page, itemsPerPage);
     }
 
-    @GetMapping("/shared")
-    public DictionaryDTO getSharedDictionary(@RequestParam("dict_id") String dictId) {
-        return dictionaryService.findById(dictId);
+    @PostMapping("/share")
+    public String getSharingLink(@RequestHeader("Authorization") String jwt, @RequestBody CreateSharingLinkRequest req){
+        DictionaryMetaDTO dictionaryDTO = dictionaryService.findById(req.getDictId());
+        return shareService.createSharingLink(dictionaryDTO);
     }
 
-//    @GetMapping("/share")
-//    public Long getSharingLink(@RequestHeader("Authorization") String jwt){
-//        return dictionaryService.createSharingLink(jwt);
-//    }
+    @GetMapping("/{dictId}")
+    public DictionaryDetailsDto getDictionaryDetails(@RequestHeader("Authorization") String jwt,
+                                                     @PathVariable("dictId") String dictId){
+        return converter.convertToDictionaryDetailsDto(dictionaryService.getDictionaryDetails(dictId));
+    }
 
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> exceptionHandler(DictionaryNotCreatedException e) {
