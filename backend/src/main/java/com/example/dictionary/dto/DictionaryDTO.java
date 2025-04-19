@@ -17,8 +17,5 @@ public class DictionaryDTO {
     @NotBlank(message = "Name can't be blank")
     private String name;
 
-    @EqualsAndHashCode.Exclude
-    private List<WordDTO> words;
-
     private Long owner;
 }

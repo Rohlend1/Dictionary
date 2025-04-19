@@ -10,6 +10,8 @@ import com.example.dictionary.util.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +23,8 @@ public class HomeController {
     private final JwtUtil jwtUtil;
 
     @GetMapping("/home")
-    public DictionaryDTO helloPage(@RequestHeader("Authorization") String jwt){
-        return dictionaryService.findDictionaryJwt(jwt);
+    public List<DictionaryDTO> helloPage(@RequestHeader("Authorization") String jwt){
+        return dictionaryService.findAll(jwt);
     }
     @GetMapping("/me")
     public PersonDTO showMe(@RequestHeader("Authorization") String jwt){

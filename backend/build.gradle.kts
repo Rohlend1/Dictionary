@@ -2,15 +2,13 @@ import com.google.protobuf.gradle.id
 
 plugins {
     java
-    id("org.springframework.boot") version "3.2.3"
-    id("io.spring.dependency-management") version "1.1.4"
-    id("org.openapi.generator") version "7.3.0"
+    id("org.springframework.boot") version "3.4.4"
+    id("io.spring.dependency-management") version "1.1.7"
     id("com.google.protobuf") version "0.9.4"
 }
 
 group = "com.example"
 version = "1.0"
-//val openApiGeneratingTasks = mutableListOf<GenerateTask>()
 val grpcVersion = "1.62.2"
 val protocVersion = "3.25.3"
 val osClassifier = "osx-x86_64"
@@ -41,9 +39,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.modelmapper:modelmapper:3.1.1")
     implementation("com.auth0:java-jwt:4.4.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-    implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
-//    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.6")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
@@ -96,11 +93,8 @@ java.sourceSets["main"].java{
     srcDir("${buildDir}/generated/openapi/src/main/java")
 }
 
-
-
 val compileJava by tasks.getting(JavaCompile::class){
     options.encoding = "UTF-8"
-//    dependsOn(generateOpenApi)
 }
 
 tasks.withType<Test> {

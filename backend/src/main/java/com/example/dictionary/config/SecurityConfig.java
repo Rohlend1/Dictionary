@@ -35,12 +35,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder getPasswordEncoder(){
+    PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(personDetailsService);
         return daoAuthenticationProvider;
@@ -59,35 +59,37 @@ public class SecurityConfig {
         AuthenticationManager authenticationManager = authenticationManager(http);
 
         http
-            .csrf()
-            .disable()
-            .cors()
-            .and()
-            .authenticationManager(authenticationManager)
-            .authorizeHttpRequests()
-            .requestMatchers("/moderation").hasRole("ADMIN")
-            .requestMatchers("/auth/login","/auth/registration","/errors", "/actuator/**").permitAll()
-            .anyRequest().hasAnyRole("ADMIN","USER")
-            .and()
-            .exceptionHandling()
-            .authenticationEntryPoint(
-                    (request, response, authException)
-                            -> response.sendError(
-                            HttpServletResponse.SC_UNAUTHORIZED,
-                            authException.getLocalizedMessage()
-                    )
-            )
-            .and()
-            .logout()
-            .logoutUrl("/logout")
+                .csrf()
+                .disable()
+                .cors()
+                .and()
+                .authenticationManager(authenticationManager)
+                .authorizeHttpRequests()
+                .requestMatchers("/moderation").hasRole("ADMIN")
+                .requestMatchers("/auth/login", "/auth/registration", "/errors", "/actuator/**", "/swagger-ui/**",
+                        "/swagger-ui.html").permitAll()
+                //todo поправить доступ к actuator и swagger
+                .anyRequest().hasAnyRole("ADMIN", "USER")
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(
+                        (request, response, authException)
+                                -> response.sendError(
+                                HttpServletResponse.SC_UNAUTHORIZED,
+                                authException.getLocalizedMessage()
+                        )
+                )
+                .and()
+                .logout()
+                .logoutUrl("/logout")
                 .logoutSuccessHandler(((request, response, authentication) -> {
                     SecurityContextHolder.clearContext();
                     response.setStatus(HttpServletResponse.SC_OK);
                 }))
-            .logoutSuccessUrl("/auth/login")
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .logoutSuccessUrl("/auth/login")
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
