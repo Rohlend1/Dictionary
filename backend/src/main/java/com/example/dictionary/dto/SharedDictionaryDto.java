@@ -1,6 +1,6 @@
 package com.example.dictionary.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +10,8 @@ import java.util.List;
 @Setter
 @Getter
 @EqualsAndHashCode
-public class DictionaryDTO {
-
-    private String id;
-
-    @NotBlank(message = "Name can't be blank")
+@AllArgsConstructor
+public class SharedDictionaryDto {
+    private List<WordDTO> words;
     private String name;
-
-    private Long owner;
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class DeleteDictRequest {
+public class CreateSharingLinkRequest {
     @NotNull
     private String dictId;
 }

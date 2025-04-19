@@ -30,15 +30,15 @@ public class Converter {
         return modelMapper.map(personDTO,Person.class);
     }
 
-    public DictionaryDTO convertToDictionaryDTO(Dictionary dictionary){
-        DictionaryDTO dictionaryDTO = new DictionaryDTO();
+    public DictionaryMetaDTO convertToDictionaryDTO(Dictionary dictionary){
+        DictionaryMetaDTO dictionaryDTO = new DictionaryMetaDTO();
         dictionaryDTO.setId(dictionary.getId());
         dictionaryDTO.setName(dictionary.getName());
         dictionaryDTO.setOwner(dictionary.getOwner());
         return dictionaryDTO;
     }
 
-    public Dictionary convertToDictionary(DictionaryDTO dictionaryDTO){
+    public Dictionary convertToDictionary(DictionaryMetaDTO dictionaryDTO){
         return modelMapper.map(dictionaryDTO,Dictionary.class);
     }
 
@@ -70,4 +70,11 @@ public class Converter {
         return modelMapper.map(wordCard, WordCardDTO.class);
     }
 
+    public DictionaryDetailsDto convertToDictionaryDetailsDto(Dictionary dictionary){
+        return modelMapper.map(dictionary, DictionaryDetailsDto.class);
+    }
+
+    public SharedDictionaryDto convertToSharedDictionaryDto(Dictionary dictionary){
+        return modelMapper.map(dictionary, SharedDictionaryDto.class);
+    }
 }

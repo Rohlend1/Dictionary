@@ -1,10 +1,11 @@
 package com.example.dictionary.services;
 
-import com.example.dictionary.dto.DictionaryDTO;
+import com.example.dictionary.dto.DictionaryMetaDTO;
 import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
+import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,16 @@ public class DictionaryService {
     private final PersonService personService;
     private final Converter converter;
     private final WordService wordService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     public DictionaryService(DictionaryRepository dictionaryRepository,
-                             Converter converter, WordService wordService, PersonService personService) {
+                             Converter converter, WordService wordService, PersonService personService, JwtUtil jwtUtil) {
         this.dictionaryRepository = dictionaryRepository;
         this.converter = converter;
         this.wordService = wordService;
         this.personService = personService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Transactional
@@ -86,7 +89,7 @@ public class DictionaryService {
     }
 
     @Transactional
-    public void save(DictionaryDTO dictionaryDTO, String jwt) {
+    public void save(DictionaryMetaDTO dictionaryDTO, String jwt) {
         Long ownerId = personService.retrieveUserId(jwt);
         Dictionary dictionary = converter.convertToDictionary(dictionaryDTO);
         dictionary.setOwner(ownerId);
@@ -94,26 +97,26 @@ public class DictionaryService {
         dictionaryRepository.save(dictionary);
     }
 
-    public DictionaryDTO findById(String dictId) {
+    public DictionaryMetaDTO findById(String dictId) {
         Optional<Dictionary> dictionary = dictionaryRepository.findById(dictId);
         dictionary.orElseThrow(RuntimeException::new);
         return converter.convertToDictionaryDTO(dictionary.get());
     }
-
-    public List<DictionaryDTO> findAll(String jwt) {
+    //todo Избавиться от всех конвертеров в бизнес слое
+    public List<DictionaryMetaDTO> findAll(String jwt) {
         Long ownerId = personService.retrieveUserId(jwt);
         List<Dictionary> dictionaries = dictionaryRepository.findAllByOwner(ownerId);
         return dictionaries.stream().map(converter::convertToDictionaryDTO).toList();
     }
 
+    public Dictionary findSharedDict(String token, Long hashedOwnerId) {
+        String dictId = jwtUtil.validateSharedTokenAndRetrieveClaim(token);
+        return dictionaryRepository.findById(dictId).orElseThrow();
+    }
+
     public List<String> findAllDictIds(Long userId) {
         return dictionaryRepository.findAllDictIds(userId);
     }
-
-//    public String createSharingLink(String jwt) {
-//        return findDictionaryJwt(jwt).getId();
-//    }
-
 
     public List<Word> findAllWordsByDict(String dictId) {
         return dictionaryRepository.findWordsById(dictId).orElseThrow().getWords();
@@ -142,5 +145,9 @@ public class DictionaryService {
         }
         return checkableWords.stream()
                 .filter(word -> !filterValues.containsKey(word.getValue())).toList();
+    }
+
+    public Dictionary getDictionaryDetails(String dictId){
+        return dictionaryRepository.findById(dictId).orElseThrow();
     }
 }
