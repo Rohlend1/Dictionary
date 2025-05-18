@@ -3,9 +3,13 @@ package com.example.dictionary.entities;
 import com.example.dictionary.util.CardStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.descriptor.java.LongPrimitiveArrayJavaType;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -34,4 +38,7 @@ public class WordCard {
 
     @Enumerated(EnumType.STRING)
     private CardStatus status;
+
+    @ElementCollection
+    private Set<Long> voters;
 }

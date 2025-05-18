@@ -29,13 +29,14 @@ public class WordCardService {
         return converter.convertToWordCardDtoList(wordCardRepository.findAll());
     }
 
-    public void vote(Long id, Boolean isAgainst){
+    public void vote(Long id, Long userId, Boolean isAgainst){
         WordCard wordCard = wordCardRepository.findById(id).orElseThrow(RuntimeException::new);
         if (isAgainst) {
             wordCard.setVotesAgainst(getVotesSafety(wordCard.getVotesAgainst()).add(BigInteger.ONE));
         } else {
             wordCard.setVotesFor(getVotesSafety(wordCard.getVotesAgainst()).add(BigInteger.ONE));
         }
+        wordCard.getVoters().add(userId);
     }
 
     @Transactional(readOnly = true)

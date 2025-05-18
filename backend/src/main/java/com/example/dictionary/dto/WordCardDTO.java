@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,4 +32,7 @@ public class WordCardDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private CardStatus status;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<Long> voters;
 }
