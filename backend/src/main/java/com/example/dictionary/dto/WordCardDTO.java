@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @Setter
 public class WordCardDTO {
 
+    private Long id;
+
     private String word;
 
     private String translate;
