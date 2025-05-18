@@ -32,9 +32,9 @@ public class WordCardService {
     public void vote(Long id, Boolean isAgainst){
         WordCard wordCard = wordCardRepository.findById(id).orElseThrow(RuntimeException::new);
         if (isAgainst) {
-            wordCard.setVotesAgainst(wordCard.getVotesAgainst().add(BigInteger.ONE));
+            wordCard.setVotesAgainst(getVotesSafety(wordCard.getVotesAgainst()).add(BigInteger.ONE));
         } else {
-            wordCard.setVotesFor(wordCard.getVotesAgainst().add(BigInteger.ONE));
+            wordCard.setVotesFor(getVotesSafety(wordCard.getVotesAgainst()).add(BigInteger.ONE));
         }
     }
 
@@ -61,5 +61,9 @@ public class WordCardService {
         wordCard.setStatus(CardStatus.CREATED);
         wordCard.setDecisionTime(LocalDateTime.now().plusDays(7));
         wordCardRepository.save(wordCard);
+    }
+
+    private BigInteger getVotesSafety(BigInteger votes){
+        return votes == null ? BigInteger.ZERO : votes;
     }
 }
