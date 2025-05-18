@@ -34,7 +34,7 @@ public class WordCardService {
         if (isAgainst) {
             wordCard.setVotesAgainst(getVotesSafety(wordCard.getVotesAgainst()).add(BigInteger.ONE));
         } else {
-            wordCard.setVotesFor(getVotesSafety(wordCard.getVotesAgainst()).add(BigInteger.ONE));
+            wordCard.setVotesFor(getVotesSafety(wordCard.getVotesFor()).add(BigInteger.ONE));
         }
         wordCard.getVoters().add(userId);
     }
