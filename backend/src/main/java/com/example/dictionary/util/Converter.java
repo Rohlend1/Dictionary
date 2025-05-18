@@ -6,6 +6,7 @@ import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Person;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.entities.WordCard;
+import com.example.dictionary.requests.CreateDictionaryRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,10 @@ public class Converter {
     }
 
     public Dictionary convertToDictionary(DictionaryMetaDTO dictionaryDTO){
+        return modelMapper.map(dictionaryDTO,Dictionary.class);
+    }
+
+    public Dictionary convertToDictionary(CreateDictionaryRequest dictionaryDTO){
         return modelMapper.map(dictionaryDTO,Dictionary.class);
     }
 

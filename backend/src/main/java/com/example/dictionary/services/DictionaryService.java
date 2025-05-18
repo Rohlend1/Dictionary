@@ -5,6 +5,7 @@ import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.repositories.DictionaryRepository;
+import com.example.dictionary.requests.CreateDictionaryRequest;
 import com.example.dictionary.security.JwtUtil;
 import com.example.dictionary.util.Converter;
 import lombok.extern.log4j.Log4j2;
@@ -89,10 +90,9 @@ public class DictionaryService {
     }
 
     @Transactional
-    public void save(DictionaryMetaDTO dictionaryDTO, String jwt) {
-        Long ownerId = personService.retrieveUserId(jwt);
+    public void save(CreateDictionaryRequest dictionaryDTO, Long userId) {
         Dictionary dictionary = converter.convertToDictionary(dictionaryDTO);
-        dictionary.setOwner(ownerId);
+        dictionary.setOwner(userId);
         dictionary.setWords(new ArrayList<>());
         dictionaryRepository.save(dictionary);
     }
@@ -105,7 +105,11 @@ public class DictionaryService {
     //todo Избавиться от всех конвертеров в бизнес слое
     public List<DictionaryMetaDTO> findAll(String jwt) {
         Long ownerId = personService.retrieveUserId(jwt);
-        List<Dictionary> dictionaries = dictionaryRepository.findAllByOwner(ownerId);
+        return findAll(ownerId);
+    }
+
+    public List<DictionaryMetaDTO> findAll(Long userId) {
+        List<Dictionary> dictionaries = dictionaryRepository.findAllByOwner(userId);
         return dictionaries.stream().map(converter::convertToDictionaryDTO).toList();
     }
 

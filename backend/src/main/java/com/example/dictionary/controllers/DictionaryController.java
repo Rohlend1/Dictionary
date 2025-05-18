@@ -7,6 +7,7 @@ import com.example.dictionary.dto.WordDTO;
 import com.example.dictionary.entities.Dictionary;
 import com.example.dictionary.entities.Word;
 import com.example.dictionary.requests.AddWordsRequest;
+import com.example.dictionary.requests.CreateDictionaryRequest;
 import com.example.dictionary.requests.CreateSharingLinkRequest;
 import com.example.dictionary.requests.DeleteDictRequest;
 import com.example.dictionary.requests.DeleteWordsRequest;
@@ -68,17 +69,20 @@ public class DictionaryController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> createDictionary(@RequestHeader("Authorization") String jwt,
-                                                       @RequestBody DictionaryMetaDTO dictionaryDTO,
+                                                       @RequestBody CreateDictionaryRequest dictionaryDTO,
                                                        BindingResult bindingResult) {
+
+        Long userId = personService.retrieveUserId(jwt);
+
         if (bindingResult.hasErrors()) {
             throw new DictionaryNotCreatedException("Incorrect data");
         }
 
-        if (dictionaryService.findAll(jwt).size() > 10) {
+        if (dictionaryService.findAll(userId).size() > 10) {
             throw new DictionaryNotCreatedException("Too many dictionaries");
         }
 
-        dictionaryService.save(dictionaryDTO, jwt);
+        dictionaryService.save(dictionaryDTO, userId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
