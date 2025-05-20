@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static com.example.dictionary.util.CardStatus.MODERATED;
 
 @Service
@@ -17,9 +19,8 @@ public class ModerationService {
     private final WordCardRepository wordCardRepository;
     private final WordRepository wordRepository;
 
-    public void changeWordCardStatus(String word, String translate){
-        WordCard wordCard = wordCardRepository.findAllByWordAndTranslate(word, translate);
-        wordCard.setStatus(MODERATED);
+    public void changeWordCardStatus(List<Long> wordCardIds){
+        wordCardRepository.updateWordCardByIds(wordCardIds, MODERATED);
     }
 
     public void deleteWordById(Long id){
