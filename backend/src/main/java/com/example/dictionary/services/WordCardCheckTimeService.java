@@ -44,7 +44,7 @@ public class WordCardCheckTimeService {
             redisService.add(MAIN_PAGE_CACHE_KEY, words);
         }
         else{
-            words.addAll(0, redisWords);
+            redisWords.addAll(0, words);
             redisService.add(MAIN_PAGE_CACHE_KEY, words);
         }
         wordService.saveAll(words);
