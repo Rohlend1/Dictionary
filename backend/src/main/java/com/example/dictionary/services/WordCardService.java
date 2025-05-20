@@ -15,6 +15,8 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.math.BigInteger.ZERO;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -60,11 +62,13 @@ public class WordCardService {
         }
         WordCard wordCard = converter.convertToWordCard(wordCardDTO);
         wordCard.setStatus(CardStatus.CREATED);
+        wordCard.setVotesFor(ZERO);
+        wordCard.setVotesAgainst(ZERO);
         wordCard.setDecisionTime(LocalDateTime.now().plusDays(7));
         wordCardRepository.save(wordCard);
     }
 
     private BigInteger getVotesSafety(BigInteger votes){
-        return votes == null ? BigInteger.ZERO : votes;
+        return votes == null ? ZERO : votes;
     }
 }
