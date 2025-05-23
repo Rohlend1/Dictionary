@@ -55,8 +55,7 @@ public class PersonService {
         personRepository.delete(person);
     }
 
-    public boolean checkIfExistsBy(String token){
-        String username = getUsername(token);
+    public boolean checkIfExistsBy(String username){
         return personRepository.findByUsername(username).isPresent();
     }
 

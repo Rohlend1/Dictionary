@@ -37,7 +37,7 @@ public class JwtUtil {
         DecodedJWT jwt = createJwtVerifier().verify(token);
         return JWT.create()
                 .withSubject("User details")
-                .withClaim("username",username)
+                .withClaim("username", username)
                 .withIssuedAt(jwt.getIssuedAt())
                 .withIssuer("dictionary-app")
                 .withExpiresAt(jwt.getExpiresAt())
